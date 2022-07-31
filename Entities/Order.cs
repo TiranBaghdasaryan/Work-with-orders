@@ -1,6 +1,6 @@
 ﻿namespace Work_with_orders.Entities;
 
-public class Order
+public class Order : EntityBase<long>
 {
-    public Guid Id { get; set; }
+    
 }
