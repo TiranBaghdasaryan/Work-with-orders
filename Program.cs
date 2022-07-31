@@ -14,7 +14,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.
-    //AddEntityFrameworkNpgsql().
     AddDbContext<ApplicationContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("postgresConnection"));
