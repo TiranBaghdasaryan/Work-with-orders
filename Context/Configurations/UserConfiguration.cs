@@ -9,7 +9,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     public void Configure(EntityTypeBuilder<User> builder)
     {
         builder.ToTable("Users");
-        
+
         builder.Property(u => u.Id).UseIdentityAlwaysColumn();
         builder.Property(u => u.FirstName).IsRequired().HasMaxLength(30);
         builder.Property(u => u.LastName).IsRequired().HasMaxLength(30);
@@ -24,5 +24,9 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasCheckConstraint("CK_Balance", "\"Balance\" >= 0");
 
         builder.HasIndex(u => u.Email).IsUnique();
+
+        builder.HasMany(u => u.Orders)
+            .WithOne(u => u.User)
+            .HasForeignKey(o => o.UserId);
     }
 }

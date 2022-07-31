@@ -16,4 +16,7 @@ public class User : EntityBase<long>
     public string Password { get; set; }
     [Column(TypeName = "decimal(18,2)")] public decimal Balance { get; set; }
     [DataType(DataType.Date)] public DateTime DateCreated { get; set; }
+
+    public ICollection<Order> Orders { get; set; }
+
 }
