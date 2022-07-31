@@ -6,4 +6,6 @@ public class Product : EntityBase<long>
     public string Description { get; set; }
     public decimal Price { get; set; }
     
+    public ICollection<OrderProduct> OrderProduct { get; set; }
+    
 }

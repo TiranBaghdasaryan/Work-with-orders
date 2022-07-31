@@ -48,28 +48,55 @@ namespace Work_with_orders.Migrations
                     b.ToTable("Orders", (string)null);
                 });
 
+            modelBuilder.Entity("Work_with_orders.Entities.OrderProduct", b =>
+                {
+                    b.Property<long>("OrderId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.HasKey("OrderId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderProduct");
+
+                    b.HasCheckConstraint("CK_Quantity", "\"Quantity\" > 0");
+                });
+
             modelBuilder.Entity("Work_with_orders.Entities.Product", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityAlwaysColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("text")
+                        .HasDefaultValue("None Description");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("numeric");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("numeric")
+                        .HasDefaultValue(0m);
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
+
+                    b.HasCheckConstraint("CK_Price", "\"Price\" >= 0");
                 });
 
             modelBuilder.Entity("Work_with_orders.Entities.User", b =>
@@ -144,6 +171,35 @@ namespace Work_with_orders.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Work_with_orders.Entities.OrderProduct", b =>
+                {
+                    b.HasOne("Work_with_orders.Entities.Order", "Order")
+                        .WithMany("OrderProduct")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Work_with_orders.Entities.Product", "Product")
+                        .WithMany("OrderProduct")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Work_with_orders.Entities.Order", b =>
+                {
+                    b.Navigation("OrderProduct");
+                });
+
+            modelBuilder.Entity("Work_with_orders.Entities.Product", b =>
+                {
+                    b.Navigation("OrderProduct");
                 });
 
             modelBuilder.Entity("Work_with_orders.Entities.User", b =>
