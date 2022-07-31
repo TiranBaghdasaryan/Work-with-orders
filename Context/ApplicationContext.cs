@@ -15,7 +15,6 @@ public class ApplicationContext : DbContext
     public DbSet<Product> Products { get; set; }
     public DbSet<OrderProduct> OrderProduct { get; set; }
 
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new UserConfiguration());
@@ -23,4 +22,5 @@ public class ApplicationContext : DbContext
         modelBuilder.ApplyConfiguration(new ProductConfiguration());
         modelBuilder.ApplyConfiguration(new OrderProductConfiguration());
     }
+
 }

@@ -15,7 +15,6 @@ public class SignUpModel
     [Required(ErrorMessage = "Address is required")]
     [StringLength(50, ErrorMessage = "Must be less than 50 characters")]
     public string Address { get; set; }
-
     
     [Required(ErrorMessage = "Number is required")]
     [StringLength(20, ErrorMessage = "Must be less than 20 characters")]
