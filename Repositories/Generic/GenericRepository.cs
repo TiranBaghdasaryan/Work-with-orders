@@ -3,7 +3,7 @@ using Work_with_orders.Context;
 
 namespace Work_with_orders.Repositories.Generic;
 
-public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
+public abstract class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
 {
     private readonly DbSet<TEntity> _db;
     private readonly ApplicationContext _context;
