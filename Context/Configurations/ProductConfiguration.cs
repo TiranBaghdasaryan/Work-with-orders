@@ -14,6 +14,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(p => p.Name).IsRequired().HasMaxLength(50);
         builder.Property(p => p.Price).IsRequired().HasDefaultValue(0);
         builder.Property(p => p.Description).IsRequired().HasDefaultValue("None Description");
+        builder.Property(p => p.Quantity).IsRequired().HasDefaultValue(0);
 
         builder.HasCheckConstraint("CK_Price", "\"Price\" >= 0");
         builder.HasCheckConstraint("CK_Quantity", "\"Quantity\" >= 0");

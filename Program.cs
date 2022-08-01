@@ -1,6 +1,8 @@
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Work_with_orders.Context;
+using Work_with_orders.Repositories;
+using AuthenticationService = Work_with_orders.Services.Authentication.AuthenticationService;
+using IAuthenticationService = Work_with_orders.Services.Authentication.IAuthenticationService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,11 +11,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("postgresConnection") ??
-                      throw new InvalidOperationException());
+    options.UseNpgsql(builder.Configuration.GetConnectionString("postgresConnectionLocal") ??
+                      throw new InvalidOperationException("Database Connection Fail"));
 });
 
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<ProductRepository>();
+builder.Services.AddScoped<OrderRepository>();
 
 
 var app = builder.Build();

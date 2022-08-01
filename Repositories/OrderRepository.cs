@@ -4,11 +4,11 @@ using Work_with_orders.Repositories.Generic;
 
 namespace Work_with_orders.Repositories;
 
-public class ProductRepository : GenericRepository<Product>
+public class OrderRepository : GenericRepository<Order>
 {
-    public ProductRepository(ApplicationContext applicationContext) : base(applicationContext)
+    public OrderRepository(ApplicationContext applicationContext) : base(applicationContext)
     {
     }
 
-    
+   
 }

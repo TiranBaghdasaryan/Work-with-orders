@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Work_with_orders.Common;
 using Work_with_orders.Enums;
 
 namespace Work_with_orders.Entities;
@@ -19,4 +20,26 @@ public class User : EntityBase<long>
 
     public ICollection<Order> Orders { get; set; }
 
+    #region Constructor User 
+
+    public User
+    (
+        string firstName,
+        string lastName,
+        string address,
+        string phoneNumber,
+        string email,
+        string password
+    )
+    {
+        FirstName = firstName;
+        LastName = lastName;
+        Address = address;
+        PhoneNumber = phoneNumber;
+        Email = email;
+        Password = password.Hash();
+        DateCreated = DateTime.UtcNow.Date;
+    }
+
+    #endregion
 }

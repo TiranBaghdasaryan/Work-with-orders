@@ -6,5 +6,4 @@ public interface IAuthenticationService
 {
     Task<ResultModel> SignUpAsync(SignUpModel model);
     Task<ResultModel> SignInAsync(SignInModel model);
-    ResultModel RenewToken(TokenModel request);
 }

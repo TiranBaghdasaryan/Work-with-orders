@@ -14,11 +14,14 @@ public class AuthenticationController : ControllerBase
     {
         _authenticationService = authenticationService;
     }
-
+    
     [HttpPost("sign-up")]
-    public IActionResult SignUp(SignUpModel model)
+    public async Task<IActionResult> SignUp(SignUpModel model)
     {
-        return null;
+        ResultModel result = await _authenticationService.SignUpAsync(model);
+        if (result.Code == 404) return BadRequest(result.Message);
+        
+        return Ok(result?.TokenModel);
     }
 
     [HttpPost("sign-in")]
@@ -26,6 +29,6 @@ public class AuthenticationController : ControllerBase
     {
         ResultModel result = await _authenticationService.SignInAsync(model);
         if (result.Code == 404) return BadRequest(result.Message);
-        return Ok(result.TokenModel);
+        return Ok(result?.TokenModel);
     }
 }

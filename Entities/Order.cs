@@ -8,6 +8,11 @@ public class Order : EntityBase<long>
     public OrderStatus Status { get; set; }
     public long UserId { get; set; }
     public User User { get; set; }
-    
+
     public ICollection<OrderProduct> OrderProduct { get; set; }
+
+    public Order(long userId)
+    {
+        UserId = userId;
+    }
 }
