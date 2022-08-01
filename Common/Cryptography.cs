@@ -35,7 +35,7 @@ public static class Cryptography
 
         return true;
     }
-
+    
     private static byte[] GenerateSalt() => _salt = RandomNumberGenerator.GetBytes(SaltSize);
 
     private static byte[] GenerateHash(string password)

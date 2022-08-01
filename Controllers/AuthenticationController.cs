@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Work_with_orders.Models.Authentication;
+using Work_with_orders.Services.Authentication;
 
 namespace Work_with_orders.Controllers;
 
@@ -7,21 +8,24 @@ namespace Work_with_orders.Controllers;
 [Route("[controller]")]
 public class AuthenticationController : ControllerBase
 {
-    public AuthenticationController()
+    private readonly IAuthenticationService _authenticationService;
+
+    public AuthenticationController(IAuthenticationService authenticationService)
     {
+        _authenticationService = authenticationService;
     }
 
     [HttpPost("sign-up")]
     public IActionResult SignUp(SignUpModel model)
     {
-        
         return null;
     }
 
     [HttpPost("sign-in")]
-    public IActionResult SignIp(SignInModel model)
+    public async Task<IActionResult> SignIn(SignInModel model)
     {
-        
-        return null;
+        ResultModel result = await _authenticationService.SignInAsync(model);
+        if (result.Code == 404) return BadRequest(result.Message);
+        return Ok(result.TokenModel);
     }
 }

@@ -4,7 +4,7 @@ namespace Work_with_orders.Services.Authentication;
 
 public interface IAuthenticationService
 {
-    TokenModel SignUp(SignUpModel model);
-    TokenModel SignIn(SignInModel model);
-    TokenModel RenewToken(TokenModel request);
+    Task<ResultModel> SignUpAsync(SignUpModel model);
+    Task<ResultModel> SignInAsync(SignInModel model);
+    ResultModel RenewToken(TokenModel request);
 }
