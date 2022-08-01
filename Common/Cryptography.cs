@@ -12,18 +12,12 @@ public static class Cryptography
     private static byte[] _hash;
     private static byte[] _hashBytes;
 
-    public static string Hash(string password)
+    public static string Hash(this string password)
     {
         GenerateSalt();
         GenerateHash(password);
         CombineBytes();
         return GetStringFromCombineBytes();
-    }
-
-    private static byte[] GenerateSalt()
-    {
-        new RNGCryptoServiceProvider().GetBytes(_salt = new byte[SaltSize]);
-        return _salt;
     }
 
     public static bool Verify(this string text, string hashPassword)
@@ -41,6 +35,8 @@ public static class Cryptography
 
         return true;
     }
+
+    private static byte[] GenerateSalt() => _salt = RandomNumberGenerator.GetBytes(SaltSize);
 
     private static byte[] GenerateHash(string password)
     {

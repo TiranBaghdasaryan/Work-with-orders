@@ -1,10 +1,4 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using Microsoft.IdentityModel.Tokens;
-using Work_with_orders.Context;
-using Work_with_orders.Entities;
-using Work_with_orders.Enums;
+﻿using Work_with_orders.Context;
 using Work_with_orders.Models.Authentication;
 
 namespace Work_with_orders.Services.Authentication;
