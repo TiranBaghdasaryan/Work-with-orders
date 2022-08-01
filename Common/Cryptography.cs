@@ -35,8 +35,8 @@ public static class Cryptography
         var pbkdf2 = new Rfc2898DeriveBytes(text, salt, IterationsCount);
         byte[] hash = pbkdf2.GetBytes(HashSize);
 
-        for (int i = 0; i < 20; i++)
-            if (hashBytes[i + 16] != hash[i])
+        for (int i = 0; i < HashSize; i++)
+            if (hashBytes[i + SaltSize] != hash[i])
                 return false;
 
         return true;
