@@ -2,15 +2,14 @@
 
 public class TokenModel
 {
-    public TokenModel(string accessToken, string refreshToken)
+    public TokenModel(string accessToken)
     {
         AccessToken = accessToken;
-        RefreshToken = refreshToken;
     }
 
     
     public string AccessToken { get; set; }
-    public string RefreshToken { get; set; }
+    //public string RefreshToken { get; set; }
     
     
 }

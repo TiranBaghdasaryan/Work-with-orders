@@ -20,7 +20,7 @@ public class User : EntityBase<long>
 
     public ICollection<Order> Orders { get; set; }
 
-    #region Constructor User 
+    #region Constructors User 
 
     public User
     (
@@ -39,6 +39,10 @@ public class User : EntityBase<long>
         Email = email;
         Password = password.Hash();
         DateCreated = DateTime.UtcNow.Date;
+    }
+
+    public User()
+    {
     }
 
     #endregion

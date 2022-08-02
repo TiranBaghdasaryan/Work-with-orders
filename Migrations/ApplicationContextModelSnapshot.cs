@@ -169,6 +169,22 @@ namespace Work_with_orders.Migrations
                     b.ToTable("Users", (string)null);
 
                     b.HasCheckConstraint("CK_Balance", "\"Balance\" >= 0");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Address = "Erevean",
+                            Balance = 0m,
+                            DateCreated = new DateTime(2022, 8, 2, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Email = "tirbaghdasaryan0808@gmail.com",
+                            FirstName = "Tiran",
+                            IsVerified = true,
+                            LastName = "Baghdasaryan",
+                            Password = "00_root_00",
+                            PhoneNumber = "+374-99-63-10-71",
+                            Role = 2
+                        });
                 });
 
             modelBuilder.Entity("Work_with_orders.Entities.Order", b =>

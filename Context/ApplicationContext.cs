@@ -22,5 +22,4 @@ public class ApplicationContext : DbContext
         modelBuilder.ApplyConfiguration(new ProductConfiguration());
         modelBuilder.ApplyConfiguration(new OrderProductConfiguration());
     }
-
 }

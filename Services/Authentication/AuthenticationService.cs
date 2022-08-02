@@ -3,6 +3,7 @@ using Work_with_orders.Context;
 using Work_with_orders.Entities;
 using Work_with_orders.Models.Authentication;
 using Work_with_orders.Repositories;
+using Work_with_orders.Services.Token;
 
 namespace Work_with_orders.Services.Authentication;
 
@@ -12,6 +13,7 @@ public class AuthenticationService : IAuthenticationService
 
     private readonly UserRepository _userRepository;
     private readonly OrderRepository _orderRepository;
+    private readonly ITokenService _tokenService;
 
     #region Constructor
 
@@ -19,12 +21,13 @@ public class AuthenticationService : IAuthenticationService
     (
         ApplicationContext context,
         UserRepository userRepository,
-        OrderRepository orderRepository
-    )
+        OrderRepository orderRepository,
+        ITokenService tokenService)
     {
         _context = context;
         _userRepository = userRepository;
         _orderRepository = orderRepository;
+        _tokenService = tokenService;
     }
 
     #endregion
@@ -67,11 +70,16 @@ public class AuthenticationService : IAuthenticationService
         catch (Exception)
         {
             await transaction.RollbackAsync();
+            return new ResultModel("The transaction failed.", 404);
         }
 
         #endregion
 
-        return new ResultModel(new TokenModel(null, null));
+        var claims = _tokenService.SetClaims(user.Email, user.Role);
+
+        string accessToken = _tokenService.GenerateAccessToken(claims);
+
+        return new ResultModel(new TokenModel(accessToken));
     }
 
     public async Task<ResultModel> SignInAsync(SignInModel model)
@@ -80,8 +88,9 @@ public class AuthenticationService : IAuthenticationService
         if (Equals(user, null)) return new ResultModel("The user doesn't exist.", 404);
         if (!model.Password.Verify(user.Password)) return new ResultModel("The password is incorrect.", 404);
 
-        // verified return token [to-do]  
+        var claims = _tokenService.SetClaims(user.Email, user.Role);
 
-        return new ResultModel(new TokenModel(null, null));
+        string accessToken = _tokenService.GenerateAccessToken(claims);
+        return new ResultModel(new TokenModel(accessToken));
     }
 }
