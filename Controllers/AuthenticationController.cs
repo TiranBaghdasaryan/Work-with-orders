@@ -14,13 +14,13 @@ public class AuthenticationController : ControllerBase
     {
         _authenticationService = authenticationService;
     }
-    
+
     [HttpPost("sign-up")]
     public async Task<IActionResult> SignUp(SignUpModel model)
     {
         ResultModel result = await _authenticationService.SignUpAsync(model);
         if (result.Code == 404) return BadRequest(result.Message);
-        
+
         return Ok(result?.TokenModel);
     }
 

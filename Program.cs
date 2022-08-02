@@ -20,7 +20,7 @@ builder.Services.AddScoped<OrderRepository>();
 
 builder.Services.AddDbContext<ApplicationContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("postgresConnectionLocal") ??
+    options.UseNpgsql(builder.Configuration.GetConnectionString("postgresConnection") ??
                       throw new InvalidOperationException("Database Connection Fail"));
 });
 

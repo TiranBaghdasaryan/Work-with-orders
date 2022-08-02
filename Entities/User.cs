@@ -18,6 +18,9 @@ public class User : EntityBase<long>
     [Column(TypeName = "decimal(18,2)")] public decimal Balance { get; set; }
     [DataType(DataType.Date)] public DateTime DateCreated { get; set; }
 
+    public string? RefreshToken { get; set; }
+    public DateTime RefreshTokenExpiryTime { get; set; }
+    
     public ICollection<Order> Orders { get; set; }
 
     #region Constructors User 

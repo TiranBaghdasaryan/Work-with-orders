@@ -78,8 +78,14 @@ public class AuthenticationService : IAuthenticationService
         var claims = _tokenService.SetClaims(user.Email, user.Role);
 
         string accessToken = _tokenService.GenerateAccessToken(claims);
+        string refreshToken = _tokenService.GenerateRefreshToken();
+        
+        user.RefreshToken = refreshToken;
+        user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
+        
+        await _userRepository.SaveChangesAsync();
 
-        return new ResultModel(new TokenModel(accessToken));
+        return new ResultModel(new TokenModel(accessToken, refreshToken));
     }
 
     public async Task<ResultModel> SignInAsync(SignInModel model)
@@ -91,6 +97,13 @@ public class AuthenticationService : IAuthenticationService
         var claims = _tokenService.SetClaims(user.Email, user.Role);
 
         string accessToken = _tokenService.GenerateAccessToken(claims);
-        return new ResultModel(new TokenModel(accessToken));
+        string refreshToken = _tokenService.GenerateRefreshToken();
+        
+        user.RefreshToken = refreshToken;
+        user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
+        
+        await _userRepository.SaveChangesAsync();
+        
+        return new ResultModel(new TokenModel(accessToken, refreshToken));
     }
 }
