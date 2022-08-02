@@ -24,9 +24,9 @@ builder.Services.AddDbContext<ApplicationContext>(options =>
                       throw new InvalidOperationException("Database Connection Fail"));
 });
 
-builder.Services.AddTransient<ITokenService, TokenService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
-builder.Services.AddAuthenticationConfiguration(builder.Configuration);
+builder.Services.AddAuthenticationConfiguration();
 
 var app = builder.Build();
 await app.Seed();

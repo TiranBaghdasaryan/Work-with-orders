@@ -2,7 +2,6 @@
 using Work_with_orders.Common;
 using Work_with_orders.Entities;
 using Work_with_orders.Enums;
-using Work_with_orders.Repositories;
 
 namespace Work_with_orders.Context.Seeds;
 

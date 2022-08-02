@@ -3,25 +3,25 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Work_with_orders.Enums;
+using Work_with_orders.Options;
 
 namespace Work_with_orders.Services.Token;
 
 public class TokenService : ITokenService
 {
-    private readonly IConfiguration _configuration;
-
-    public TokenService(IConfiguration configuration) => _configuration = configuration;
 
     public string GenerateAccessToken(IEnumerable<Claim> claims)
     {
-        var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["Jwt:SecretKey"]!));
+        var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(JwtOptions.SecretKey));
 
         var jwtToken = new JwtSecurityToken(
             claims: claims,
             notBefore: DateTime.UtcNow,
-            expires: DateTime.UtcNow.AddMinutes(int.Parse(_configuration["Jwt:ExpiryMinutes"]!)),
+            expires: DateTime.UtcNow.AddMinutes(JwtOptions.ExpiryMinutes),
             signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
         );
+
+        Console.WriteLine(jwtToken);
 
         return new JwtSecurityTokenHandler().WriteToken(jwtToken);
     }

@@ -1,14 +1,14 @@
 ﻿using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Work_with_orders.Options;
 
 namespace Work_with_orders.DependencyInjection;
 
 public static class AuthenticationConfiguration
 {
     
-    public static IServiceCollection AddAuthenticationConfiguration(this IServiceCollection services,
-        IConfiguration configuration
+    public static IServiceCollection AddAuthenticationConfiguration(this IServiceCollection services
     )
     {
         services.AddAuthentication(authOptions =>
@@ -23,7 +23,7 @@ public static class AuthenticationConfiguration
             jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration["Jwt:SecretKey"]!)),
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(JwtOptions.SecretKey)),
                 ValidateAudience = false,
                 ValidateIssuer = false,
             };
