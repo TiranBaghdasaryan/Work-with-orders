@@ -48,19 +48,8 @@ public class AuthenticationService : IAuthenticationService
         _mapper.Map(model, user);
         user.Password = user.Password.Hash();
 
-        await using var transaction = await _context.Database.BeginTransactionAsync();
-        try
-        {
-            await _userRepository.Add(user);
-            await _userRepository.Save();
-            await transaction.CommitAsync();
-        }
-        catch (Exception exception)
-        {
-            await transaction.RollbackAsync();
-            return new ResultModel(exception.Message,404);
-        }
-        
+
+        await _userRepository.Add(user);
 
         var claims = _tokenService.SetClaims(user.Email, user.Role);
 

@@ -44,18 +44,8 @@ public class ProductController : ControllerBase
         var product = new Product();
         _mapper.Map(productCreateModel, product);
 
-        await using var transaction = await _context.Database.BeginTransactionAsync();
-        try
-        {
             await _productRepository.Add(product);
             await _productRepository.Save();
-            await transaction.CommitAsync();
-        }
-        catch (Exception exception)
-        {
-            await transaction.RollbackAsync();
-            return BadRequest(exception.Message);
-        }
 
         return Ok("The product was created successfully.");
     }
