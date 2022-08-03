@@ -11,8 +11,10 @@ public class AutoMapperProfile : Profile
     {
         CreateMap<SignInModel, User>();
         CreateMap<SignUpModel, User>();
-        
+
         CreateMap<ProductCreateModel, Product>();
         CreateMap<ProductUpdateModel, Product>();
+        
+        CreateMap<Product, ProductViewModel>();
     }
 }

@@ -34,6 +34,11 @@ public class ProductController : ControllerBase
     public async Task<IActionResult> GetProducts(long id)
     {
         var product = await _productRepository.GetById(id);
+        if (Equals(product, null))
+        {
+            return BadRequest("The product does not exist.");
+        }
+
         return Ok(product);
     }
 
@@ -43,20 +48,26 @@ public class ProductController : ControllerBase
     {
         var product = new Product();
         _mapper.Map(productCreateModel, product);
-
-            await _productRepository.Add(product);
-            await _productRepository.Save();
-
+        await _productRepository.Add(product);
+        await _productRepository.Save();
         return Ok("The product was created successfully.");
     }
 
     [Authorize(Roles = "Admin")]
     [HttpPut("{id}")]
-    public IActionResult UpdateProductById(long id, ProductUpdateModel productUpdateModel)
+    public async Task<IActionResult> UpdateProductById(long id, ProductUpdateModel productUpdateModel)
     {
-        return null;
-    }
+        var product = await _productRepository.GetById(id);
+        if (Equals(product, null))
+        {
+            return BadRequest("The product does not exist.");
+        }
 
+        _mapper.Map(productUpdateModel, product);
+        _productRepository.Update(product);
+        await _productRepository.Save();
+        return Ok("The product updated successfully.");
+    }
 
     [Authorize(Roles = "Admin")]
     [HttpDelete("{id}")]
