@@ -1,4 +1,5 @@
-﻿using Work_with_orders.Common;
+﻿using AutoMapper;
+using Work_with_orders.Common;
 using Work_with_orders.Context;
 using Work_with_orders.Entities;
 using Work_with_orders.Models.Authentication;
@@ -12,8 +13,8 @@ public class AuthenticationService : IAuthenticationService
     private readonly ApplicationContext _context;
 
     private readonly UserRepository _userRepository;
-    private readonly OrderRepository _orderRepository;
     private readonly ITokenService _tokenService;
+    private readonly IMapper _mapper;
 
     #region Constructor
 
@@ -22,12 +23,14 @@ public class AuthenticationService : IAuthenticationService
         ApplicationContext context,
         UserRepository userRepository,
         OrderRepository orderRepository,
-        ITokenService tokenService)
+        ITokenService tokenService,
+        IMapper mapper
+    )
     {
         _context = context;
         _userRepository = userRepository;
-        _orderRepository = orderRepository;
         _tokenService = tokenService;
+        _mapper = mapper;
     }
 
     #endregion
@@ -35,55 +38,39 @@ public class AuthenticationService : IAuthenticationService
 
     public async Task<ResultModel> SignUpAsync(SignUpModel model)
     {
-        User user = await _userRepository.GetByEmailAsync(model.Email);
-        if (!Equals(user, null)) return new ResultModel("User already exists.", 404);
+        var user = await _userRepository.GetByEmailAsync(model.Email);
+        if (!Equals(user, null))
+        {
+            return new ResultModel("User already exists.", 404);
+        }
 
-        #region SignUpModel to User Manual mapping
-
-        user = new User
-        (
-            model.FirstName,
-            model.LastName,
-            model.Address,
-            model.PhoneNumber,
-            model.Email,
-            model.Password
-        );
-
-        #endregion
-
-        #region Transaction
+        user = new User();
+        _mapper.Map(model, user);
+        user.Password = user.Password.Hash();
 
         await using var transaction = await _context.Database.BeginTransactionAsync();
         try
         {
-            await _userRepository.AddAsync(user);
-            await _userRepository.SaveChangesAsync();
-
-            Order order = new Order(user.Id);
-
-            await _orderRepository.AddAsync(order);
-            await _orderRepository.SaveChangesAsync();
-
+            await _userRepository.Add(user);
+            await _userRepository.Save();
             await transaction.CommitAsync();
         }
-        catch (Exception)
+        catch (Exception exception)
         {
             await transaction.RollbackAsync();
-            return new ResultModel("The transaction failed.", 404);
+            return new ResultModel(exception.Message,404);
         }
-
-        #endregion
+        
 
         var claims = _tokenService.SetClaims(user.Email, user.Role);
 
         string accessToken = _tokenService.GenerateAccessToken(claims);
         string refreshToken = _tokenService.GenerateRefreshToken();
-        
+
         user.RefreshToken = refreshToken;
         user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
-        
-        await _userRepository.SaveChangesAsync();
+
+        await _userRepository.Save();
 
         return new ResultModel(new TokenModel(accessToken, refreshToken));
     }
@@ -91,19 +78,23 @@ public class AuthenticationService : IAuthenticationService
     public async Task<ResultModel> SignInAsync(SignInModel model)
     {
         User user = await _userRepository.GetByEmailAsync(model.Email);
-        if (Equals(user, null)) return new ResultModel("The user doesn't exist.", 404);
+        if (Equals(user, null))
+        {
+            return new ResultModel("The user doesn't exist.", 404);
+        }
+
         if (!model.Password.Verify(user.Password)) return new ResultModel("The password is incorrect.", 404);
 
         var claims = _tokenService.SetClaims(user.Email, user.Role);
 
         string accessToken = _tokenService.GenerateAccessToken(claims);
         string refreshToken = _tokenService.GenerateRefreshToken();
-        
+
         user.RefreshToken = refreshToken;
         user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
-        
-        await _userRepository.SaveChangesAsync();
-        
+
+        await _userRepository.Save();
+
         return new ResultModel(new TokenModel(accessToken, refreshToken));
     }
 }

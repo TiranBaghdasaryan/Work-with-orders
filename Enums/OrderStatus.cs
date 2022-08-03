@@ -2,6 +2,8 @@
 
 public enum OrderStatus
 {
-    InProcess,
-    IsDone
+    New = 1,
+    InProcess = 2,
+    Reject = 3,
+    Done = 4,
 }

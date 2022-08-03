@@ -15,15 +15,15 @@ public static class DefaultAdmin
         {
             var defaultUser = new User()
             {
-                FirstName = "Tiran",
-                LastName = "Baghdasaryan",
-                Address = "Erevean",
+                FirstName = "Admin",
+                LastName = "Admin",
+                Address = "none",
                 DateCreated = DateTime.UtcNow.Date,
                 IsVerified = true,
                 Password = "00_root_00".Hash(),
-                PhoneNumber = "+374-99-63-10-71",
+                PhoneNumber = "none",
                 Role = Role.Admin,
-                Email = "tirbaghdasaryan0808@gmail.com",
+                Email = "admin@gmail.com",
             };
 
             var user = await applicationContext.Users.FirstOrDefaultAsync(x => x.Email == defaultUser.Email);

@@ -5,7 +5,7 @@ using Work_with_orders.Services.Authentication;
 namespace Work_with_orders.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("v1/authentication")]
 public class AuthenticationController : ControllerBase
 {
     private readonly IAuthenticationService _authenticationService;
@@ -18,8 +18,11 @@ public class AuthenticationController : ControllerBase
     [HttpPost("sign-up")]
     public async Task<IActionResult> SignUpAsync(SignUpModel model)
     {
-        ResultModel result = await _authenticationService.SignUpAsync(model);
-        if (result.Code == 404) return BadRequest(result.Message);
+        var result = await _authenticationService.SignUpAsync(model);
+        if (result.Code == 404)
+        {
+            return BadRequest(result.Message);
+        }
 
         return Ok(result?.TokenModel);
     }
@@ -27,8 +30,12 @@ public class AuthenticationController : ControllerBase
     [HttpPost("sign-in")]
     public async Task<IActionResult> SignInAsync(SignInModel model)
     {
-        ResultModel result = await _authenticationService.SignInAsync(model);
-        if (result.Code == 404) return BadRequest(result.Message);
+        var result = await _authenticationService.SignInAsync(model);
+        if (result.Code == 404)
+        {
+            return BadRequest(result.Message);
+        }
+
         return Ok(result?.TokenModel);
     }
 }

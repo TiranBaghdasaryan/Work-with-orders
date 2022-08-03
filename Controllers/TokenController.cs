@@ -8,7 +8,7 @@ using Work_with_orders.Services.Token;
 namespace Work_with_orders.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("v1/token")]
 public class TokenController : ControllerBase
 {
     private readonly ITokenService _tokenService;
@@ -31,13 +31,17 @@ public class TokenController : ControllerBase
         string email = (HttpContext.User.Claims.FirstOrDefault(x => Equals(x.Type, ClaimTypes.Email))!.Value);
         var user = await _userRepository.GetByEmailAsync(email);
 
-        if (Equals(user,null) || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
-            return BadRequest("Invalid client request");   
+        if (Equals(user, null) || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
+        {
+            return BadRequest("Invalid client request");
+        }
+
         var newAccessToken = _tokenService.GenerateAccessToken(principal.Claims);
         var newRefreshToken = _tokenService.GenerateRefreshToken();
         user.RefreshToken = newRefreshToken;
-        await _userRepository.SaveChangesAsync();
-        return Ok(new TokenModel(newAccessToken,newRefreshToken));
+        await _userRepository.Save();
+        
+        return Ok(new TokenModel(newAccessToken, newRefreshToken));
     }
 
     [HttpPost]
@@ -47,9 +51,13 @@ public class TokenController : ControllerBase
     {
         string email = (HttpContext.User.Claims.FirstOrDefault(x => Equals(x.Type, ClaimTypes.Email))!.Value);
         var user = await _userRepository.GetByEmailAsync(email);
-        if (Equals(user, null)) return BadRequest();
+        if (Equals(user, null))
+        {
+            return BadRequest();
+        }
+
         user.RefreshToken = null;
-        await _userRepository.SaveChangesAsync();
+        await _userRepository.Save();
         return NoContent();
     }
 }

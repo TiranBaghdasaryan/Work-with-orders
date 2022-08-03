@@ -20,8 +20,5 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
             .WithMany(u => u.Orders)
             .HasForeignKey(o => o.UserId);
         
-        
-
-        
     }
 }
