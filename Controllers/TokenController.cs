@@ -22,7 +22,7 @@ public class TokenController : ControllerBase
 
     [HttpPost]
     [Route("refresh")]
-    public async Task<IActionResult> Refresh(TokenModel tokenModel)
+    public async Task<IActionResult> RefreshAsync(TokenModel tokenModel)
     {
         string accessToken = tokenModel.AccessToken;
         string refreshToken = tokenModel.RefreshToken;
@@ -43,7 +43,7 @@ public class TokenController : ControllerBase
     [HttpPost]
     [Authorize]
     [Route("revoke")]
-    public async Task<IActionResult> Revoke()
+    public async Task<IActionResult> RevokeAsync()
     {
         string email = (HttpContext.User.Claims.FirstOrDefault(x => Equals(x.Type, ClaimTypes.Email))!.Value);
         var user = await _userRepository.GetByEmailAsync(email);

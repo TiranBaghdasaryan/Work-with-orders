@@ -16,7 +16,7 @@ public class AuthenticationController : ControllerBase
     }
 
     [HttpPost("sign-up")]
-    public async Task<IActionResult> SignUp(SignUpModel model)
+    public async Task<IActionResult> SignUpAsync(SignUpModel model)
     {
         ResultModel result = await _authenticationService.SignUpAsync(model);
         if (result.Code == 404) return BadRequest(result.Message);
@@ -25,7 +25,7 @@ public class AuthenticationController : ControllerBase
     }
 
     [HttpPost("sign-in")]
-    public async Task<IActionResult> SignIn(SignInModel model)
+    public async Task<IActionResult> SignInAsync(SignInModel model)
     {
         ResultModel result = await _authenticationService.SignInAsync(model);
         if (result.Code == 404) return BadRequest(result.Message);
