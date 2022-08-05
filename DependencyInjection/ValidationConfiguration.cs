@@ -21,7 +21,6 @@ public static class ValidationConfiguration
         
         services.AddValidatorsFromAssemblyContaining<SignInModelValidation>(); 
         services.AddValidatorsFromAssemblyContaining<SignUpModelValidation>(); 
-        // services.AddScoped<IValidator<SignInModel>, SignInModelValidation>();
         return services;
     }
 }

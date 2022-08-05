@@ -66,12 +66,6 @@ public class AuthenticationService : IAuthenticationService
     public async Task<ResultModel> SignIn(SignInModel model)
     {
         User user = await _userRepository.GetByEmailAsync(model.Email);
-        if (Equals(user, null))
-        {
-            return new ResultModel("The user doesn't exist.", 404);
-        }
-
-        if (!model.Password.Verify(user.Password)) return new ResultModel("The password is incorrect.", 404);
 
         var claims = _tokenService.SetClaims(user.Email, user.Role);
 
