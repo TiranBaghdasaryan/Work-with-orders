@@ -38,14 +38,7 @@ public class AuthenticationService : IAuthenticationService
 
     public async Task<ResultModel> SignUp(SignUpModel model)
     {
-        var user = await _userRepository.GetByEmailAsync(model.Email);
-        
-        if (!Equals(user, null))
-        {
-            return new ResultModel("User already exists.", 404);
-        }
-
-        user = new User();
+        var user = new User();
         _mapper.Map(model, user);
         user.Password = user.Password.Hash();
         await _userRepository.Add(user);
