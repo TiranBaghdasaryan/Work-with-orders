@@ -7,9 +7,7 @@ namespace Work_with_orders.DependencyInjection;
 
 public static class AuthenticationConfiguration
 {
-    
-    public static IServiceCollection AddAuthenticationConfiguration(this IServiceCollection services
-    )
+    public static IServiceCollection AddAuthenticationConfiguration(this IServiceCollection services)
     {
         services.AddAuthentication(authOptions =>
         {

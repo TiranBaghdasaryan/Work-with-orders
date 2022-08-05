@@ -36,9 +36,10 @@ public class AuthenticationService : IAuthenticationService
     #endregion
 
 
-    public async Task<ResultModel> SignUpAsync(SignUpModel model)
+    public async Task<ResultModel> SignUp(SignUpModel model)
     {
         var user = await _userRepository.GetByEmailAsync(model.Email);
+        
         if (!Equals(user, null))
         {
             return new ResultModel("User already exists.", 404);
@@ -47,8 +48,6 @@ public class AuthenticationService : IAuthenticationService
         user = new User();
         _mapper.Map(model, user);
         user.Password = user.Password.Hash();
-
-
         await _userRepository.Add(user);
 
         var claims = _tokenService.SetClaims(user.Email, user.Role);
@@ -64,7 +63,7 @@ public class AuthenticationService : IAuthenticationService
         return new ResultModel(new TokenModel(accessToken, refreshToken));
     }
 
-    public async Task<ResultModel> SignInAsync(SignInModel model)
+    public async Task<ResultModel> SignIn(SignInModel model)
     {
         User user = await _userRepository.GetByEmailAsync(model.Email);
         if (Equals(user, null))
