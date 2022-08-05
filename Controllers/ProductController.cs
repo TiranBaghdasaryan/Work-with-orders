@@ -123,10 +123,9 @@ public class ProductController : ControllerBase
                 // await _productRepository.Save();
                 // await transaction.CommitAsync();
 
-                Product product;
                 lock (_lock)
                 {
-                    product = (_productRepository.GetById(id).Result)!;
+                    var product = (_productRepository.GetById(id).Result)!;
 
                     if (Equals(product, null))
                     {
@@ -137,9 +136,6 @@ public class ProductController : ControllerBase
                     _productRepository.SaveSync();
                     transaction.Commit();
                 }
-
-                // return Ok(product.Quantity);
-
                 return Ok("The product was successfully deleted.");
             }
             catch (Exception exception)

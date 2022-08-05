@@ -1,3 +1,5 @@
+using System.Reflection;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Work_with_orders.Context;
 using Work_with_orders.Context.Seeds;
@@ -9,7 +11,13 @@ using IAuthenticationService = Work_with_orders.Services.Authentication.IAuthent
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+  //  options.Filters.Add<ValidationFilter>();
+});
+
+builder.Services.AddValidations();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerConfiguration();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
@@ -28,6 +36,9 @@ builder.Services.AddDbContext<ApplicationContext>(options =>
 builder.Services.AddScoped<ITokenService, TokenService>();
 
 builder.Services.AddAuthenticationConfiguration();
+
+
+
 
 var app = builder.Build();
 await app.Seed();
