@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using Work_with_orders.Validations;
+using Work_with_orders.Validations.Authentication;
 
 namespace Work_with_orders.DependencyInjection;
 
@@ -20,6 +20,7 @@ public static class ValidationConfiguration
         });
         
         services.AddValidatorsFromAssemblyContaining<SignInModelValidation>(); 
+        services.AddValidatorsFromAssemblyContaining<SignUpModelValidation>(); 
         // services.AddScoped<IValidator<SignInModel>, SignInModelValidation>();
         return services;
     }

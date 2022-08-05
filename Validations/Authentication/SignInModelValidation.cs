@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Work_with_orders.Models.Authentication;
 
-namespace Work_with_orders.Validations;
+namespace Work_with_orders.Validations.Authentication;
 
 public class SignInModelValidation : AbstractValidator<SignInModel>
 {
