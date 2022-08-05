@@ -7,7 +7,11 @@ namespace Work_with_orders.Validations.Authentication;
 
 public class SignInModelValidation : AbstractValidator<SignInModel>
 {
+<<<<<<< HEAD
     private readonly UserRepository _userRepository;
+=======
+    private UserRepository _userRepository;
+>>>>>>> a36c0857408d0085d448bc627073bf4bc21a761e
 
     public SignInModelValidation(UserRepository userRepository)
     {
