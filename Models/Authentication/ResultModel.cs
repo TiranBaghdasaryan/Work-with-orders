@@ -2,7 +2,6 @@
 
 public class ResultModel
 {
-    
     public string Message { get; set; }
     public int Code { get; set; }
     public TokenModel TokenModel { get; set; }

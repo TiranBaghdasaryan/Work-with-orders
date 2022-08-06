@@ -2,6 +2,7 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Work_with_orders.Validations.Authentication;
+using Work_with_orders.Validations.Product;
 
 namespace Work_with_orders.DependencyInjection;
 
@@ -21,6 +22,7 @@ public static class ValidationConfiguration
         
         services.AddValidatorsFromAssemblyContaining<SignInModelValidation>(); 
         services.AddValidatorsFromAssemblyContaining<SignUpModelValidation>(); 
+        services.AddValidatorsFromAssemblyContaining<ProductCreateModelValidation>(); 
         return services;
     }
 }

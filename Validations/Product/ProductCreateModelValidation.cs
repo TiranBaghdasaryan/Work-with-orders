@@ -1,0 +1,20 @@
+﻿using FluentValidation;
+using Work_with_orders.Models.Product;
+
+namespace Work_with_orders.Validations.Product;
+
+public class ProductCreateModelValidation : AbstractValidator<ProductCreateModel>
+{
+    private const int ProductNameMaximumLength = 50;
+
+    public ProductCreateModelValidation()
+    {
+        RuleFor(x => x.Name).NotEmpty().WithMessage("The product Name cannot be empty.")
+            .MaximumLength(ProductNameMaximumLength)
+            .WithMessage($"First Name must be less than {ProductNameMaximumLength} characters");
+
+        RuleFor(x => x.Price).NotEmpty().WithMessage("The product price cannot be empty.");
+        RuleFor(x => x.Description).NotEmpty().WithMessage("The description cannot be empty.");
+        
+    }
+}

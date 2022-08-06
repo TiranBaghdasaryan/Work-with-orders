@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Work_with_orders.Models.Authentication;
+﻿namespace Work_with_orders.Models.Authentication;
 
 public class TokenModel
 {
@@ -10,6 +8,6 @@ public class TokenModel
         RefreshToken = refreshToken;
     }
 
-    [Required] public string AccessToken { get; set; }
-    [Required] public string RefreshToken { get; set; }
+    public string AccessToken { get; set; }
+    public string RefreshToken { get; set; }
 }
