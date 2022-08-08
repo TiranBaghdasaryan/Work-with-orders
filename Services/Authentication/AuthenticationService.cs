@@ -55,7 +55,7 @@ public class AuthenticationService : IAuthenticationService
 
         return new ResultModel(new TokenModel(accessToken, refreshToken));
     }
-
+    
     public async Task<ResultModel> SignIn(SignInModel model)
     {
         User user = await _userRepository.GetByEmailAsync(model.Email);

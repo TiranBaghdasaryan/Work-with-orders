@@ -1,6 +1,6 @@
 ﻿namespace Work_with_orders.Entities;
 
-public class BasketProduct : EntityBase<long>
+public class BasketProduct 
 {
     public Basket Basket { get; set; }
     public long BasketId { get; set; }

@@ -5,7 +5,7 @@ using Work_with_orders.Models.Authentication;
 using Work_with_orders.Repositories;
 using Work_with_orders.Services.Token;
 
-namespace Work_with_orders.Controllers;
+namespace Work_with_orders.Controllers.V1;
 
 [ApiController]
 [Route("v1/token")]

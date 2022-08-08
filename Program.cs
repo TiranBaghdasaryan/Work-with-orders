@@ -4,18 +4,16 @@ using Microsoft.EntityFrameworkCore;
 using Work_with_orders.Context;
 using Work_with_orders.Context.Seeds;
 using Work_with_orders.DependencyInjection;
+using Work_with_orders.Entities;
 using Work_with_orders.Repositories;
+using Work_with_orders.Repositories.BasketProductRepo;
 using Work_with_orders.Services.Token;
 using AuthenticationService = Work_with_orders.Services.Authentication.AuthenticationService;
 using IAuthenticationService = Work_with_orders.Services.Authentication.IAuthenticationService;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers(options =>
-{
-  //  options.Filters.Add<ValidationFilter>();
-});
-
+builder.Services.AddControllers();
 builder.Services.AddValidations();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -27,6 +25,8 @@ builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<ProductRepository>();
 builder.Services.AddScoped<OrderRepository>();
+builder.Services.AddScoped<BasketRepository>();
+builder.Services.AddScoped<BasketProductRepository>();
 
 builder.Services.AddDbContext<ApplicationContext>(options =>
 {
@@ -36,8 +36,6 @@ builder.Services.AddDbContext<ApplicationContext>(options =>
 builder.Services.AddScoped<ITokenService, TokenService>();
 
 builder.Services.AddAuthenticationConfiguration();
-
-
 
 
 var app = builder.Build();

@@ -8,7 +8,7 @@ using Work_with_orders.Models.Product;
 using Work_with_orders.Repositories;
 using IsolationLevel = System.Data.IsolationLevel;
 
-namespace Work_with_orders.Controllers;
+namespace Work_with_orders.Controllers.V1;
 
 [ApiController]
 [Route("v1/products")]
