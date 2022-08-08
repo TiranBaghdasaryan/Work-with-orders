@@ -12,8 +12,8 @@ using Work_with_orders.Context;
 namespace Work_with_orders.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220801120521_ProductConfiurations")]
-    partial class ProductConfiurations
+    [Migration("20220808070929_Index[0]")]
+    partial class Index0
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,49 @@ namespace Work_with_orders.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("Work_with_orders.Entities.Basket", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityAlwaysColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Baskets", (string)null);
+                });
+
+            modelBuilder.Entity("Work_with_orders.Entities.BasketProduct", b =>
+                {
+                    b.Property<long>("BasketId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.HasKey("BasketId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("BasketProduct", (string)null);
+                });
 
             modelBuilder.Entity("Work_with_orders.Entities.Order", b =>
                 {
@@ -39,7 +82,7 @@ namespace Work_with_orders.Migrations
                     b.Property<int>("Status")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasDefaultValue(0);
+                        .HasDefaultValue(2);
 
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
@@ -79,6 +122,9 @@ namespace Work_with_orders.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityAlwaysColumn(b.Property<long>("Id"));
 
+                    b.Property<int>("Category")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
@@ -96,7 +142,9 @@ namespace Work_with_orders.Migrations
                         .HasDefaultValue(0m);
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("integer");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
 
                     b.HasKey("Id");
 
@@ -130,8 +178,7 @@ namespace Work_with_orders.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("text");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -157,8 +204,16 @@ namespace Work_with_orders.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)");
 
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("RefreshTokenExpiryTime")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<int>("Role")
-                        .HasColumnType("integer");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(1);
 
                     b.HasKey("Id");
 
@@ -168,6 +223,36 @@ namespace Work_with_orders.Migrations
                     b.ToTable("Users", (string)null);
 
                     b.HasCheckConstraint("CK_Balance", "\"Balance\" >= 0");
+                });
+
+            modelBuilder.Entity("Work_with_orders.Entities.Basket", b =>
+                {
+                    b.HasOne("Work_with_orders.Entities.User", "User")
+                        .WithOne("Basket")
+                        .HasForeignKey("Work_with_orders.Entities.Basket", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Work_with_orders.Entities.BasketProduct", b =>
+                {
+                    b.HasOne("Work_with_orders.Entities.Basket", "Basket")
+                        .WithMany("BasketProduct")
+                        .HasForeignKey("BasketId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Work_with_orders.Entities.Product", "Product")
+                        .WithMany("BasketProduct")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Basket");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Work_with_orders.Entities.Order", b =>
@@ -200,6 +285,11 @@ namespace Work_with_orders.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("Work_with_orders.Entities.Basket", b =>
+                {
+                    b.Navigation("BasketProduct");
+                });
+
             modelBuilder.Entity("Work_with_orders.Entities.Order", b =>
                 {
                     b.Navigation("OrderProduct");
@@ -207,11 +297,16 @@ namespace Work_with_orders.Migrations
 
             modelBuilder.Entity("Work_with_orders.Entities.Product", b =>
                 {
+                    b.Navigation("BasketProduct");
+
                     b.Navigation("OrderProduct");
                 });
 
             modelBuilder.Entity("Work_with_orders.Entities.User", b =>
                 {
+                    b.Navigation("Basket")
+                        .IsRequired();
+
                     b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618

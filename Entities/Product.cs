@@ -11,4 +11,5 @@ public class Product : EntityBase<long>
     public Category Category { get; set; }
 
     public ICollection<OrderProduct> OrderProduct { get; set; }
+    public ICollection<BasketProduct> BasketProduct { get; set; }
 }

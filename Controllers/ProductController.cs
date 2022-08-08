@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using System.Transactions;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -114,15 +112,6 @@ public class ProductController : ControllerBase
         {
             try
             {
-                // var product = await _productRepository.GetById(id);
-                // if (Equals(product, null))
-                // {
-                //     return BadRequest("The product does not exist.");
-                // }
-                // product.Quantity -= quantity;
-                // await _productRepository.Save();
-                // await transaction.CommitAsync();
-
                 lock (_lock)
                 {
                     var product = (_productRepository.GetById(id).Result)!;

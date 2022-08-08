@@ -21,6 +21,8 @@ public class User : EntityBase<long>
     public DateTime RefreshTokenExpiryTime { get; set; }
 
     public ICollection<Order> Orders { get; set; }
+    public Basket Basket { get; set; }
+    
 
     public User()
     {

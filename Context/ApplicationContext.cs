@@ -14,6 +14,8 @@ public class ApplicationContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<OrderProduct> OrderProduct { get; set; }
+    public DbSet<Basket> Basket { get; set; }
+    public DbSet<BasketProduct> BasketProduct { get; set; }
   
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -21,5 +23,7 @@ public class ApplicationContext : DbContext
         modelBuilder.ApplyConfiguration(new OrderConfiguration());
         modelBuilder.ApplyConfiguration(new ProductConfiguration());
         modelBuilder.ApplyConfiguration(new OrderProductConfiguration());
+        modelBuilder.ApplyConfiguration(new BasketConfiguration());
+        modelBuilder.ApplyConfiguration(new BasketProductConfiguration());
     }
 }
