@@ -34,8 +34,10 @@ public class SignUpModelValidation : AbstractValidator<SignUpModel>
 
         RuleFor(x => x.PhoneNumber).NotEmpty().WithMessage("The phone number cannot be empty.")
             .MaximumLength(PhoneNumberMaximumLength)
-            .WithMessage($"The phone number must be less than {PhoneNumberMaximumLength} characters");
-
+            .WithMessage($"The phone number must be less than {PhoneNumberMaximumLength} characters")
+            .Matches(@"^\+374-\d{2}-\d{2}-\d{2}-\d{2}$").
+            WithMessage("The phone number format needs to be like +374-99-63-10-71");
+            
         RuleFor(x => x.Email)
             .NotEmpty().WithMessage("The email cannot be empty.")
             .EmailAddress().WithMessage("Must be a valid Email Address.");
