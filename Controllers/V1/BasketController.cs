@@ -32,7 +32,7 @@ public class BasketController : ControllerBase
         _basketProductRepository = basketProductRepository;
         _productRepository = productRepository;
     }
-
+    
     [HttpGet("products")]
     public async Task<ActionResult<IEnumerable<ProductInBasketViewModel>>> GetProductsInBasket()
     {

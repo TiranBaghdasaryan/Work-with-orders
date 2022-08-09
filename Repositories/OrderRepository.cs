@@ -1,4 +1,5 @@
-﻿using Work_with_orders.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using Work_with_orders.Context;
 using Work_with_orders.Entities;
 using Work_with_orders.Repositories.Generic;
 
@@ -10,5 +11,11 @@ public class OrderRepository : GenericRepository<Order>
     {
     }
 
-   
+    public async Task<List<Order>> GetOrdersByUserId(long userId)
+    {
+        var orders = await _db.Where(x => x.UserId == userId).ToListAsync();
+        return orders;
+    }
+
+
 }

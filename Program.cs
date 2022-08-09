@@ -1,12 +1,10 @@
-using System.Reflection;
-using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Work_with_orders.Context;
 using Work_with_orders.Context.Seeds;
 using Work_with_orders.DependencyInjection;
-using Work_with_orders.Entities;
 using Work_with_orders.Repositories;
 using Work_with_orders.Repositories.BasketProductRepo;
+using Work_with_orders.Repositories.OrderProductRepo;
 using Work_with_orders.Services.Token;
 using AuthenticationService = Work_with_orders.Services.Authentication.AuthenticationService;
 using IAuthenticationService = Work_with_orders.Services.Authentication.IAuthenticationService;
@@ -27,6 +25,7 @@ builder.Services.AddScoped<ProductRepository>();
 builder.Services.AddScoped<OrderRepository>();
 builder.Services.AddScoped<BasketRepository>();
 builder.Services.AddScoped<BasketProductRepository>();
+builder.Services.AddScoped<OrderProductRepository>();
 
 builder.Services.AddDbContext<ApplicationContext>(options =>
 {

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Work_with_orders.Context;
 using Work_with_orders.Entities;
+using Work_with_orders.Enums;
 using Work_with_orders.Models.Order;
 using Work_with_orders.Models.Product;
 using Work_with_orders.Repositories;
@@ -13,7 +14,7 @@ namespace Work_with_orders.Controllers.V1;
 
 [ApiController]
 [Authorize(Roles = "User")]
-[Route("v1/order")]
+[Route("v1/orders")]
 public class OrderController : ControllerBase
 {
     private readonly UserRepository _userRepository;
@@ -44,19 +45,36 @@ public class OrderController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<IEnumerable<OrderViewModel>> GetAllOrders()
+    public async Task<ActionResult<IEnumerable<OrderViewModel>>> GetAllOrders()
     {
-        return null;
+        var email = User.FindFirstValue(ClaimTypes.Email);
+        var user = await _userRepository.GetByEmailAsync(email);
+
+        var orders = await _orderRepository.GetOrdersByUserId(user.Id);
+
+        var responseModel = new List<OrderViewModel>(orders.Count);
+        foreach (var order in orders)
+        {
+           responseModel.Add(new OrderViewModel()
+           {
+               OrderId = order.Id,
+               DoneDate = order.DoneDate,
+               Status =  ((OrderStatus)order.Status).ToString()
+           }); 
+        }
+        
+
+        return Ok(responseModel);
     }
 
-    [HttpGet]
-    public ActionResult<OrderViewModel> GetOrderById()
+    [HttpGet("{id}")]
+    public ActionResult<OrderViewModel> GetOrderById(long id)
     {
         return null;
     }
 
     [HttpPost]
-    public async Task<ActionResult<CreateOrderResponseModel>> CreateOrder()
+    public async Task<ActionResult> CreateOrder()
     {
         var email = User.FindFirstValue(ClaimTypes.Email);
         var user = await _userRepository.GetByEmailAsync(email);
@@ -85,11 +103,11 @@ public class OrderController : ControllerBase
             {
                 bool isTaken = _productRepository.TakeProduct(item.ProductId, item.Quantity);
                 var product = await _productRepository.GetById(item.ProductId);
-               
+
                 var productId = item.ProductId;
                 var productName = product.Name;
                 var productQuantity = item.Quantity;
-                
+
                 if (isTaken)
                 {
                     await _orderProductRepository.AddProductInOrder(order.Id, item.ProductId, item.Quantity);
@@ -98,7 +116,7 @@ public class OrderController : ControllerBase
                     {
                         ProductId = productId,
                         ProductName = productName,
-                        ProductQuantity = product.Quantity
+                        ProductQuantity = productQuantity
                     });
                 }
                 else
@@ -107,19 +125,24 @@ public class OrderController : ControllerBase
                     {
                         ProductId = productId,
                         ProductName = productName,
-                        ProductQuantity = product.Quantity
+                        ProductQuantity = productQuantity
                     });
                 }
             }
 
+            _basketProductRepository.RemoveAllProductsFromBasket(basket.Id);
             await _orderProductRepository.Save();
 
-
-            Ok(responseModel);
+            return Ok(new
+            {
+                OrderedSuccessfully = responseModel.ProductsOrderedSuccessfully,
+                OrderedFailed = responseModel.ProductsOrderedFailed,
+            });
         }
-
-
-        return BadRequest("The basket is empty.");
+        else
+        {
+            return BadRequest("The basket is empty.");
+        }
     }
 
     [HttpPatch]
