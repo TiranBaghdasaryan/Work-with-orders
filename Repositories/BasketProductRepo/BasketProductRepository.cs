@@ -48,8 +48,8 @@ public class BasketProductRepository : IBasketProductRepository
         _context.BasketProduct.RemoveRange(basketProduct);
         return true;
     }
-    
-    public async  Task<IEnumerable<Entities.BasketProduct>> GetAllProductsInBasket(long basketId)
+
+    public async Task<List<Entities.BasketProduct>> GetAllProductsInBasket(long basketId)
     {
         var basketProduct = await _context.BasketProduct.Where(x => x.BasketId == basketId).ToListAsync();
         return basketProduct;

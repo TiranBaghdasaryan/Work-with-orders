@@ -11,8 +11,10 @@ public class Order : EntityBase<long>
 
     public ICollection<OrderProduct> OrderProduct { get; set; }
 
-    public Order(long userId)
+    public Order()
     {
-        UserId = userId;
+        Status = OrderStatus.New;
+        DoneDate = DateTime.UtcNow;
     }
+
 }

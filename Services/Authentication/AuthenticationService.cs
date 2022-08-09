@@ -2,6 +2,7 @@
 using Work_with_orders.Common;
 using Work_with_orders.Context;
 using Work_with_orders.Entities;
+using Work_with_orders.Enums;
 using Work_with_orders.Models.Authentication;
 using Work_with_orders.Repositories;
 using Work_with_orders.Services.Token;
@@ -41,6 +42,7 @@ public class AuthenticationService : IAuthenticationService
         var user = new User();
         _mapper.Map(model, user);
         user.Password = user.Password.Hash();
+        user.Role = Role.User;
         await _userRepository.Add(user);
 
         var claims = _tokenService.SetClaims(user.Email, user.Role);

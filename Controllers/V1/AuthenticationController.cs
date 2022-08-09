@@ -24,7 +24,7 @@ public class AuthenticationController : ControllerBase
             return BadRequest(result.Message);
         }
 
-        return Ok(result?.TokenModel);
+        return Ok(result.TokenModel);
     }
 
     [HttpPost("sign-in")]
@@ -36,6 +36,6 @@ public class AuthenticationController : ControllerBase
             return BadRequest(result.Message);
         }
 
-        return Ok(result?.TokenModel);
+        return Ok(result.TokenModel);
     }
 }

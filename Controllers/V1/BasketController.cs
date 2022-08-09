@@ -40,6 +40,16 @@ public class BasketController : ControllerBase
         var user = await _userRepository.GetByEmailAsync(email);
         var basket = await _basketRepository.GetBasketByUserId(user.Id);
 
+        if (Equals(basket, null))
+        {
+            basket = new Basket()
+            {
+                UserId = user.Id,
+            };
+            await _basketRepository.Add(basket);
+            await _basketRepository.Save();
+        }
+        
         var basketProducts = await _basketProductRepository.GetAllProductsInBasket(basket.Id);
 
         var productInBasketViewModels = new List<ProductInBasketViewModel>();
