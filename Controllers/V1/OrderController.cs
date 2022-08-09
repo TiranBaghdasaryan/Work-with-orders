@@ -55,22 +55,67 @@ public class OrderController : ControllerBase
         var responseModel = new List<OrderViewModel>(orders.Count);
         foreach (var order in orders)
         {
-           responseModel.Add(new OrderViewModel()
-           {
-               OrderId = order.Id,
-               DoneDate = order.DoneDate,
-               Status =  ((OrderStatus)order.Status).ToString()
-           }); 
+            responseModel.Add(new OrderViewModel()
+            {
+                OrderId = order.Id,
+                DoneDate = order.DoneDate,
+                Status = ((OrderStatus)order.Status).ToString()
+            });
         }
-        
 
-        return Ok(responseModel);
+
+        return responseModel;
     }
 
     [HttpGet("{id}")]
-    public ActionResult<OrderViewModel> GetOrderById(long id)
+    public async Task<ActionResult<OrderDetailsViewModel>> GetOrderById(long id)
     {
-        return null;
+        var email = User.FindFirstValue(ClaimTypes.Email);
+        var user = await _userRepository.GetByEmailAsync(email);
+
+        var order = await _orderRepository.GetOrderById(id);
+
+        if (Equals(order, null) || !Equals(order.UserId, user.Id))
+        {
+            return StatusCode(401);
+        }
+
+
+        var productsInOrderViewModels = new List<ProductInOrderViewModel>();
+
+        var productsInOrder = await _orderProductRepository.GetProductsByOrderId(order.Id);
+
+        foreach (var orderProduct in productsInOrder)
+        {
+            var product = await _productRepository.GetById(orderProduct.ProductId);
+            var productId = product.Id;
+            var productName = product.Name;
+            var productQuantity = product.Quantity;
+
+            productsInOrderViewModels.Add(new ProductInOrderViewModel()
+            {
+                ProductId = productId,
+                ProductName = productName,
+                ProductQuantity = productQuantity,
+            });
+        }
+
+        var orderDetails = new OrderDetailsViewModel()
+        {
+            OrderId = order.Id,
+            DoneDate = order.DoneDate,
+            Status = ((OrderStatus)order.Status).ToString(),
+            ProductsViewModels = productsInOrderViewModels,
+        };
+
+        // return Ok(orderDetails);
+        return Ok(new
+        {
+            OrderId = orderDetails.OrderId,
+            DoneDate = orderDetails.DoneDate,
+            Staus = orderDetails.Status,
+            productsInOrder = orderDetails.ProductsViewModels
+        });
     }
 
     [HttpPost]

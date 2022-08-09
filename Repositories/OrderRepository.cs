@@ -17,5 +17,9 @@ public class OrderRepository : GenericRepository<Order>
         return orders;
     }
 
-
+    public async Task<Order> GetOrderById(long orderId)
+    {
+        var order = await _db.FirstOrDefaultAsync(x => x.Id == orderId);
+        return order;
+    }
 }
