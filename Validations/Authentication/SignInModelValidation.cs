@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
 using Work_with_orders.Common;
-using Work_with_orders.Models.Authentication;
+using Work_with_orders.Models.AuthenticationModels.SignIn;
 using Work_with_orders.Repositories;
 
 namespace Work_with_orders.Validations.Authentication;
 
-public class SignInModelValidation : AbstractValidator<SignInModel>
+public class SignInModelValidation : AbstractValidator<SignInRequestModel>
 {
     private readonly UserRepository _userRepository;
     public SignInModelValidation(UserRepository userRepository)
@@ -20,7 +20,7 @@ public class SignInModelValidation : AbstractValidator<SignInModel>
 
         RuleFor(x => x).Must(CheckUserCredentials).WithMessage("The email or password is incorrect.");
 
-        bool CheckUserCredentials(SignInModel model)
+        bool CheckUserCredentials(SignInRequestModel model)
         {
             var user = _userRepository.GetByEmailAsync(model.Email).Result;
             

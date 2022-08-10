@@ -72,14 +72,13 @@ public class OrderController : ControllerBase
     {
         var email = User.FindFirstValue(ClaimTypes.Email);
         var user = await _userRepository.GetByEmailAsync(email);
-
+        
         var order = await _orderRepository.GetOrderById(id);
 
         if (Equals(order, null) || !Equals(order.UserId, user.Id))
         {
             return StatusCode(401);
         }
-
 
         var productsInOrderViewModels = new List<ProductInOrderViewModel>();
 
@@ -91,7 +90,7 @@ public class OrderController : ControllerBase
             var productId = product.Id;
             var productName = product.Name;
             var productQuantity = orderProduct.Quantity;
-
+        
             productsInOrderViewModels.Add(new ProductInOrderViewModel()
             {
                 ProductId = productId,
@@ -99,7 +98,7 @@ public class OrderController : ControllerBase
                 ProductQuantity = productQuantity,
             });
         }
-
+        
         var orderDetails = new OrderDetailsViewModel()
         {
             OrderId = order.Id,
@@ -107,17 +106,10 @@ public class OrderController : ControllerBase
             Status = ((OrderStatus)order.Status).ToString(),
             ProductsViewModels = productsInOrderViewModels,
         };
-
+        
         return Ok(orderDetails);
-        // return Ok(new
-        // {
-        //     OrderId = orderDetails.OrderId,
-        //     DoneDate = orderDetails.DoneDate,
-        //     Staus = orderDetails.Status,
-        //     productsInOrder = orderDetails.ProductsViewModels
-        // });
     }
-
+    
     [HttpPost]
     public async Task<ActionResult<CreateOrderResponseModel>> CreateOrder()
     {
@@ -186,11 +178,8 @@ public class OrderController : ControllerBase
         }
     }
     
-    
-    
-    
-    [HttpPatch]
-    public IActionResult RejectOrder()
+    [HttpPatch("{id}")]
+    public IActionResult RejectOrder(long id)
     {
         return null; // to do 
     }

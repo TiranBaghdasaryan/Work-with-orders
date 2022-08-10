@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
-using Work_with_orders.Models.Authentication;
+using Work_with_orders.Models.AuthenticationModels.SignUp;
 using Work_with_orders.Repositories;
 
 namespace Work_with_orders.Validations.Authentication;
 
-public class SignUpModelValidation : AbstractValidator<SignUpModel>
+public class SignUpModelValidation : AbstractValidator<SignUpRequestModel>
 {
     private const int FirstNameMaximumLength = 30;
     private const int LastNameMaximumLength = 30;
@@ -55,7 +55,7 @@ public class SignUpModelValidation : AbstractValidator<SignUpModel>
 
         RuleFor(x => x).Must(CheckUserExists).WithMessage("That email is already in use by the other user.");
         
-        bool CheckUserExists(SignUpModel model)
+        bool CheckUserExists(SignUpRequestModel model)
         {
             var user = _userRepository.GetByEmailAsync(model.Email).Result;
             

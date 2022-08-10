@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Work_with_orders.Models.Authentication;
+using Work_with_orders.Models.AuthenticationModels.SignIn;
+using Work_with_orders.Models.AuthenticationModels.SignUp;
 using Work_with_orders.Services.Authentication;
 
 namespace Work_with_orders.Controllers.V1;
@@ -14,28 +15,18 @@ public class AuthenticationController : ControllerBase
     {
         _authenticationService = authenticationService;
     }
-    
-    [HttpPost("sign-up")]
-    public async Task<IActionResult> SignUpAsync(SignUpModel model)
-    {
-        var result = await _authenticationService.SignUp(model);
-        if (result.Code == 404)
-        {
-            return BadRequest(result.Message);
-        }
 
-        return Ok(result.TokenModel);
+    [HttpPost("sign-up")]
+    public async Task<ActionResult<SignUpResponseModel>> SignUpAsync(SignUpRequestModel model)
+    {
+        var response = await _authenticationService.SignUp(model);
+        return response;
     }
 
     [HttpPost("sign-in")]
-    public async Task<IActionResult> SignInAsync(SignInModel model)
+    public async Task<ActionResult<SignInResponseModel>> SignInAsync(SignInRequestModel model)
     {
-        var result = await _authenticationService.SignIn(model);
-        if (result.Code == 404)
-        {
-            return BadRequest(result.Message);
-        }
-
-        return Ok(result.TokenModel);
+        var response = await _authenticationService.SignIn(model);
+        return response;
     }
 }

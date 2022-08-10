@@ -3,7 +3,8 @@ using Work_with_orders.Common;
 using Work_with_orders.Context;
 using Work_with_orders.Entities;
 using Work_with_orders.Enums;
-using Work_with_orders.Models.Authentication;
+using Work_with_orders.Models.AuthenticationModels.SignIn;
+using Work_with_orders.Models.AuthenticationModels.SignUp;
 using Work_with_orders.Repositories;
 using Work_with_orders.Services.Token;
 
@@ -37,7 +38,7 @@ public class AuthenticationService : IAuthenticationService
     #endregion
 
 
-    public async Task<ResultModel> SignUp(SignUpModel model)
+    public async Task<SignUpResponseModel> SignUp(SignUpRequestModel model)
     {
         var user = new User();
         _mapper.Map(model, user);
@@ -49,16 +50,25 @@ public class AuthenticationService : IAuthenticationService
 
         string accessToken = _tokenService.GenerateAccessToken(claims);
         string refreshToken = _tokenService.GenerateRefreshToken();
-
+        
         user.RefreshToken = refreshToken;
         user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
 
         await _userRepository.Save();
 
-        return new ResultModel(new TokenModel(accessToken, refreshToken));
+        var response = new SignUpResponseModel()
+        {
+            Tokens = new Dictionary<string, string>()
+            {
+                { "accessToken", accessToken },
+                { "refreshToken", refreshToken }
+            }
+        };
+
+        return response;
     }
-    
-    public async Task<ResultModel> SignIn(SignInModel model)
+
+    public async Task<SignInResponseModel> SignIn(SignInRequestModel model)
     {
         User user = await _userRepository.GetByEmailAsync(model.Email);
 
@@ -72,6 +82,15 @@ public class AuthenticationService : IAuthenticationService
 
         await _userRepository.Save();
 
-        return new ResultModel(new TokenModel(accessToken, refreshToken));
+        var response = new SignInResponseModel()
+        {
+            Tokens = new Dictionary<string, string>()
+            {
+                { "accessToken", accessToken },
+                { "refreshToken", refreshToken }
+            }
+        };
+        
+        return response;
     }
 }

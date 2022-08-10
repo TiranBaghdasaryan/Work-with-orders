@@ -1,6 +1,6 @@
-﻿namespace Work_with_orders.Models.Authentication;
+﻿namespace Work_with_orders.Models.AuthenticationModels.SignUp;
 
-public class SignUpModel
+public class SignUpRequestModel
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }

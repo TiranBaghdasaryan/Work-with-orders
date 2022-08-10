@@ -1,9 +1,10 @@
-﻿using Work_with_orders.Models.Authentication;
+﻿using Work_with_orders.Models.AuthenticationModels.SignIn;
+using Work_with_orders.Models.AuthenticationModels.SignUp;
 
 namespace Work_with_orders.Services.Authentication;
 
 public interface IAuthenticationService
 {
-    Task<ResultModel> SignUp(SignUpModel model);
-    Task<ResultModel> SignIn(SignInModel model);
+    Task<SignUpResponseModel> SignUp(SignUpRequestModel model);
+    Task<SignInResponseModel> SignIn(SignInRequestModel model);
 }

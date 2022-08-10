@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Work_with_orders.Models.Authentication;
+using Work_with_orders.Models.AuthenticationModels.RefreshToken;
 using Work_with_orders.Repositories;
 using Work_with_orders.Services.Token;
 
@@ -22,7 +22,7 @@ public class TokenController : ControllerBase
 
     [HttpPost]
     [Route("refresh")]
-    public async Task<IActionResult> RefreshAsync(TokenModel tokenModel)
+    public async Task<ActionResult<RefreshTokenResponseModel>> RefreshToken(RefreshTokenRequestModel tokenModel)
     {
         string accessToken = tokenModel.AccessToken;
         string refreshToken = tokenModel.RefreshToken;
@@ -40,8 +40,17 @@ public class TokenController : ControllerBase
         var newRefreshToken = _tokenService.GenerateRefreshToken();
         user.RefreshToken = newRefreshToken;
         await _userRepository.Save();
-        
-        return Ok(new TokenModel(newAccessToken, newRefreshToken));
+
+        var response = new RefreshTokenResponseModel()
+        {
+            Tokens = new Dictionary<string, string>()
+            {
+                { "accessToken", newAccessToken },
+                { "refreshToken", newRefreshToken }
+            }
+        };
+
+        return response;
     }
 
     [HttpPost]
