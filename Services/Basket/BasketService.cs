@@ -29,13 +29,7 @@ public class BasketService : IBasketService
 
         if (Equals(basket, null))
         {
-            basket = new Entities.Basket()
-            {
-                UserId = user.Id,
-            };
-
-            await _basketRepository.Add(basket);
-            await _basketRepository.Save();
+            basket = await CreateBasketByUserId(user.Id);
         }
 
         var basketProducts = await _basketProductRepository.GetAllProductsInBasketByBasketId(basket.Id);
@@ -67,13 +61,7 @@ public class BasketService : IBasketService
 
         if (Equals(basket, null))
         {
-            basket = new Entities.Basket()
-            {
-                UserId = user.Id,
-            };
-
-            await _basketRepository.Add(basket);
-            await _basketRepository.Save();
+            basket = await CreateBasketByUserId(user.Id);
         }
 
         try
@@ -101,12 +89,7 @@ public class BasketService : IBasketService
 
         if (Equals(basket, null))
         {
-            basket = new Entities.Basket()
-            {
-                UserId = user.Id,
-            };
-            await _basketRepository.Add(basket);
-            await _basketRepository.Save();
+            basket = await CreateBasketByUserId(user.Id);
         }
 
         var isDeleted = await _basketProductRepository.RemoveProductFromBasket(basket.Id, id);
@@ -127,13 +110,7 @@ public class BasketService : IBasketService
 
         if (Equals(basket, null))
         {
-            basket = new Entities.Basket()
-            {
-                UserId = user.Id,
-            };
-            
-            await _basketRepository.Add(basket);
-            await _basketRepository.Save();
+            basket = await CreateBasketByUserId(user.Id);
         }
 
         var isDeleted = _basketProductRepository.RemoveAllProductsFromBasket(basket.Id);
@@ -145,5 +122,19 @@ public class BasketService : IBasketService
         }
 
         return new OkObjectResult("The product has been removed from the basket successfully.");
+    }
+
+
+    private async Task<Entities.Basket> CreateBasketByUserId(long id)
+    {
+        var basket = new Entities.Basket()
+        {
+            UserId = id,
+        };
+
+        await _basketRepository.Add(basket);
+        await _basketRepository.Save();
+
+        return basket;
     }
 }
