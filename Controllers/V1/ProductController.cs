@@ -70,7 +70,7 @@ public class ProductController : ControllerBase
     }
 
 
-   // [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     [HttpDelete("product/quantity")]
     public async Task<ActionResult<RemoveProductQuantityResponseModel>> RemoveProductQuantity(
         RemoveProductQuantityRequestModel request)

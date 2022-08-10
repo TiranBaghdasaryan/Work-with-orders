@@ -49,7 +49,7 @@ public class BasketProductRepository : IBasketProductRepository
         return true;
     }
 
-    public async Task<List<Entities.BasketProduct>> GetAllProductsInBasket(long basketId)
+    public async Task<List<Entities.BasketProduct>> GetAllProductsInBasketByBasketId(long basketId)
     {
         var basketProduct = await _context.BasketProduct.Where(x => x.BasketId == basketId).ToListAsync();
         return basketProduct;

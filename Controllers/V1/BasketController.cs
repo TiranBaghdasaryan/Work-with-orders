@@ -1,11 +1,9 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Work_with_orders.Entities;
-using Work_with_orders.Models.Basket;
+using Work_with_orders.Models.BasketModels.AddProductInBasket;
 using Work_with_orders.Models.ProductModels.ViewModels;
-using Work_with_orders.Repositories;
-using Work_with_orders.Repositories.BasketProductRepo;
+using Work_with_orders.Services.Basket;
 
 namespace Work_with_orders.Controllers.V1;
 
@@ -14,144 +12,44 @@ namespace Work_with_orders.Controllers.V1;
 [Route("v1/basket")]
 public class BasketController : ControllerBase
 {
-    private readonly UserRepository _userRepository;
-    private readonly BasketRepository _basketRepository;
-    private readonly BasketProductRepository _basketProductRepository;
-    private readonly ProductRepository _productRepository;
+    private readonly IBasketService _basketService;
 
-    public BasketController
-    (
-        UserRepository userRepository,
-        BasketRepository basketRepository,
-        BasketProductRepository basketProductRepository,
-        ProductRepository productRepository
-    )
+    public BasketController(IBasketService basketService)
     {
-        _userRepository = userRepository;
-        _basketRepository = basketRepository;
-        _basketProductRepository = basketProductRepository;
-        _productRepository = productRepository;
+        _basketService = basketService;
     }
-    
+
     [HttpGet("products")]
     public async Task<ActionResult<IEnumerable<ProductInBasketViewModel>>> GetProductsInBasket()
     {
         var email = User.FindFirstValue(ClaimTypes.Email);
-        var user = await _userRepository.GetByEmailAsync(email);
-        var basket = await _basketRepository.GetBasketByUserId(user.Id);
-
-        if (Equals(basket, null))
-        {
-            basket = new Basket()
-            {
-                UserId = user.Id,
-            };
-            await _basketRepository.Add(basket);
-            await _basketRepository.Save();
-        }
-        
-        var basketProducts = await _basketProductRepository.GetAllProductsInBasket(basket.Id);
-        
-        var productInBasketViewModels = new List<ProductInBasketViewModel>();
-        
-        foreach (var item in basketProducts)
-        {
-            var product = await _productRepository.GetById(item.ProductId);
-            string name = product.Name;
-            int quantity = item.Quantity;
-            productInBasketViewModels.Add(new ProductInBasketViewModel()
-            {
-                Name = name,
-                Quantity = quantity,
-            });
-        }
-        
-        return Ok(productInBasketViewModels);
+        var response = await _basketService.GetProductsInBasketByEmail(email);
+        return response;
     }
-    
+
     [HttpPost("products")]
-    public async Task<IActionResult> AddProductInBasket(AddProductInBasketModel model)
+    public async Task<ActionResult<AddProductInBasketResponseModel>> AddProductInBasket(
+        AddProductInBasketRequestModel request)
     {
         var email = User.FindFirstValue(ClaimTypes.Email);
-        var user = await _userRepository.GetByEmailAsync(email);
-        var basket = await _basketRepository.GetBasketByUserId(user.Id);
-
-        if (Equals(basket, null))
-        {
-            basket = new Basket()
-            {
-                UserId = user.Id,
-            };
-            await _basketRepository.Add(basket);
-            await _basketRepository.Save();
-        }
-
-        try
-        {
-            await _basketProductRepository.AddProductInBasket(basket.Id, model.ProductId, model.Quantity);
-            await _basketProductRepository.Save();
-            return Ok("The product was successfully added to the basket.");
-        }
-        catch
-        {
-            return BadRequest("The product is already in the basket.");
-        }
+        var response = await _basketService.AddProductInBasket(request, email);
+        return response;
     }
 
     [HttpDelete("products/{id}")]
     public async Task<IActionResult> RemoveProductFromBasket(long id)
     {
         var email = User.FindFirstValue(ClaimTypes.Email);
-        var user = await _userRepository.GetByEmailAsync(email);
-        var basket = await _basketRepository.GetBasketByUserId(user.Id);
-
-        if (Equals(basket, null))
-        {
-            basket = new Basket()
-            {
-                UserId = user.Id,
-            };
-            await _basketRepository.Add(basket);
-            await _basketRepository.Save();
-        }
-
-        var isDeleted = await _basketProductRepository.RemoveProductFromBasket(basket.Id, id);
-        await _basketProductRepository.Save();
-        if (!isDeleted)
-        {
-            return BadRequest("The product doesn't removed from basket.");
-        }
-
-        return Ok("The product has been removed from the basket successfully.");
+        var response = await _basketService.RemoveProductFromBasket(id, email);
+        return response;
     }
 
     [HttpDelete("products")]
     public async Task<IActionResult> RemoveAllProductsFromBasket()
     {
         var email = User.FindFirstValue(ClaimTypes.Email);
-        var user = await _userRepository.GetByEmailAsync(email);
-        var basket = await _basketRepository.GetBasketByUserId(user.Id);
 
-        if (Equals(basket, null))
-        {
-            basket = new Basket()
-            {
-                UserId = user.Id,
-            };
-            await _basketRepository.Add(basket);
-            await _basketRepository.Save();
-        }
-
-        var isDeleted = _basketProductRepository.RemoveAllProductsFromBasket(basket.Id);
-        await _basketProductRepository.Save();
-
-        if (!isDeleted)
-        {
-            return BadRequest("The products doesn't removed from basket.");
-        }
-
-        return Ok("The product has been removed from the basket successfully.");
+        var response = await _basketService.RemoveAllProductsFromBasketByEmail(email);
+        return response;
     }
-    
-    
 }

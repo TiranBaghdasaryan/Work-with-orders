@@ -5,6 +5,7 @@ using Work_with_orders.DependencyInjection;
 using Work_with_orders.Repositories;
 using Work_with_orders.Repositories.BasketProductRepo;
 using Work_with_orders.Repositories.OrderProductRepo;
+using Work_with_orders.Services.Basket;
 using Work_with_orders.Services.Product;
 using Work_with_orders.Services.Token;
 using AuthenticationService = Work_with_orders.Services.Authentication.AuthenticationService;
@@ -22,6 +23,7 @@ builder.Services.AddCors();
 
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IBasketService, BasketService>();
 
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<ProductRepository>();

@@ -71,7 +71,7 @@ public class OrderController : ControllerBase
     {
         var email = User.FindFirstValue(ClaimTypes.Email);
         var user = await _userRepository.GetByEmailAsync(email);
-        
+
         var order = await _orderRepository.GetOrderById(id);
 
         if (Equals(order, null) || !Equals(order.UserId, user.Id))
@@ -89,7 +89,7 @@ public class OrderController : ControllerBase
             var productId = product.Id;
             var productName = product.Name;
             var productQuantity = orderProduct.Quantity;
-        
+
             productsInOrderViewModels.Add(new ProductInOrderViewModel()
             {
                 ProductId = productId,
@@ -97,7 +97,7 @@ public class OrderController : ControllerBase
                 ProductQuantity = productQuantity,
             });
         }
-        
+
         var orderDetails = new OrderDetailsViewModel()
         {
             OrderId = order.Id,
@@ -105,10 +105,10 @@ public class OrderController : ControllerBase
             Status = ((OrderStatus)order.Status).ToString(),
             ProductsViewModels = productsInOrderViewModels,
         };
-        
+
         return Ok(orderDetails);
     }
-    
+
     [HttpPost]
     public async Task<ActionResult<CreateOrderResponseModel>> CreateOrder()
     {
@@ -118,7 +118,7 @@ public class OrderController : ControllerBase
 
         if (!Equals(basket, null))
         {
-            var productsInBasket = await _basketProductRepository.GetAllProductsInBasket(basket.Id);
+            var productsInBasket = await _basketProductRepository.GetAllProductsInBasketByBasketId(basket.Id);
             var productsCountInBasket = productsInBasket.Count;
 
             if (productsCountInBasket < 1)
@@ -176,7 +176,7 @@ public class OrderController : ControllerBase
             return BadRequest("The basket is empty.");
         }
     }
-    
+
     [HttpPatch("{id}")]
     public IActionResult RejectOrder(long id)
     {
