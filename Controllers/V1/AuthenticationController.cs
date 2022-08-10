@@ -17,7 +17,7 @@ public class AuthenticationController : ControllerBase
     }
 
     [HttpPost("sign-up")]
-    public async Task<ActionResult<SignUpResponseModel>> SignUpAsync(SignUpRequestModel model)
+    public async Task<ActionResult<SignUpResponseModel>> SignUpAsync(SignUpRequestModel model) 
     {
         var response = await _authenticationService.SignUp(model);
         return response;

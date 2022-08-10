@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Work_with_orders.Common;
 using Work_with_orders.Context;
 using Work_with_orders.Entities;
@@ -38,7 +39,7 @@ public class AuthenticationService : IAuthenticationService
     #endregion
 
 
-    public async Task<SignUpResponseModel> SignUp(SignUpRequestModel model)
+    public async Task<ActionResult<SignUpResponseModel>> SignUp(SignUpRequestModel model)
     {
         var user = new User();
         _mapper.Map(model, user);
@@ -68,7 +69,7 @@ public class AuthenticationService : IAuthenticationService
         return response;
     }
 
-    public async Task<SignInResponseModel> SignIn(SignInRequestModel model)
+    public async Task<ActionResult<SignInResponseModel>> SignIn(SignInRequestModel model)
     {
         User user = await _userRepository.GetByEmailAsync(model.Email);
 
