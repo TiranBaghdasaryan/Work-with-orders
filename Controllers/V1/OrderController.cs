@@ -90,7 +90,7 @@ public class OrderController : ControllerBase
             var product = await _productRepository.GetById(orderProduct.ProductId);
             var productId = product.Id;
             var productName = product.Name;
-            var productQuantity = product.Quantity;
+            var productQuantity = orderProduct.Quantity;
 
             productsInOrderViewModels.Add(new ProductInOrderViewModel()
             {
@@ -108,18 +108,18 @@ public class OrderController : ControllerBase
             ProductsViewModels = productsInOrderViewModels,
         };
 
-        // return Ok(orderDetails);
-        return Ok(new
-        {
-            OrderId = orderDetails.OrderId,
-            DoneDate = orderDetails.DoneDate,
-            Staus = orderDetails.Status,
-            productsInOrder = orderDetails.ProductsViewModels
-        });
+        return Ok(orderDetails);
+        // return Ok(new
+        // {
+        //     OrderId = orderDetails.OrderId,
+        //     DoneDate = orderDetails.DoneDate,
+        //     Staus = orderDetails.Status,
+        //     productsInOrder = orderDetails.ProductsViewModels
+        // });
     }
 
     [HttpPost]
-    public async Task<ActionResult> CreateOrder()
+    public async Task<ActionResult<CreateOrderResponseModel>> CreateOrder()
     {
         var email = User.FindFirstValue(ClaimTypes.Email);
         var user = await _userRepository.GetByEmailAsync(email);
@@ -178,21 +178,20 @@ public class OrderController : ControllerBase
             _basketProductRepository.RemoveAllProductsFromBasket(basket.Id);
             await _orderProductRepository.Save();
 
-            return Ok(new
-            {
-                OrderedSuccessfully = responseModel.ProductsOrderedSuccessfully,
-                OrderedFailed = responseModel.ProductsOrderedFailed,
-            });
+            return responseModel;
         }
         else
         {
             return BadRequest("The basket is empty.");
         }
     }
-
+    
+    
+    
+    
     [HttpPatch]
     public IActionResult RejectOrder()
     {
-        return null;
+        return null; // to do 
     }
 }

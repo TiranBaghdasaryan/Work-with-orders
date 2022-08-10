@@ -51,9 +51,9 @@ public class BasketController : ControllerBase
         }
         
         var basketProducts = await _basketProductRepository.GetAllProductsInBasket(basket.Id);
-
+        
         var productInBasketViewModels = new List<ProductInBasketViewModel>();
-
+        
         foreach (var item in basketProducts)
         {
             var product = await _productRepository.GetById(item.ProductId);
@@ -65,10 +65,10 @@ public class BasketController : ControllerBase
                 Quantity = quantity,
             });
         }
-
+        
         return Ok(productInBasketViewModels);
     }
-
+    
     [HttpPost("products")]
     public async Task<IActionResult> AddProductInBasket(AddProductInBasketModel model)
     {
@@ -98,8 +98,8 @@ public class BasketController : ControllerBase
         }
     }
 
-    [HttpDelete("products/{productId}")]
-    public async Task<IActionResult> RemoveProductFromBasket(long productId)
+    [HttpDelete("products/{id}")]
+    public async Task<IActionResult> RemoveProductFromBasket(long id)
     {
         var email = User.FindFirstValue(ClaimTypes.Email);
         var user = await _userRepository.GetByEmailAsync(email);
@@ -115,7 +115,7 @@ public class BasketController : ControllerBase
             await _basketRepository.Save();
         }
 
-        var isDeleted = await _basketProductRepository.RemoveProductFromBasket(basket.Id, productId);
+        var isDeleted = await _basketProductRepository.RemoveProductFromBasket(basket.Id, id);
         await _basketProductRepository.Save();
         if (!isDeleted)
         {

@@ -11,7 +11,7 @@ using IsolationLevel = System.Data.IsolationLevel;
 namespace Work_with_orders.Controllers.V1;
 
 [ApiController]
-[Route("v1/products")]
+[Route("v1/products")]          
 public class ProductController : ControllerBase
 {
     private readonly ProductRepository _productRepository;

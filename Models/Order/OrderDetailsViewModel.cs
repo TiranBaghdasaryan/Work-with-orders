@@ -8,5 +8,5 @@ public class OrderDetailsViewModel
     public DateTime DoneDate { get; set; }
     public string Status { get; set; }
 
-    public List<ProductInOrderViewModel> ProductsViewModels = new List<ProductInOrderViewModel>();
+    public List<ProductInOrderViewModel> ProductsViewModels { get; set; } = new List<ProductInOrderViewModel>();
 }
