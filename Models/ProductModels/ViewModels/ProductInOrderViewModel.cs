@@ -1,4 +1,4 @@
-﻿namespace Work_with_orders.Models.Product;
+﻿namespace Work_with_orders.Models.ProductModels.ViewModels;
 
 public class ProductInOrderViewModel
 {

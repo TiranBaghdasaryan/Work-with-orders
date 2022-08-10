@@ -5,7 +5,7 @@ using Work_with_orders.Context;
 using Work_with_orders.Entities;
 using Work_with_orders.Enums;
 using Work_with_orders.Models.Order;
-using Work_with_orders.Models.Product;
+using Work_with_orders.Models.ProductModels.ViewModels;
 using Work_with_orders.Repositories;
 using Work_with_orders.Repositories.BasketProductRepo;
 using Work_with_orders.Repositories.OrderProductRepo;
@@ -24,7 +24,6 @@ public class OrderController : ControllerBase
     private readonly OrderProductRepository _orderProductRepository;
     private readonly ProductRepository _productRepository;
     private readonly ApplicationContext _context;
-
 
     public OrderController
     (UserRepository userRepository,

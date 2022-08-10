@@ -50,7 +50,7 @@ public class AuthenticationService : IAuthenticationService
 
         string accessToken = _tokenService.GenerateAccessToken(claims);
         string refreshToken = _tokenService.GenerateRefreshToken();
-        
+
         user.RefreshToken = refreshToken;
         user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
 
@@ -90,7 +90,7 @@ public class AuthenticationService : IAuthenticationService
                 { "refreshToken", refreshToken }
             }
         };
-        
+
         return response;
     }
 }

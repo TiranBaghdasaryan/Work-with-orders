@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Work_with_orders.Entities;
 using Work_with_orders.Models.Basket;
-using Work_with_orders.Models.Product;
+using Work_with_orders.Models.ProductModels.ViewModels;
 using Work_with_orders.Repositories;
 using Work_with_orders.Repositories.BasketProductRepo;
 

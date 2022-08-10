@@ -1,8 +1,8 @@
 ﻿using Work_with_orders.Enums;
 
-namespace Work_with_orders.Models.Product;
+namespace Work_with_orders.Models.ProductModels.CreateProduct;
 
-public class ProductCreateModel
+public class CreateProductRequestModel
 {
     public string Name { get; set; }
     public string Description { get; set; }

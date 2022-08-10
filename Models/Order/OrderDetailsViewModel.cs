@@ -1,4 +1,4 @@
-﻿using Work_with_orders.Models.Product;
+﻿using Work_with_orders.Models.ProductModels.ViewModels;
 
 namespace Work_with_orders.Models.Order;
 

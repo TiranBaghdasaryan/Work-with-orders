@@ -38,6 +38,7 @@ public class TokenController : ControllerBase
 
         var newAccessToken = _tokenService.GenerateAccessToken(principal.Claims);
         var newRefreshToken = _tokenService.GenerateRefreshToken();
+     
         user.RefreshToken = newRefreshToken;
         await _userRepository.Save();
 
@@ -60,6 +61,7 @@ public class TokenController : ControllerBase
     {
         string email = (HttpContext.User.Claims.FirstOrDefault(x => Equals(x.Type, ClaimTypes.Email))!.Value);
         var user = await _userRepository.GetByEmailAsync(email);
+       
         if (Equals(user, null))
         {
             return BadRequest();
@@ -67,6 +69,7 @@ public class TokenController : ControllerBase
 
         user.RefreshToken = null;
         await _userRepository.Save();
+        
         return NoContent();
     }
 }

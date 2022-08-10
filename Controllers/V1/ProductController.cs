@@ -4,14 +4,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Work_with_orders.Context;
 using Work_with_orders.Entities;
-using Work_with_orders.Models.Product;
+using Work_with_orders.Models.ProductModels.CreateProduct;
+using Work_with_orders.Models.ProductModels.ProductQuantity.AddProductQuantity;
+using Work_with_orders.Models.ProductModels.ProductQuantity.RemoveProductQuantity;
+using Work_with_orders.Models.ProductModels.UpdateProduct;
 using Work_with_orders.Repositories;
 using IsolationLevel = System.Data.IsolationLevel;
 
 namespace Work_with_orders.Controllers.V1;
 
 [ApiController]
-[Route("v1/products")]          
+[Route("v1/products")]
 public class ProductController : ControllerBase
 {
     private readonly ProductRepository _productRepository;
@@ -34,9 +37,10 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetProducts(long id)
+    public async Task<IActionResult> GetProduct(long id)
     {
         var product = await _productRepository.GetById(id);
+
         if (Equals(product, null))
         {
             return BadRequest("The product does not exist.");
@@ -47,29 +51,43 @@ public class ProductController : ControllerBase
 
     [Authorize(Roles = "Admin")]
     [HttpPost]
-    public async Task<IActionResult> AddProduct(ProductCreateModel productCreateModel)
+    public async Task<ActionResult<CreateProductResponseModel>> CreateProduct(CreateProductRequestModel request)
     {
         var product = new Product();
-        _mapper.Map(productCreateModel, product);
+        _mapper.Map(request, product);
+
         await _productRepository.Add(product);
         await _productRepository.Save();
-        return Ok("The product was created successfully.");
+
+        var response = new CreateProductResponseModel()
+        {
+            Message = "The product was created successfully.",
+        };
+
+        return response;
     }
 
     [Authorize(Roles = "Admin")]
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateProductById(long id, ProductUpdateModel productUpdateModel)
+    [HttpPut("product")]
+    public async Task<ActionResult<UpdateProductResponseModel>> UpdateProduct(UpdateProductRequestModel request)
     {
-        var product = await _productRepository.GetById(id);
+        var product = await _productRepository.GetById(request.Id);
+
         if (Equals(product, null))
         {
             return BadRequest("The product does not exist.");
         }
 
-        _mapper.Map(productUpdateModel, product);
+        _mapper.Map(request, product);
         _productRepository.Update(product);
         await _productRepository.Save();
-        return Ok("The product updated successfully.");
+
+        var response = new UpdateProductResponseModel()
+        {
+            Message = "The product updated successfully."
+        };
+
+        return response;
     }
 
     [Authorize(Roles = "Admin")]
@@ -77,6 +95,7 @@ public class ProductController : ControllerBase
     public async Task<IActionResult> DeleteProductById(long id)
     {
         var product = await _productRepository.GetById(id);
+
         if (Equals(product, null))
         {
             return BadRequest("The product does not exist.");
@@ -88,25 +107,29 @@ public class ProductController : ControllerBase
     }
 
     [Authorize(Roles = "Admin")]
-    [HttpPost("{id}/quantity")]
-    public async Task<IActionResult> AddProductQuantity(long id, [FromBody] int quantity)
+    [HttpPost("product/quantity")]
+    public async Task<ActionResult<AddProductQuantityResponseModel>> AddProductQuantity(
+        AddProductQuantityRequestModel request)
     {
-        var product = await _productRepository.GetById(id);
+        var product = await _productRepository.GetById(request.Id);
+        
         if (Equals(product, null))
         {
             return BadRequest("The product does not exist.");
         }
 
-        product.Quantity += quantity;
+        product.Quantity += request.Quantity;
         await _productRepository.Save();
+
         return Ok("The product was added successfully.");
     }
 
     private static object _lock = new object();
 
-    //[Authorize(Roles = "Admin")]
-    [HttpDelete("{id}/quantity")]
-    public async Task<IActionResult> RemoveProductQuantity(long id, [FromBody] int quantity)
+    [Authorize(Roles = "Admin")]
+    [HttpDelete("product")]
+    public async Task<ActionResult<RemoveProductQuantityResponseModel>> RemoveProductQuantity(
+        RemoveProductQuantityRequestModel request)
     {
         await using (var transaction = _context.Database.BeginTransaction(IsolationLevel.ReadCommitted))
         {
@@ -114,18 +137,24 @@ public class ProductController : ControllerBase
             {
                 lock (_lock)
                 {
-                    var product = (_productRepository.GetById(id).Result)!;
+                    var product = (_productRepository.GetById(request.Id).Result)!;
 
                     if (Equals(product, null))
                     {
                         return BadRequest("The product does not exist.");
                     }
 
-                    product.Quantity -= quantity;
+                    product.Quantity -= request.Quantity;
                     _productRepository.SaveSync();
                     transaction.Commit();
                 }
-                return Ok("The product was successfully deleted.");
+
+                var response = new RemoveProductQuantityResponseModel()
+                {
+                    Message = "The product was successfully deleted."
+                };
+
+                return response;
             }
             catch (Exception exception)
             {

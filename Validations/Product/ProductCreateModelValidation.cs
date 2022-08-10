@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
-using Work_with_orders.Models.Product;
+using Work_with_orders.Models.ProductModels.CreateProduct;
 
 namespace Work_with_orders.Validations.Product;
 
-public class ProductCreateModelValidation : AbstractValidator<ProductCreateModel>
+public class ProductCreateModelValidation : AbstractValidator<CreateProductRequestModel>
 {
     private const int ProductNameMaximumLength = 50;
 
