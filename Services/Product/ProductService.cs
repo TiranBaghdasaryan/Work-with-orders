@@ -2,6 +2,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Work_with_orders.Commands.Executors;
 using Work_with_orders.Context;
 using Work_with_orders.Models.ProductModels.CreateProduct;
 using Work_with_orders.Models.ProductModels.ProductQuantity.AddProductQuantity;
@@ -47,12 +48,13 @@ public class ProductService : IProductService
 
     public async Task<ActionResult<ProductViewModel>> GetProductById(long id)
     {
+
         var product = await _productRepository.GetById(id);
 
-        if (Equals(product, null))
-        {
-            return new BadRequestObjectResult("The product does not exist.");
-        }
+        // if (Equals(product, null))
+        // {
+        //     return new BadRequestObjectResult("The product does not exist.");
+        // }
 
         var productViewModel = new ProductViewModel();
         _mapper.Map(product, productViewModel);
@@ -146,7 +148,7 @@ public class ProductService : IProductService
             {
                 Message = "The product was successfully deleted."
             };
-            
+
             return response;
         }
 

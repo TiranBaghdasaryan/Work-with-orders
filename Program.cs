@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Work_with_orders.Commands.Executors;
 using Work_with_orders.Context;
 using Work_with_orders.Context.Seeds;
 using Work_with_orders.DependencyInjection;
@@ -34,7 +35,8 @@ builder.Services.AddScoped<BasketRepository>();
 builder.Services.AddScoped<BasketProductRepository>();
 builder.Services.AddScoped<OrderProductRepository>();
 
-
+// builder.Services.AddScoped<Command<IValidator<long>>, LongExecutor>();
+builder.Services.AddScoped<GetProductExecutor>();
 
 builder.Services.AddDbContext<ApplicationContext>(options =>
 {

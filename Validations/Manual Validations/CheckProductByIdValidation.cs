@@ -10,10 +10,13 @@ public class CheckProductByIdValidation : AbstractValidator<long>
     public CheckProductByIdValidation(ProductRepository productRepository)
     {
         _productRepository = productRepository;
-
-        RuleFor(x => x)
-            .Must(ProductExists)
-            .WithMessage("The product does not exist. [From Validator]");
+        
+        RuleSet("Manually", () =>
+        {
+            RuleFor(x => x)
+                .Must(ProductExists)
+                .WithMessage("The product does not exist. [From Validator]");
+        });
     }
 
     private bool ProductExists(long id)

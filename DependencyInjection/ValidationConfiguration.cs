@@ -23,9 +23,8 @@ public static class ValidationConfiguration
         services.AddValidatorsFromAssemblyContaining<SignInModelValidation>();
         services.AddValidatorsFromAssemblyContaining<SignUpModelValidation>();
         services.AddValidatorsFromAssemblyContaining<ProductCreateModelValidation>();
-        //services.AddValidatorsFromAssemblyContaining<CheckProductByIdValidation>();
 
-        services.AddScoped<IValidator<long>, CheckProductByIdValidation>();
+        services.AddScoped<CheckProductByIdValidation>();
 
         return services;
     }

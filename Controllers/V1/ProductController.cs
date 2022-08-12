@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Work_with_orders.Commands.Executors;
 using Work_with_orders.Models.ProductModels.CreateProduct;
 using Work_with_orders.Models.ProductModels.ProductQuantity.AddProductQuantity;
 using Work_with_orders.Models.ProductModels.ProductQuantity.RemoveProductQuantity;
 using Work_with_orders.Models.ProductModels.UpdateProduct;
 using Work_with_orders.Models.ProductModels.ViewModels;
 using Work_with_orders.Services.Product;
-using Work_with_orders.Validations.Manual_Validations;
 
 namespace Work_with_orders.Controllers.V1;
 
@@ -15,12 +15,10 @@ namespace Work_with_orders.Controllers.V1;
 public class ProductController : ControllerBase
 {
     private readonly IProductService _productService;
-    private readonly CheckProductByIdValidation _checkProductValidator;
 
-    public ProductController(IProductService productService, CheckProductByIdValidation checkProductValidator)
+    public ProductController(IProductService productService)
     {
         _productService = productService;
-        _checkProductValidator = checkProductValidator;
     }
 
     [HttpGet]
@@ -31,17 +29,9 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<ProductViewModel>> GetProduct(long id)
+    public async Task<IActionResult> GetProduct([FromServices] GetProductExecutor executor, long id)
     {
-        var result = await _checkProductValidator.ValidateAsync(id);
-        
-        if (!result.IsValid)
-        {
-            return BadRequest(result.Errors);
-        }
-        
-        var response = await _productService.GetProductById(id);
-        return response;
+        return await executor.WithParameter(id).Execute();
     }
 
 
