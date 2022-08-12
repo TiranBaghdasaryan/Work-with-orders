@@ -138,42 +138,18 @@ public class ProductService : IProductService
     public async Task<ActionResult<RemoveProductQuantityResponseModel>> RemoveProductQuantity(
         RemoveProductQuantityRequestModel request)
     {
-        await using (var transaction = _context.Database.BeginTransaction(IsolationLevel.ReadCommitted))
+        var isTaken = _productRepository.TakeProduct(request.Id, request.Quantity);
+
+        if (isTaken)
         {
-            try
+            var response = new RemoveProductQuantityResponseModel()
             {
-                lock (_lock)
-                {
-                    var product = (_productRepository.GetById(request.Id).Result)!;
-
-                    if (Equals(product, null))
-                    {
-                        return new BadRequestObjectResult("The product does not exist.");
-                    }
-
-                    product.Quantity -= request.Quantity;
-                    _productRepository.SaveSync();
-                    transaction.Commit();
-                }
-
-                var response = new RemoveProductQuantityResponseModel()
-                {
-                    Message = "The product was successfully deleted."
-                };
-
-                return response;
-            }
-            catch (Exception exception)
-            {
-                await transaction.RollbackAsync();
-                
-                if (exception.InnerException != null && exception.InnerException.Message.Contains("CK_Quantity"))
-                {
-                    return new BadRequestObjectResult("So many products are not in warehouse.");
-                }
-
-                throw;
-            }
+                Message = "The product was successfully deleted."
+            };
+            
+            return response;
         }
+
+        return new BadRequestObjectResult("So many products are not in warehouse.");
     }
 }

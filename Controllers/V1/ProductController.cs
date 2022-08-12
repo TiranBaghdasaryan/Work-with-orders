@@ -6,6 +6,7 @@ using Work_with_orders.Models.ProductModels.ProductQuantity.RemoveProductQuantit
 using Work_with_orders.Models.ProductModels.UpdateProduct;
 using Work_with_orders.Models.ProductModels.ViewModels;
 using Work_with_orders.Services.Product;
+using Work_with_orders.Validations.Manual_Validations;
 
 namespace Work_with_orders.Controllers.V1;
 
@@ -14,10 +15,12 @@ namespace Work_with_orders.Controllers.V1;
 public class ProductController : ControllerBase
 {
     private readonly IProductService _productService;
+    private readonly CheckProductByIdValidation _checkProductValidator;
 
-    public ProductController(IProductService productService)
+    public ProductController(IProductService productService, CheckProductByIdValidation checkProductValidator)
     {
         _productService = productService;
+        _checkProductValidator = checkProductValidator;
     }
 
     [HttpGet]
@@ -30,6 +33,13 @@ public class ProductController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<ProductViewModel>> GetProduct(long id)
     {
+        var result = await _checkProductValidator.ValidateAsync(id);
+        
+        if (!result.IsValid)
+        {
+            return BadRequest(result.Errors);
+        }
+        
         var response = await _productService.GetProductById(id);
         return response;
     }
@@ -61,7 +71,7 @@ public class ProductController : ControllerBase
     }
 
     [Authorize(Roles = "Admin")]
-    [HttpPost("product/quantity")]
+    [HttpPut("product/add")]
     public async Task<ActionResult<AddProductQuantityResponseModel>> AddProductQuantity(
         AddProductQuantityRequestModel request)
     {
@@ -70,8 +80,8 @@ public class ProductController : ControllerBase
     }
 
 
-    [Authorize(Roles = "Admin")]
-    [HttpDelete("product/quantity")]
+    // [Authorize(Roles = "Admin")]
+    [HttpPut("product/remove")]
     public async Task<ActionResult<RemoveProductQuantityResponseModel>> RemoveProductQuantity(
         RemoveProductQuantityRequestModel request)
     {

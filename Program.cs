@@ -34,6 +34,8 @@ builder.Services.AddScoped<BasketRepository>();
 builder.Services.AddScoped<BasketProductRepository>();
 builder.Services.AddScoped<OrderProductRepository>();
 
+
+
 builder.Services.AddDbContext<ApplicationContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("postgresConnection")!);

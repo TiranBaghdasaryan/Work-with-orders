@@ -39,14 +39,12 @@ public class BasketService : IBasketService
         foreach (var item in basketProducts)
         {
             var product = await _productRepository.GetById(item.ProductId);
-            string name = product.Name;
-            int quantity = item.Quantity;
-
+            
             productInBasketViewModels.Add(new ProductInBasketViewModel()
             {
                 Id = item.ProductId,
-                Name = name,
-                Quantity = quantity,
+                Name = product.Name,
+                Quantity =  item.Quantity,
             });
         }
 

@@ -31,13 +31,15 @@ public class ProductRepository : GenericRepository<Product>
                     }
 
                     product.Quantity -= takeQuantity;
+                    SaveSync();
+                    transaction.Commit();
                     return true;
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return false;
+                throw;
             }
         }
     }

@@ -15,7 +15,7 @@ public class AuthenticationController : ControllerBase
     {
         _authenticationService = authenticationService;
     }
-
+    
     [HttpPost("sign-up")]
     public async Task<ActionResult<SignUpResponseModel>> SignUpAsync(SignUpRequestModel model) 
     {
