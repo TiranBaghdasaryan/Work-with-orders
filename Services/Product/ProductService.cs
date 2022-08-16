@@ -51,11 +51,6 @@ public class ProductService : IProductService
 
         var product = await _productRepository.GetById(id);
 
-        // if (Equals(product, null))
-        // {
-        //     return new BadRequestObjectResult("The product does not exist.");
-        // }
-
         var productViewModel = new ProductViewModel();
         _mapper.Map(product, productViewModel);
 

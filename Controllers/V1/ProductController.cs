@@ -29,9 +29,10 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetProduct([FromServices] GetProductExecutor executor, long id)
+    public async Task<IActionResult> GetProduct([FromServices] IGetProductExecutor executor, long id)
     {
-        return await executor.WithParameter(id).Execute();
+        var response = await executor.WithParameter(id).Execute();
+        return response;
     }
 
 

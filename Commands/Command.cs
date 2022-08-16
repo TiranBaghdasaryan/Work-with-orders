@@ -16,7 +16,7 @@ public abstract class Command<T> where T : class
 
     protected abstract Task<IActionResult> ProcessExecution();
 
-    public Task<IActionResult> Execute()
+    public virtual Task<IActionResult> Execute()
     {
         Validation();
         return ProcessExecution();

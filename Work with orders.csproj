@@ -5,6 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <RootNamespace>Work_with_orders</RootNamespace>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     </PropertyGroup>
 
     <ItemGroup>
@@ -23,14 +24,67 @@
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.0" />
+        <PackageReference Include="Moq" Version="4.18.2" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.0-preview.6" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
         <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.22.0" />
+        <PackageReference Include="xunit" Version="2.4.2" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Models\AuthenticationModels" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Work with orders.Tests\obj\project.assets.json" />
+      <_ContentIncludedByDefault Remove="Work with orders.Tests\obj\project.packagespec.json" />
+      <_ContentIncludedByDefault Remove="Work with orders.Tests\obj\Work with orders.Tests.csproj.nuget.dgspec.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\appsettings.Development.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\appsettings.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\Work with orders.deps.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\Work with orders.runtimeconfig.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests.deps.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests.runtimeconfig.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\appsettings.Development.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\appsettings.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\Work with orders.deps.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\Work with orders.runtimeconfig.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests.deps.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests.runtimeconfig.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\appsettings.Development.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\appsettings.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\Work with orders.deps.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\Work with orders.runtimeconfig.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests.deps.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests.runtimeconfig.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\appsettings.Development.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\appsettings.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\Work with orders.deps.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\Work with orders.runtimeconfig.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests.deps.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests.runtimeconfig.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests.deps.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests.runtimeconfig.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\obj\project.assets.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\obj\project.packagespec.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\obj\WorkWithOrders.Tests.csproj.nuget.dgspec.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\obj\project.assets.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\obj\project.packagespec.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\obj\WorkWithOrders.Tests.csproj.nuget.dgspec.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\obj\project.assets.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\obj\project.packagespec.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\obj\WorkWithOrders.Tests.csproj.nuget.dgspec.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\obj\project.assets.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\obj\project.packagespec.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\bin\Debug\net6.0\WorkWithOrders.Tests\obj\WorkWithOrders.Tests.csproj.nuget.dgspec.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\obj\project.assets.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\obj\project.packagespec.json" />
+      <_ContentIncludedByDefault Remove="WorkWithOrders.Tests\obj\WorkWithOrders.Tests.csproj.nuget.dgspec.json" />
+      <_ContentIncludedByDefault Remove="ProjectTests\obj\project.assets.json" />
+      <_ContentIncludedByDefault Remove="ProjectTests\obj\project.packagespec.json" />
+      <_ContentIncludedByDefault Remove="ProjectTests\obj\ProjectTests.csproj.nuget.dgspec.json" />
     </ItemGroup>
 
 </Project>
