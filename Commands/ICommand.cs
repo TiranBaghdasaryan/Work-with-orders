@@ -2,15 +2,8 @@
 
 namespace Work_with_orders.Commands;
 
-public interface ICommand<T>
+public interface ICommand
 {
-   // T Validator { get; set; }
-    void Validation();
     Task<IActionResult> ProcessExecution();
-
-    Task<IActionResult> Execute()
-    {
-        Validation();
-        return ProcessExecution();
-    }
+    async Task<IActionResult> Execute() => await ProcessExecution();
 }

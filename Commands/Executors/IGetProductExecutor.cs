@@ -1,12 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Work_with_orders.Validations.Manual_Validations;
+﻿namespace Work_with_orders.Commands.Executors;
 
-namespace Work_with_orders.Commands.Executors;
-
-public interface IGetProductExecutor
+public interface IGetProductExecutor : ICommand
 {
-    Task<IActionResult> Execute();
-    public ICommand<CheckProductByIdValidation> WithParameter(long parameter);
+    public IGetProductExecutor WithParameter(long parameter);
+    
 }
-
-
