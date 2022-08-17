@@ -39,21 +39,26 @@ public class ProductService : IProductService
         return new OkObjectResult(productsViewModels);
     }
 
-    public async Task<ActionResult<ProductViewModel>> GetProductById(long id)
+    public async Task<IActionResult> GetProductById(long id)
     {
         var product = await _productRepository.GetById(id);
-
+        
+        if (Equals(product, null))
+        {
+            return new BadRequestObjectResult("The product does not exist.");
+        }
+        
         var productViewModel = new ProductViewModel();
         _mapper.Map(product, productViewModel);
 
-        return productViewModel;
+        return new OkObjectResult(productViewModel);
     }
 
     public async Task<IActionResult> CreateProduct(CreateProductRequestModel request)
     {
         var product = new Entities.Product();
         _mapper.Map(request, product);
-        
+
         await _productRepository.Add(product);
         await _productRepository.Save();
 
@@ -136,7 +141,7 @@ public class ProductService : IProductService
             {
                 Message = "The product was successfully deleted."
             };
-            
+
             return new OkObjectResult(response);
         }
 

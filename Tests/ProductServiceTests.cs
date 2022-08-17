@@ -22,7 +22,47 @@ public class ProductServiceTests
     public async Task GetProductShouldReturns_OkObjectResult()
     {
         //arrange
+        long id = 1;
 
+        var product = new Product()
+        {
+            Id = id,
+            Quantity = 5,
+        };
+
+        _productService = new ProductService(_mockProductRepository.Object, _mockMapper.Object);
+        _mockProductRepository.Setup(ex => ex.GetById(id)).ReturnsAsync(product);
+
+        //act 
+
+        var result = await _productService.GetProductById(id);
+
+        //assert
+        Assert.IsType<OkObjectResult>(result);
+    }
+
+    [Fact]
+    public async Task GetProductByIdShouldReturns_BadRequestObjectResult()
+    {
+        //arrange
+        long id = 64;
+
+        Product product = null;
+
+        _productService = new ProductService(_mockProductRepository.Object, _mockMapper.Object);
+        _mockProductRepository.Setup(ex => ex.GetById(id)).ReturnsAsync(product);
+
+        //act 
+        var result = await _productService.GetProductById(id);
+
+        //assert
+        Assert.IsType<BadRequestObjectResult>(result);
+    }
+
+    [Fact]
+    public async Task GetProductsShouldReturns_OkObjectResult()
+    {
+        //arrange
         List<Product> _products = new List<Product>()
         {
             new Product()
@@ -108,11 +148,13 @@ public class ProductServiceTests
     {
         //arrange
         long id = 6;
+
         var product = new Product()
         {
             Id = id,
             Quantity = 5,
         };
+
         _productService = new ProductService(_mockProductRepository.Object, _mockMapper.Object);
         _mockProductRepository.Setup(ex => ex.GetById(id)).ReturnsAsync(product);
 
@@ -238,23 +280,13 @@ public class ProductServiceTests
         Assert.IsType<BadRequestObjectResult>(result);
     }
 
-    //to-do
-
     [Fact]
     public async Task RemoveProductQuantityShouldReturns_OkObjectResult()
     {
         //arrange
         long id = 2;
 
-        var product = new Product()
-        {
-            Id = id,
-            Quantity = 5,
-        };
-
         _productService = new ProductService(_mockProductRepository.Object, _mockMapper.Object);
-        _mockProductRepository.Setup(ex => ex.GetById(id)).ReturnsAsync(product);
-        int productQuantity = product.Quantity;
 
         var removeProductQuantityRequestModel = new RemoveProductQuantityRequestModel()
         {
@@ -267,9 +299,10 @@ public class ProductServiceTests
 
         //act
         var result = await _productService.RemoveProductQuantity(removeProductQuantityRequestModel);
-
-
+        
         //assert
+        _mockProductRepository.Verify(ex => ex.TakeProduct(removeProductQuantityRequestModel.Id,removeProductQuantityRequestModel.Quantity), Times.Once);
+
         Assert.IsType<OkObjectResult>(result);
     }
 
@@ -297,7 +330,7 @@ public class ProductServiceTests
         var result = await _productService.RemoveProductQuantity(removeProductQuantityRequestModel);
 
         //assert
-        Assert.Equal(product, null);
+        _mockProductRepository.Verify(ex => ex.TakeProduct(removeProductQuantityRequestModel.Id,removeProductQuantityRequestModel.Quantity), Times.Exactly(1));
         Assert.IsType<BadRequestObjectResult>(result);
     }
 }
