@@ -125,7 +125,7 @@ public class ProductService : IProductService
 
     private static object _lock = new object();
 
-    public async Task<ActionResult<RemoveProductQuantityResponseModel>> RemoveProductQuantity(
+    public async Task<IActionResult> RemoveProductQuantity(
         RemoveProductQuantityRequestModel request)
     {
         var isTaken = _productRepository.TakeProduct(request.Id, request.Quantity);
@@ -136,8 +136,8 @@ public class ProductService : IProductService
             {
                 Message = "The product was successfully deleted."
             };
-
-            return response;
+            
+            return new OkObjectResult(response);
         }
 
         return new BadRequestObjectResult("So many products are not in warehouse.");

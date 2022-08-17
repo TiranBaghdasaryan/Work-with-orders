@@ -15,7 +15,5 @@ public interface IProductService
     Task<IActionResult> UpdateProduct(UpdateProductRequestModel request);
     Task<IActionResult> DeleteProductById(long id);
     Task<IActionResult> AddProductQuantity(AddProductQuantityRequestModel request);
-
-    Task<ActionResult<RemoveProductQuantityResponseModel>> RemoveProductQuantity(
-        RemoveProductQuantityRequestModel request);
+    Task<IActionResult> RemoveProductQuantity(RemoveProductQuantityRequestModel request);
 }

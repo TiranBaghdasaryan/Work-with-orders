@@ -72,7 +72,7 @@ public class ProductController : ControllerBase
 
     // [Authorize(Roles = "Admin")]
     [HttpPut("product/remove")]
-    public async Task<ActionResult<RemoveProductQuantityResponseModel>> RemoveProductQuantity(
+    public async Task<IActionResult> RemoveProductQuantity(
         RemoveProductQuantityRequestModel request)
     {
         var response = await _productService.RemoveProductQuantity(request);
