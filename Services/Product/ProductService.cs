@@ -53,7 +53,7 @@ public class ProductService : IProductService
     {
         var product = new Entities.Product();
         _mapper.Map(request, product);
-
+        
         await _productRepository.Add(product);
         await _productRepository.Save();
 

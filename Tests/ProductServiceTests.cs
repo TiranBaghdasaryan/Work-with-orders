@@ -18,34 +18,35 @@ public class ProductServiceTests
     private Mock<IMapper> _mockMapper = new Mock<IMapper>();
     private IProductService _productService;
 
-    private List<Product> _products = new List<Product>()
-    {
-        new Product()
-        {
-            Id = 1,
-            Quantity = 5,
-        },
-        new Product()
-        {
-            Id = 2,
-            Quantity = 6,
-        },
-        new Product()
-        {
-            Id = 3,
-            Quantity = 10,
-        },
-        new Product()
-        {
-            Id = 4,
-            Quantity = 15,
-        },
-    };
-
     [Fact]
     public async Task GetProductShouldReturns_OkObjectResult()
     {
         //arrange
+
+        List<Product> _products = new List<Product>()
+        {
+            new Product()
+            {
+                Id = 1,
+                Quantity = 5,
+            },
+            new Product()
+            {
+                Id = 2,
+                Quantity = 6,
+            },
+            new Product()
+            {
+                Id = 3,
+                Quantity = 10,
+            },
+            new Product()
+            {
+                Id = 4,
+                Quantity = 15,
+            },
+        };
+
         _productService = new ProductService(_mockProductRepository.Object, _mockMapper.Object);
         _mockProductRepository.Setup(ex => ex.GetAll()).Returns(_products);
 
@@ -79,8 +80,14 @@ public class ProductServiceTests
         //arrange
         long id = 1;
 
+        var product = new Product()
+        {
+            Id = id,
+            Quantity = 5,
+        };
+
         _productService = new ProductService(_mockProductRepository.Object, _mockMapper.Object);
-        _mockProductRepository.Setup(ex => ex.GetById(id)).ReturnsAsync(GetById(id));
+        _mockProductRepository.Setup(ex => ex.GetById(id)).ReturnsAsync(product);
 
         //act
         var result = await _productService.UpdateProduct(new UpdateProductRequestModel()
@@ -101,8 +108,13 @@ public class ProductServiceTests
     {
         //arrange
         long id = 6;
+        var product = new Product()
+        {
+            Id = id,
+            Quantity = 5,
+        };
         _productService = new ProductService(_mockProductRepository.Object, _mockMapper.Object);
-        _mockProductRepository.Setup(ex => ex.GetById(id)).ReturnsAsync(GetById(id));
+        _mockProductRepository.Setup(ex => ex.GetById(id)).ReturnsAsync(product);
 
         //act
         var result = await _productService.UpdateProduct(new UpdateProductRequestModel()
@@ -122,8 +134,17 @@ public class ProductServiceTests
     {
         //arrange
         long id = 1;
+
+        var product = new Product()
+        {
+            Id = id,
+            Quantity = 5,
+        };
+
         _productService = new ProductService(_mockProductRepository.Object, _mockMapper.Object);
-        _mockProductRepository.Setup(ex => ex.GetById(id)).ReturnsAsync(GetById(id));
+        _mockProductRepository.Setup(ex => ex.GetById(id)).ReturnsAsync(product);
+
+        _mockProductRepository.Setup(ex => ex.Delete(product));
 
         //act
         var result = await _productService.DeleteProductById(id);
@@ -139,8 +160,15 @@ public class ProductServiceTests
     {
         //arrange
         long id = 10;
+
+        var product = new Product()
+        {
+            Id = id,
+            Quantity = 5,
+        };
+
         _productService = new ProductService(_mockProductRepository.Object, _mockMapper.Object);
-        _mockProductRepository.Setup(ex => ex.GetById(id)).ReturnsAsync(GetById(id));
+        _mockProductRepository.Setup(ex => ex.GetById(id)).ReturnsAsync(() => null);
 
         //act
         var result = await _productService.DeleteProductById(id);
@@ -156,11 +184,17 @@ public class ProductServiceTests
     {
         //arrange
         long id = 2;
+
+        var product = new Product()
+        {
+            Id = id,
+            Quantity = 5,
+        };
+
         _productService = new ProductService(_mockProductRepository.Object, _mockMapper.Object);
-        _mockProductRepository.Setup(ex => ex.GetById(id)).ReturnsAsync(GetById(id));
+        _mockProductRepository.Setup(ex => ex.GetById(id)).ReturnsAsync(product);
 
-
-        int productQuantity = GetById(id).Quantity;
+        int productQuantity = product.Quantity;
         var addProductQuantityRequestModel = new AddProductQuantityRequestModel()
         {
             Id = id,
@@ -169,10 +203,9 @@ public class ProductServiceTests
 
         //act
         var result = await _productService.AddProductQuantity(addProductQuantityRequestModel);
-        var product = GetById(id);
 
         //assert
-        _mockProductRepository.Verify(ex => ex.Update(GetById(id)), Times.Once);
+        _mockProductRepository.Verify(ex => ex.Update(product), Times.Once);
         _mockProductRepository.Verify(ex => ex.Save(), Times.Once);
 
         Assert.Equal(product.Quantity, productQuantity + addProductQuantityRequestModel.Quantity);
@@ -184,8 +217,10 @@ public class ProductServiceTests
     {
         //arrange
         long id = 15;
+        Product product = null;
+
         _productService = new ProductService(_mockProductRepository.Object, _mockMapper.Object);
-        _mockProductRepository.Setup(ex => ex.GetById(id)).ReturnsAsync(GetById(id));
+        _mockProductRepository.Setup(ex => ex.GetById(id)).ReturnsAsync(product);
 
         var addProductQuantityRequestModel = new AddProductQuantityRequestModel()
         {
@@ -195,16 +230,13 @@ public class ProductServiceTests
 
         //act
         var result = await _productService.AddProductQuantity(addProductQuantityRequestModel);
-        var product = GetById(id);
 
         //assert
-        _mockProductRepository.Verify(ex => ex.Update(GetById(id)), Times.Never);
         _mockProductRepository.Verify(ex => ex.Save(), Times.Never);
 
         Assert.Equal(product, null);
         Assert.IsType<BadRequestObjectResult>(result);
     }
-
 
     //to-do
 
@@ -213,10 +245,17 @@ public class ProductServiceTests
     {
         //arrange
         long id = 2;
-        _productService = new ProductService(_mockProductRepository.Object, _mockMapper.Object);
-        _mockProductRepository.Setup(ex => ex.GetById(id)).ReturnsAsync(GetById(id));
 
-        int productQuantity = GetById(id).Quantity;
+        var product = new Product()
+        {
+            Id = id,
+            Quantity = 5,
+        };
+
+        _productService = new ProductService(_mockProductRepository.Object, _mockMapper.Object);
+        _mockProductRepository.Setup(ex => ex.GetById(id)).ReturnsAsync(product);
+        int productQuantity = product.Quantity;
+
         var removeProductQuantityRequestModel = new RemoveProductQuantityRequestModel()
         {
             Id = id,
@@ -228,20 +267,22 @@ public class ProductServiceTests
 
         //act
         var result = await _productService.RemoveProductQuantity(removeProductQuantityRequestModel);
-        var product = GetById(id);
 
 
         //assert
         Assert.IsType<OkObjectResult>(result);
     }
 
+    //
     [Fact]
     public async Task RemoveProductQuantityShouldReturns_BadRequestObjectResult()
     {
         //arrange
         long id = 46;
+
+        Product product = null;
         _productService = new ProductService(_mockProductRepository.Object, _mockMapper.Object);
-        _mockProductRepository.Setup(ex => ex.GetById(id)).ReturnsAsync(GetById(id));
+        _mockProductRepository.Setup(ex => ex.GetById(id)).ReturnsAsync(product);
 
         var removeProductQuantityRequestModel = new RemoveProductQuantityRequestModel()
         {
@@ -254,24 +295,9 @@ public class ProductServiceTests
 
         //act
         var result = await _productService.RemoveProductQuantity(removeProductQuantityRequestModel);
-        var product = GetById(id);
-
 
         //assert
         Assert.Equal(product, null);
         Assert.IsType<BadRequestObjectResult>(result);
-    }
-
-
-    private Product GetById(long id)
-    {
-        var product = _products.FirstOrDefault(x => x.Id == id);
-
-        if (product != null)
-        {
-            return product;
-        }
-
-        return null;
     }
 }
