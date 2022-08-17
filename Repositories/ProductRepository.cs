@@ -6,7 +6,7 @@ using Work_with_orders.Repositories.Generic;
 
 namespace Work_with_orders.Repositories;
 
-public class ProductRepository : GenericRepository<Product>
+public class ProductRepository : GenericRepository<Product>, IProductRepository
 {
     public ProductRepository(ApplicationContext applicationContext) : base(applicationContext)
     {

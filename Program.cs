@@ -29,14 +29,14 @@ builder.Services.AddScoped<IBasketService, BasketService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 
 builder.Services.AddScoped<UserRepository>();
-builder.Services.AddScoped<ProductRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<OrderRepository>();
 builder.Services.AddScoped<BasketRepository>();
 builder.Services.AddScoped<BasketProductRepository>();
 builder.Services.AddScoped<OrderProductRepository>();
 
 // builder.Services.AddScoped<Command<IValidator<long>>, LongExecutor>();
-builder.Services.AddScoped<IGetProductExecutor,GetProductExecutor>();
+builder.Services.AddScoped<IGetProductExecutor, GetProductExecutor>();
 
 builder.Services.AddDbContext<ApplicationContext>(options =>
 {

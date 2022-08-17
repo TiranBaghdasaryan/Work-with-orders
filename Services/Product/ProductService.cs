@@ -1,9 +1,5 @@
-﻿using System.Data;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Work_with_orders.Commands.Executors;
-using Work_with_orders.Context;
 using Work_with_orders.Models.ProductModels.CreateProduct;
 using Work_with_orders.Models.ProductModels.ProductQuantity.AddProductQuantity;
 using Work_with_orders.Models.ProductModels.ProductQuantity.RemoveProductQuantity;
@@ -15,22 +11,19 @@ namespace Work_with_orders.Services.Product;
 
 public class ProductService : IProductService
 {
-    private readonly ProductRepository _productRepository;
+    private readonly IProductRepository _productRepository;
     private readonly IMapper _mapper;
-    private readonly ApplicationContext _context;
 
     public ProductService(
-        ProductRepository productRepository,
-        IMapper mapper, ApplicationContext applicationContext,
-        ApplicationContext context)
+        IProductRepository productRepository,
+        IMapper mapper)
     {
         _productRepository = productRepository;
         _mapper = mapper;
-        _context = context;
     }
 
 
-    public async Task<ActionResult<IEnumerable<ProductViewModel>>> GetProducts()
+    public async Task<IActionResult> GetProducts()
     {
         var products = _productRepository.GetAll();
 
@@ -43,12 +36,11 @@ public class ProductService : IProductService
             productsViewModels.Add(productViewModel);
         }
 
-        return productsViewModels;
+        return new OkObjectResult(productsViewModels);
     }
 
     public async Task<ActionResult<ProductViewModel>> GetProductById(long id)
     {
-
         var product = await _productRepository.GetById(id);
 
         var productViewModel = new ProductViewModel();
@@ -57,7 +49,7 @@ public class ProductService : IProductService
         return productViewModel;
     }
 
-    public async Task<ActionResult<CreateProductResponseModel>> CreateProduct(CreateProductRequestModel request)
+    public async Task<IActionResult> CreateProduct(CreateProductRequestModel request)
     {
         var product = new Entities.Product();
         _mapper.Map(request, product);
@@ -70,10 +62,10 @@ public class ProductService : IProductService
             Message = "The product was created successfully.",
         };
 
-        return response;
+        return new OkObjectResult(response);
     }
 
-    public async Task<ActionResult<UpdateProductResponseModel>> UpdateProduct(UpdateProductRequestModel request)
+    public async Task<IActionResult> UpdateProduct(UpdateProductRequestModel request)
     {
         var product = await _productRepository.GetById(request.Id);
 
@@ -91,7 +83,7 @@ public class ProductService : IProductService
             Message = "The product updated successfully."
         };
 
-        return response;
+        return new OkObjectResult(response);
     }
 
     public async Task<IActionResult> DeleteProductById(long id)
@@ -109,7 +101,7 @@ public class ProductService : IProductService
         return new OkObjectResult("The product was successfully deleted.");
     }
 
-    public async Task<ActionResult<AddProductQuantityResponseModel>> AddProductQuantity(
+    public async Task<IActionResult> AddProductQuantity(
         AddProductQuantityRequestModel request)
     {
         var product = await _productRepository.GetById(request.Id);
@@ -120,6 +112,7 @@ public class ProductService : IProductService
         }
 
         product.Quantity += request.Quantity;
+        _productRepository.Update(product);
         await _productRepository.Save();
 
         var response = new AddProductQuantityResponseModel()
@@ -127,7 +120,7 @@ public class ProductService : IProductService
             Message = "The product was added successfully."
         };
 
-        return response;
+        return new OkObjectResult(response);
     }
 
     private static object _lock = new object();

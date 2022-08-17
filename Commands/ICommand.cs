@@ -4,7 +4,7 @@ namespace Work_with_orders.Commands;
 
 public interface ICommand<T>
 {
-    T Validator { get; set; }
+   // T Validator { get; set; }
     void Validation();
     Task<IActionResult> ProcessExecution();
 

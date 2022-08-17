@@ -11,10 +11,10 @@ public class BasketService : IBasketService
     private readonly UserRepository _userRepository;
     private readonly BasketRepository _basketRepository;
     private readonly BasketProductRepository _basketProductRepository;
-    private readonly ProductRepository _productRepository;
+    private readonly IProductRepository _productRepository;
 
     public BasketService(UserRepository userRepository, BasketRepository basketRepository,
-        BasketProductRepository basketProductRepository, ProductRepository productRepository)
+        BasketProductRepository basketProductRepository, IProductRepository productRepository)
     {
         _userRepository = userRepository;
         _basketRepository = basketRepository;
@@ -39,12 +39,12 @@ public class BasketService : IBasketService
         foreach (var item in basketProducts)
         {
             var product = await _productRepository.GetById(item.ProductId);
-            
+
             productInBasketViewModels.Add(new ProductInBasketViewModel()
             {
                 Id = item.ProductId,
                 Name = product.Name,
-                Quantity =  item.Quantity,
+                Quantity = item.Quantity,
             });
         }
 

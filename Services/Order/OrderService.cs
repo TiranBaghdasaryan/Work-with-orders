@@ -16,7 +16,7 @@ public class OrderService : IOrderService
     private readonly BasketProductRepository _basketProductRepository;
     private readonly OrderRepository _orderRepository;
     private readonly OrderProductRepository _orderProductRepository;
-    private readonly ProductRepository _productRepository;
+    private readonly IProductRepository _productRepository;
     private readonly IMapper _mapper;
 
 
@@ -27,7 +27,7 @@ public class OrderService : IOrderService
         BasketProductRepository basketProductRepository,
         OrderRepository orderRepository,
         OrderProductRepository orderProductRepository,
-        ProductRepository productRepository, IMapper mapper)
+        IProductRepository productRepository, IMapper mapper)
     {
         _userRepository = userRepository;
         _basketRepository = basketRepository;
@@ -119,7 +119,7 @@ public class OrderService : IOrderService
             await _orderRepository.Save();
 
             var responseModel = new CreateOrderResponseModel();
-            
+
             foreach (var item in productsInBasket)
             {
                 bool isTaken = _productRepository.TakeProduct(item.ProductId, item.Quantity);

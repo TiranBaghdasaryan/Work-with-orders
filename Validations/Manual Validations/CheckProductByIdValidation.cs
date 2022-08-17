@@ -5,12 +5,12 @@ namespace Work_with_orders.Validations.Manual_Validations;
 
 public class CheckProductByIdValidation : AbstractValidator<long>
 {
-    private readonly ProductRepository _productRepository;
+    private readonly IProductRepository _productRepository;
 
-    public CheckProductByIdValidation(ProductRepository productRepository)
+    public CheckProductByIdValidation(IProductRepository productRepository)
     {
         _productRepository = productRepository;
-        
+
         RuleSet("Manually", () =>
         {
             RuleFor(x => x)

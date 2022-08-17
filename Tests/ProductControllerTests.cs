@@ -51,12 +51,11 @@ public class ProductControllerTests
         //arrange 
         _productController = new ProductController(_productServiceMock.Object);
 
-
         long id = 15;
-
+        
         _getProductExecutor.Setup(ex => ex.WithParameter(id).Execute())
             .ReturnsAsync(await GetIActionResult(id, productViewModels));
-
+        
         //act
         var result = await _productController.GetProduct(_getProductExecutor.Object, id);
 

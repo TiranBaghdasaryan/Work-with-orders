@@ -12,50 +12,34 @@ public class GetProductExecutor : IGetProductExecutor, ICommand<CheckProductById
     private readonly IProductService _productService;
     private ValidationResult result;
 
-
+        
     //
     public GetProductExecutor(CheckProductByIdValidation validator, IProductService productService)
     {
         _productService = productService;
         Validator = validator;
     }
-
-
+    
     public ICommand<CheckProductByIdValidation> WithParameter(long parameter)
     {
         _parameter = parameter;
         return this;
     }
 
-    //
-    // protected override void Validation()
-    // {
-    //     result = validator.Validate(_parameter, options => options.IncludeRuleSets("Manually"));
-    // }
-    //
-    // protected override async Task<IActionResult> ProcessExecution()
-    // {
-    //     if (!result.IsValid)
-    //     {
-    //         return new BadRequestObjectResult(result.Errors);
-    //     }
-    //
-    //     return new OkObjectResult(await _productService.GetProductById(_parameter));
-    // }
     public CheckProductByIdValidation Validator { get; set; }
 
     public void Validation()
     {
         result = Validator.Validate(_parameter, options => options.IncludeRuleSets("Manually"));
     }
-
+    
     public async Task<IActionResult> ProcessExecution()
     {
         if (!result.IsValid)
         {
             return new BadRequestObjectResult(result.Errors);
         }
-
+        
         return new OkObjectResult(await _productService.GetProductById(_parameter));
     }
 

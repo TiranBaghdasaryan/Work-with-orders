@@ -5,7 +5,6 @@ using Work_with_orders.Models.ProductModels.CreateProduct;
 using Work_with_orders.Models.ProductModels.ProductQuantity.AddProductQuantity;
 using Work_with_orders.Models.ProductModels.ProductQuantity.RemoveProductQuantity;
 using Work_with_orders.Models.ProductModels.UpdateProduct;
-using Work_with_orders.Models.ProductModels.ViewModels;
 using Work_with_orders.Services.Product;
 
 namespace Work_with_orders.Controllers.V1;
@@ -22,9 +21,9 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    public Task<ActionResult<IEnumerable<ProductViewModel>>> GetProducts()
+    public async Task<IActionResult> GetProducts()
     {
-        var response = _productService.GetProducts();
+        var response = await _productService.GetProducts();
         return response;
     }
 
@@ -38,7 +37,7 @@ public class ProductController : ControllerBase
 
     [HttpPost]
     [Authorize(Roles = "Admin")]
-    public async Task<ActionResult<CreateProductResponseModel>> CreateProduct(CreateProductRequestModel request)
+    public async Task<IActionResult> CreateProduct(CreateProductRequestModel request)
     {
         var response = await _productService.CreateProduct(request);
         return response;
@@ -47,7 +46,7 @@ public class ProductController : ControllerBase
 
     [HttpPut("product")]
     [Authorize(Roles = "Admin")]
-    public async Task<ActionResult<UpdateProductResponseModel>> UpdateProduct(UpdateProductRequestModel request)
+    public async Task<IActionResult> UpdateProduct(UpdateProductRequestModel request)
     {
         var response = await _productService.UpdateProduct(request);
         return response;
@@ -63,7 +62,7 @@ public class ProductController : ControllerBase
 
     [Authorize(Roles = "Admin")]
     [HttpPut("product/add")]
-    public async Task<ActionResult<AddProductQuantityResponseModel>> AddProductQuantity(
+    public async Task<IActionResult> AddProductQuantity(
         AddProductQuantityRequestModel request)
     {
         var response = await _productService.AddProductQuantity(request);
