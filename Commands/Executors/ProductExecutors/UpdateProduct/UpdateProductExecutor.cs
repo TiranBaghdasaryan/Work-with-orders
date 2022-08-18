@@ -2,13 +2,13 @@
 using Work_with_orders.Models.ProductModels.UpdateProduct;
 using Work_with_orders.Services.Product;
 
-namespace Work_with_orders.Commands.Executors;
+namespace Work_with_orders.Commands.Executors.ProductExecutors.UpdateProduct;
 
 public class UpdateProductExecutor : IUpdateProductExecutor
 {
     private UpdateProductRequestModel _parameter;
     private readonly IProductService _productService;
-
+    
     public UpdateProductExecutor(IProductService productService)
     {
         _productService = productService;

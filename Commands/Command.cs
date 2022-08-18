@@ -11,7 +11,7 @@ public abstract class Command<T> where T : class
     {
         this.validator = validator;
     }
-
+    
     protected abstract void Validation();
 
     protected abstract Task<IActionResult> ProcessExecution();

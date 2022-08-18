@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Work_with_orders.Services.Product;
 using Work_with_orders.Validations.Manual_Validations;
 
-namespace Work_with_orders.Commands.Executors;
+namespace Work_with_orders.Commands.Executors.ProductExecutors.GetProduct;
 
 public class GetProductExecutor : IGetProductExecutor
 {

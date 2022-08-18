@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Update;
 using Work_with_orders.Commands.Executors;
+using Work_with_orders.Commands.Executors.ProductExecutors.CreateProduct;
+using Work_with_orders.Commands.Executors.ProductExecutors.GetProduct;
+using Work_with_orders.Commands.Executors.ProductExecutors.UpdateProduct;
 using Work_with_orders.Context;
 using Work_with_orders.Context.Seeds;
 using Work_with_orders.DependencyInjection;
@@ -38,6 +42,7 @@ builder.Services.AddScoped<OrderProductRepository>();
 // builder.Services.AddScoped<Command<IValidator<long>>, LongExecutor>();
 builder.Services.AddScoped<IGetProductExecutor, GetProductExecutor>();
 builder.Services.AddScoped<ICreateProductExecutor, CreateProductExecutor>();
+builder.Services.AddScoped<IUpdateProductExecutor, UpdateProductExecutor>();
 
 builder.Services.AddDbContext<ApplicationContext>(options =>
 {
