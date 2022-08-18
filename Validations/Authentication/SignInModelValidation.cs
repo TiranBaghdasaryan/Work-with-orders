@@ -7,10 +7,10 @@ namespace Work_with_orders.Validations.Authentication;
 
 public class SignInModelValidation : AbstractValidator<SignInRequestModel>
 {
-    private readonly UserRepository _userRepository;
-    public SignInModelValidation(UserRepository userRepository)
+    private readonly IUserRepository _userRepository;
+    public SignInModelValidation(IUserRepository userRepository)
     {
-        _userRepository = userRepository;
+        _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
 
         RuleFor(x => x.Email)
             .NotEmpty().WithMessage("Email cannot be empty.")

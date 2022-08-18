@@ -8,12 +8,12 @@ namespace Work_with_orders.Services.Basket;
 
 public class BasketService : IBasketService
 {
-    private readonly UserRepository _userRepository;
+    private readonly IUserRepository _userRepository;
     private readonly BasketRepository _basketRepository;
     private readonly BasketProductRepository _basketProductRepository;
     private readonly IProductRepository _productRepository;
 
-    public BasketService(UserRepository userRepository, BasketRepository basketRepository,
+    public BasketService(IUserRepository userRepository, BasketRepository basketRepository,
         BasketProductRepository basketProductRepository, IProductRepository productRepository)
     {
         _userRepository = userRepository;

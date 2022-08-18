@@ -73,7 +73,6 @@ public class ProductController : ControllerBase
         return response;
     }
 
-
     // [Authorize(Roles = "Admin")]
     [HttpPut("product/remove")]
     public async Task<IActionResult> RemoveProductQuantity(

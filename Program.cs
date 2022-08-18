@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Update;
-using Work_with_orders.Commands.Executors;
+using Work_with_orders.Commands.Executors.AdminExecutor;
 using Work_with_orders.Commands.Executors.ProductExecutors.CreateProduct;
 using Work_with_orders.Commands.Executors.ProductExecutors.GetProduct;
 using Work_with_orders.Commands.Executors.ProductExecutors.UpdateProduct;
@@ -10,6 +9,7 @@ using Work_with_orders.DependencyInjection;
 using Work_with_orders.Repositories;
 using Work_with_orders.Repositories.BasketProductRepo;
 using Work_with_orders.Repositories.OrderProductRepo;
+using Work_with_orders.Services.Admin;
 using Work_with_orders.Services.Basket;
 using Work_with_orders.Services.Order;
 using Work_with_orders.Services.Product;
@@ -27,22 +27,29 @@ builder.Services.AddSwaggerConfiguration();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddCors();
 
-builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
-builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<IBasketService, BasketService>();
-builder.Services.AddScoped<IOrderService, OrderService>();
 
-builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
 builder.Services.AddScoped<OrderRepository>();
 builder.Services.AddScoped<BasketRepository>();
 builder.Services.AddScoped<BasketProductRepository>();
 builder.Services.AddScoped<OrderProductRepository>();
 
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IBasketService, BasketService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IAdminService, AdminService>();
+
 // builder.Services.AddScoped<Command<IValidator<long>>, LongExecutor>();
 builder.Services.AddScoped<IGetProductExecutor, GetProductExecutor>();
 builder.Services.AddScoped<ICreateProductExecutor, CreateProductExecutor>();
 builder.Services.AddScoped<IUpdateProductExecutor, UpdateProductExecutor>();
+
+
+builder.Services.AddScoped<IFillUpUserBalanceExecutor, FillUpUserBalanceExecutor>();
+
 
 builder.Services.AddDbContext<ApplicationContext>(options =>
 {

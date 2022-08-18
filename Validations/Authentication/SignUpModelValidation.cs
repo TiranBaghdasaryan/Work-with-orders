@@ -14,9 +14,9 @@ public class SignUpModelValidation : AbstractValidator<SignUpRequestModel>
 
     private const int PasswordMinimumLength = 255;
 
-    private readonly UserRepository _userRepository;
+    private readonly IUserRepository _userRepository;
 
-    public SignUpModelValidation(UserRepository userRepository)
+    public SignUpModelValidation(IUserRepository userRepository)
     {
         _userRepository = userRepository;
 

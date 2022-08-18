@@ -5,7 +5,7 @@ using Work_with_orders.Repositories.Generic;
 
 namespace Work_with_orders.Repositories;
 
-public class UserRepository : GenericRepository<User>
+public class UserRepository : GenericRepository<User>, IUserRepository
 {
     public UserRepository(ApplicationContext applicationContext) : base(applicationContext)
     {
@@ -16,4 +16,30 @@ public class UserRepository : GenericRepository<User>
         return (await _db.FirstOrDefaultAsync(x => Equals(x.Email, email)))!;
     }
 
+
+    public async Task<bool> FillUpUserBalanceByEmail(string email, decimal count)
+    {
+        // to do
+
+        using (var transaction = await _context.Database.BeginTransactionAsync())
+        {
+            try
+            {
+                var user = await GetByEmailAsync(email);
+
+                user.Balance += count;
+                await Save();
+
+                await transaction.CommitAsync();
+                return true;
+            }
+            catch (Exception e)
+            {
+                await transaction.RollbackAsync();
+                Console.WriteLine(e);
+
+                return false;
+            }
+        }
+    }
 }

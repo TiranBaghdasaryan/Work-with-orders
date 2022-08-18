@@ -18,7 +18,13 @@ public abstract class GenericRepository<TEntity> : IGenericRepository<TEntity> w
     public virtual async Task<TEntity?> GetById(long id) => (await _db.FirstOrDefaultAsync(x => Equals(x.Id, id)));
     public virtual IEnumerable<TEntity> GetAll() => _db;
     public virtual async Task Add(TEntity entity) => await _db.AddAsync(entity);
-    public virtual void Update(TEntity entity) => _db.Update(entity);
+
+    public virtual void Update(TEntity entity)
+    {
+        
+        _db.Update(entity);
+    }
+
     public virtual void Delete(TEntity entity) => _db.Remove(entity);
     public async Task Save() => await _context.SaveChangesAsync();
     public void SaveSync() => _context.SaveChanges();

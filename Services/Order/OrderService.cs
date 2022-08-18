@@ -11,7 +11,7 @@ namespace Work_with_orders.Services.Order;
 
 public class OrderService : IOrderService
 {
-    private readonly UserRepository _userRepository;
+    private readonly IUserRepository _userRepository;
     private readonly BasketRepository _basketRepository;
     private readonly BasketProductRepository _basketProductRepository;
     private readonly OrderRepository _orderRepository;
@@ -22,7 +22,7 @@ public class OrderService : IOrderService
 
     public OrderService
     (
-        UserRepository userRepository,
+        IUserRepository userRepository,
         BasketRepository basketRepository,
         BasketProductRepository basketProductRepository,
         OrderRepository orderRepository,

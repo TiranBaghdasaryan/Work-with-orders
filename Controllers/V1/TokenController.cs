@@ -12,9 +12,9 @@ namespace Work_with_orders.Controllers.V1;
 public class TokenController : ControllerBase
 {
     private readonly ITokenService _tokenService;
-    private readonly UserRepository _userRepository;
+    private readonly IUserRepository _userRepository;
 
-    public TokenController(ITokenService tokenService, UserRepository userRepository)
+    public TokenController(ITokenService tokenService, IUserRepository userRepository)
     {
         _tokenService = tokenService;
         _userRepository = userRepository;

@@ -232,7 +232,7 @@ public class ProductServiceTests
             Id = id,
             Quantity = 5,
         };
-
+        
         _productService = new ProductService(_mockProductRepository.Object, _mockMapper.Object);
         _mockProductRepository.Setup(ex => ex.GetById(id)).ReturnsAsync(product);
 

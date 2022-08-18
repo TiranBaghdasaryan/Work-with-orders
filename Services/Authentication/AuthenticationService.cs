@@ -15,7 +15,7 @@ public class AuthenticationService : IAuthenticationService
 {
     private readonly ApplicationContext _context;
 
-    private readonly UserRepository _userRepository;
+    private readonly IUserRepository _userRepository;
     private readonly ITokenService _tokenService;
     private readonly IMapper _mapper;
 
@@ -24,7 +24,7 @@ public class AuthenticationService : IAuthenticationService
     public AuthenticationService
     (
         ApplicationContext context,
-        UserRepository userRepository,
+        IUserRepository userRepository,
         OrderRepository orderRepository,
         ITokenService tokenService,
         IMapper mapper
