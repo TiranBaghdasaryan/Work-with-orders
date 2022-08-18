@@ -3,5 +3,4 @@
 public interface IGetProductExecutor : ICommand
 {
     public IGetProductExecutor WithParameter(long parameter);
-    
 }

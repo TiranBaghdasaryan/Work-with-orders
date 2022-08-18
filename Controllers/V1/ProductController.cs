@@ -37,9 +37,10 @@ public class ProductController : ControllerBase
 
     [HttpPost]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> CreateProduct(CreateProductRequestModel request)
+    public async Task<IActionResult> CreateProduct([FromServices] ICreateProductExecutor executor,
+        CreateProductRequestModel request)
     {
-        var response = await _productService.CreateProduct(request);
+        var response = await executor.WithParameter(request).Execute();
         return response;
     }
 

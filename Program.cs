@@ -37,6 +37,7 @@ builder.Services.AddScoped<OrderProductRepository>();
 
 // builder.Services.AddScoped<Command<IValidator<long>>, LongExecutor>();
 builder.Services.AddScoped<IGetProductExecutor, GetProductExecutor>();
+builder.Services.AddScoped<ICreateProductExecutor, CreateProductExecutor>();
 
 builder.Services.AddDbContext<ApplicationContext>(options =>
 {
