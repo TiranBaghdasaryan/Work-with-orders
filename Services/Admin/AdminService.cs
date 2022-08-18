@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Work_with_orders.Models.AdminModels;
 using Work_with_orders.Repositories;
 
@@ -14,9 +13,9 @@ public class AdminService : IAdminService
         _userRepository = userRepository;
     }
 
-    public async Task<IActionResult> FillUpUserBalanceByEmail(FillUpUserBalanceRequest request)
+    public async Task<IActionResult> FillUpUserBalanceById(long id, FillUpUserBalanceRequest request)
     {
-        var isFilled = await _userRepository.FillUpUserBalanceByEmail(request.Email, request.Count);
+        var isFilled = await _userRepository.FillUpUserBalanceById(id, request.Count);
 
         var response = new FillUpUserBalanceResponse()
         {
@@ -32,4 +31,6 @@ public class AdminService : IAdminService
 
         return new BadRequestObjectResult(response);
     }
+
+  
 }

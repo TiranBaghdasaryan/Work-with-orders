@@ -17,7 +17,7 @@ public class UserRepository : GenericRepository<User>, IUserRepository
     }
 
 
-    public async Task<bool> FillUpUserBalanceByEmail(string email, decimal count)
+    public async Task<bool> FillUpUserBalanceById(long id, decimal count)
     {
         // to do
 
@@ -25,7 +25,7 @@ public class UserRepository : GenericRepository<User>, IUserRepository
         {
             try
             {
-                var user = await GetByEmailAsync(email);
+                var user = await GetById(id);
 
                 user.Balance += count;
                 await Save();

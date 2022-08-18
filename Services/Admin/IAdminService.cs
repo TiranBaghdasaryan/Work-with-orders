@@ -5,5 +5,5 @@ namespace Work_with_orders.Services.Admin;
 
 public interface IAdminService
 {
-    Task<IActionResult> FillUpUserBalanceByEmail(FillUpUserBalanceRequest request);
+    Task<IActionResult> FillUpUserBalanceById(long id, FillUpUserBalanceRequest request);
 }

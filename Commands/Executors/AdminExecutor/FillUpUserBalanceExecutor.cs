@@ -7,6 +7,7 @@ namespace Work_with_orders.Commands.Executors.AdminExecutor;
 public class FillUpUserBalanceExecutor : IFillUpUserBalanceExecutor
 {
     private FillUpUserBalanceRequest _request;
+    private long _id;
 
     private IAdminService _adminService;
 
@@ -15,9 +16,10 @@ public class FillUpUserBalanceExecutor : IFillUpUserBalanceExecutor
         _adminService = adminService;
     }
 
-    public IFillUpUserBalanceExecutor WithParameter(FillUpUserBalanceRequest parameter)
+    public IFillUpUserBalanceExecutor WithParameter(long id, FillUpUserBalanceRequest parameter)
     {
         _request = parameter;
+        _id = id;
         return this;
     }
 
@@ -25,6 +27,6 @@ public class FillUpUserBalanceExecutor : IFillUpUserBalanceExecutor
     {
         //to do validation
 
-        return await _adminService.FillUpUserBalanceByEmail(_request);
+        return await _adminService.FillUpUserBalanceById(_id, _request);
     }
 }

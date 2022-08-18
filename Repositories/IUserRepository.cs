@@ -6,5 +6,5 @@ namespace Work_with_orders.Repositories;
 public interface IUserRepository : IGenericRepository<User>
 {
     public Task<User> GetByEmailAsync(string email);
-    public Task<bool> FillUpUserBalanceByEmail(string email, decimal count);
+    public Task<bool> FillUpUserBalanceById(long id, decimal count);
 }
