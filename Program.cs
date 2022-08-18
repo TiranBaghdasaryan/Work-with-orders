@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Work_with_orders.Commands.Executors.AdminExecutor;
+using Work_with_orders.Commands.Executors.AdminExecutor.BlockUser;
 using Work_with_orders.Commands.Executors.ProductExecutors.CreateProduct;
 using Work_with_orders.Commands.Executors.ProductExecutors.GetProduct;
 using Work_with_orders.Commands.Executors.ProductExecutors.UpdateProduct;
@@ -47,8 +48,8 @@ builder.Services.AddScoped<IGetProductExecutor, GetProductExecutor>();
 builder.Services.AddScoped<ICreateProductExecutor, CreateProductExecutor>();
 builder.Services.AddScoped<IUpdateProductExecutor, UpdateProductExecutor>();
 
-
 builder.Services.AddScoped<IFillUpUserBalanceExecutor, FillUpUserBalanceExecutor>();
+builder.Services.AddScoped<IBlockUserExecutor, BlockUserExecutor>();
 
 
 builder.Services.AddDbContext<ApplicationContext>(options =>

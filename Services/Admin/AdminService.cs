@@ -6,7 +6,7 @@ namespace Work_with_orders.Services.Admin;
 
 public class AdminService : IAdminService
 {
-    private IUserRepository _userRepository;
+    private readonly IUserRepository _userRepository;
 
     public AdminService(IUserRepository userRepository)
     {
@@ -32,5 +32,21 @@ public class AdminService : IAdminService
         return new BadRequestObjectResult(response);
     }
 
-  
+    public async Task<IActionResult> BlockUserById(long id)
+    {
+        var isBlocked = await _userRepository.BlockUserById(id);
+
+        if (isBlocked)
+        {
+            return new OkObjectResult("The user has successfully blocked.");
+        }
+
+        return new OkObjectResult("The user blocking has failed.");
+    }
+
+    public async Task<IActionResult> UnblockUserById(long id)
+    {
+        // to do
+        throw new NotImplementedException();
+    }
 }

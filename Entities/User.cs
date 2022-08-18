@@ -14,6 +14,8 @@ public class User : EntityBase<long>
     public string Email { get; set; }
     public bool IsVerified { get; set; }
     public string Password { get; set; }
+
+    public UserState State { get; set; }
     [Column(TypeName = "decimal(18,2)")] public decimal Balance { get; set; }
     [DataType(DataType.Date)] public DateTime DateCreated { get; set; }
 
@@ -22,11 +24,10 @@ public class User : EntityBase<long>
 
     public ICollection<Order> Orders { get; set; }
     public Basket Basket { get; set; }
-    
+
 
     public User()
     {
         DateCreated = DateTime.UtcNow.Date;
     }
-
 }

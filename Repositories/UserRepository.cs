@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Work_with_orders.Context;
 using Work_with_orders.Entities;
+using Work_with_orders.Enums;
 using Work_with_orders.Repositories.Generic;
 
 namespace Work_with_orders.Repositories;
@@ -40,6 +41,24 @@ public class UserRepository : GenericRepository<User>, IUserRepository
 
                 return false;
             }
+        }
+    }
+
+    public async Task<bool> BlockUserById(long id)
+    {
+        try
+        {
+            var user = await GetById(id);
+            user.State = UserState.Blocked;
+            await Save();
+
+            return true;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+
+            return false;
         }
     }
 }

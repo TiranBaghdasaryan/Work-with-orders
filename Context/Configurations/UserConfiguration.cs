@@ -21,6 +21,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.IsVerified).HasDefaultValue(0);
         builder.Property(u => u.Password).IsRequired();
         builder.Property(u => u.Balance).HasDefaultValue(0);
+        builder.Property(u => u.State).HasDefaultValue(UserState.Active);
 
         builder.HasKey(u => u.Id);
         builder.HasCheckConstraint("CK_Balance", "\"Balance\" >= 0");
