@@ -43,31 +43,33 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
 
     public bool TakeProduct(long productId, int takeQuantity)
     {
-        var connection = new NpgsqlConnection(ConnectionStrings.ConnectionPostgreSQL);
-        connection.Open();
-        string query =
-            $"UPDATE  \"Products\" SET \"Quantity\" = \"Quantity\" - {takeQuantity} WHERE \"Id\" = {productId}";
-
-        using (var transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted))
+        using (var connection = new NpgsqlConnection(ConnectionStrings.ConnectionPostgreSQL))
         {
-            using (var command = new NpgsqlCommand(query, connection, transaction))
+            connection.Open();
+            string query =
+                $"UPDATE  \"Products\" SET \"Quantity\" = \"Quantity\" - {takeQuantity} WHERE \"Id\" = {productId}";
+
+            using (var transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted))
             {
-                command.CommandTimeout = 120;
-
-                try
+                using (var command = new NpgsqlCommand(query, connection, transaction))
                 {
-                    command.ExecuteNonQuery();
-                    transaction.Commit();
-                    return true;
+                    command.CommandTimeout = 120;
 
-                    //  Console.WriteLine($"{Thread.CurrentThread.Name} did commit");
-                }
-                catch (NpgsqlException)
-                {
-                    //   Console.WriteLine($"{Thread.CurrentThread.Name} did rollback");
+                    try
+                    {
+                        command.ExecuteNonQuery();
+                        transaction.Commit();
+                        return true;
 
-                    transaction.Rollback();
-                    return false;
+                        //  Console.WriteLine($"{Thread.CurrentThread.Name} did commit");
+                    }
+                    catch (NpgsqlException)
+                    {
+                        //   Console.WriteLine($"{Thread.CurrentThread.Name} did rollback");
+
+                        transaction.Rollback();
+                        return false;
+                    }
                 }
             }
         }
