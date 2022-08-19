@@ -110,7 +110,7 @@ public class ProductService : IProductService
         AddProductQuantityRequestModel request)
     {
         var product = await _productRepository.GetById(request.Id);
-
+        
         if (Equals(product, null))
         {
             return new BadRequestObjectResult("The product does not exist.");

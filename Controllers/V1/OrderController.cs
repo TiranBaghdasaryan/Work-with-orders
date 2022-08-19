@@ -37,7 +37,7 @@ public class OrderController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<CreateOrderResponseModel>> CreateOrder()
+    public async Task<IActionResult> CreateOrder()
     {
         var email = User.FindFirstValue(ClaimTypes.Email);
         var response = await _orderService.CreateOrderByEmail(email);

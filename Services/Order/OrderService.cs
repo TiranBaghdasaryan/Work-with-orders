@@ -1,5 +1,8 @@
-﻿using AutoMapper;
+﻿using System.Data;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Work_with_orders.Context;
 using Work_with_orders.Enums;
 using Work_with_orders.Models.Order;
 using Work_with_orders.Models.ProductModels.ViewModels;
@@ -18,6 +21,7 @@ public class OrderService : IOrderService
     private readonly OrderProductRepository _orderProductRepository;
     private readonly IProductRepository _productRepository;
     private readonly IMapper _mapper;
+    private readonly ApplicationContext _context;
 
 
     public OrderService
@@ -95,7 +99,7 @@ public class OrderService : IOrderService
         return orderDetails;
     }
 
-    public async Task<ActionResult<CreateOrderResponseModel>> CreateOrderByEmail(string email)
+    public async Task<IActionResult> CreateOrderByEmail(string email)
     {
         var user = await _userRepository.GetByEmailAsync(email);
         var basket = await _basketRepository.GetBasketByUserId(user.Id);
@@ -139,6 +143,8 @@ public class OrderService : IOrderService
                         ProductName = productName,
                         ProductQuantity = productQuantity
                     });
+
+                    order.Amount += product.Price * productQuantity;
                 }
                 else
                 {
@@ -151,10 +157,35 @@ public class OrderService : IOrderService
                 }
             }
 
-            _basketProductRepository.RemoveAllProductsFromBasket(basket.Id);
-            await _orderProductRepository.Save();
 
-            return responseModel;
+            _basketProductRepository.RemoveAllProductsFromBasket(basket.Id);
+
+
+            using (var transaction = _context.Database.BeginTransaction(IsolationLevel.Serializable))
+            {
+                try
+                {
+                    user = await _userRepository.GetByEmailAsync(email);
+                    _context.Entry(user).State = EntityState.Modified;
+                    
+                    if (user.Balance >= order.Amount)
+                    {
+                        user.Balance -= order.Amount;
+                        await _userRepository.Save();
+                        await transaction.CommitAsync();
+
+                        return new OkObjectResult(responseModel);
+                    }
+
+                    return new BadRequestObjectResult("Your balance not enough to do this transaction");
+                }
+                catch (Exception e)
+                {
+                    await transaction.RollbackAsync();
+                    Console.WriteLine(e);
+                    throw;
+                }
+            }
         }
 
         return new BadRequestObjectResult("The basket is empty.");

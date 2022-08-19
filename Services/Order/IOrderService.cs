@@ -7,5 +7,5 @@ public interface IOrderService
 {
     Task<ActionResult<IEnumerable<OrderViewModel>>> GetAllOrdersByEmail(string email);
     Task<ActionResult<OrderDetailsViewModel>> GetOrderDetails(long id, string email);
-    Task<ActionResult<CreateOrderResponseModel>> CreateOrderByEmail(string email);
+    Task<IActionResult> CreateOrderByEmail(string email);
 }

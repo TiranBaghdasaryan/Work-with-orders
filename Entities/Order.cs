@@ -9,6 +9,8 @@ public class Order : EntityBase<long>
     public long UserId { get; set; }
     public User User { get; set; }
 
+    public decimal Amount { get; set; }
+
     public ICollection<OrderProduct> OrderProduct { get; set; }
 
     public Order()
@@ -16,5 +18,4 @@ public class Order : EntityBase<long>
         Status = OrderStatus.New;
         DoneDate = DateTime.UtcNow;
     }
-
 }
