@@ -7,6 +7,7 @@ using Work_with_orders.Commands.Executors.ProductExecutors.UpdateProduct;
 using Work_with_orders.Context;
 using Work_with_orders.Context.Seeds;
 using Work_with_orders.DependencyInjection;
+using Work_with_orders.Filters;
 using Work_with_orders.Repositories;
 using Work_with_orders.Repositories.BasketProductRepo;
 using Work_with_orders.Repositories.OrderProductRepo;
@@ -20,7 +21,7 @@ using IAuthenticationService = Work_with_orders.Services.Authentication.IAuthent
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+
 builder.Services.AddValidations();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -61,6 +62,8 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 
 builder.Services.AddAuthenticationConfiguration();
 
+builder.Services.AddControllers(options=>
+    options.Filters.Add(new CheckUserActivityFilter()));
 
 var app = builder.Build();
 await app.Seed();

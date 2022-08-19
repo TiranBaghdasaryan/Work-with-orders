@@ -158,7 +158,7 @@ public class OrderService : IOrderService
             }
 
 
-            _basketProductRepository.RemoveAllProductsFromBasket(basket.Id);
+          
 
 
             using (var transaction = _context.Database.BeginTransaction(IsolationLevel.Serializable))
@@ -171,12 +171,17 @@ public class OrderService : IOrderService
                     if (user.Balance >= order.Amount)
                     {
                         user.Balance -= order.Amount;
+                        _basketProductRepository.RemoveAllProductsFromBasket(basket.Id);
                         await _userRepository.Save();
                         await transaction.CommitAsync();
 
                         return new OkObjectResult(responseModel);
                     }
 
+                    order.Status = OrderStatus.Reject;
+                    await _userRepository.Save();
+                    await transaction.CommitAsync();
+                    
                     return new BadRequestObjectResult("Your balance not enough to do this transaction");
                 }
                 catch (Exception e)
