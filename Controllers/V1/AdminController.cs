@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Work_with_orders.Commands.Executors.AdminExecutor;
 using Work_with_orders.Commands.Executors.AdminExecutor.BlockUser;
+using Work_with_orders.Commands.Executors.AdminExecutor.UnblockUser;
 using Work_with_orders.Models.AdminModels;
 
 namespace Work_with_orders.Controllers.V1;
@@ -26,4 +27,13 @@ public class AdminController
         var response = await executor.WithParameter(id).Execute();
         return response;
     }
+    
+    [HttpPatch("users/{id}/unblock")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> UnblockUser([FromServices] IUnblockUserExecutor executor, long id)
+    {
+        var response = await executor.WithParameter(id).Execute();
+        return response;
+    }
+    
 }

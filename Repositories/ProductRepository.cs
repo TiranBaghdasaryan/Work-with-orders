@@ -59,15 +59,13 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
                     {
                         command.ExecuteNonQuery();
                         transaction.Commit();
+                        
                         return true;
-
-                        //  Console.WriteLine($"{Thread.CurrentThread.Name} did commit");
                     }
                     catch (NpgsqlException)
                     {
-                        //   Console.WriteLine($"{Thread.CurrentThread.Name} did rollback");
-
                         transaction.Rollback();
+                        
                         return false;
                     }
                 }

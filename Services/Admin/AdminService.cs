@@ -47,6 +47,13 @@ public class AdminService : IAdminService
     public async Task<IActionResult> UnblockUserById(long id)
     {
         // to do
-        throw new NotImplementedException();
+        var isBlocked = await _userRepository.UnblockUserById(id);
+
+        if (isBlocked)
+        {
+            return new OkObjectResult("The user has successfully Unblocked.");
+        }
+
+        return new OkObjectResult("The user Unblocking has failed.");
     }
 }

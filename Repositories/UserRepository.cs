@@ -65,6 +65,24 @@ public class UserRepository : GenericRepository<User>, IUserRepository
         }
     }
 
+    public async Task<bool> UnblockUserById(long id)
+    {
+        try
+        {
+            var user = await GetById(id);
+            user.State = UserState.Active;
+            await Save();
+
+            return true;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+
+            return false;
+        }
+    }
+
     public bool TakeBalanceById(long id, decimal takeCount)
     {
         using (var connection = new NpgsqlConnection(ConnectionStrings.ConnectionPostgreSQL))
@@ -84,13 +102,9 @@ public class UserRepository : GenericRepository<User>, IUserRepository
                         command.ExecuteNonQuery();
                         transaction.Commit();
                         return true;
-
-                        //  Console.WriteLine($"{Thread.CurrentThread.Name} did commit");
                     }
                     catch (NpgsqlException)
                     {
-                        //   Console.WriteLine($"{Thread.CurrentThread.Name} did rollback");
-
                         transaction.Rollback();
                         return false;
                     }
