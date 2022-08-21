@@ -1,7 +1,6 @@
 ﻿using Work_with_orders.Entities;
-using Work_with_orders.Repositories.Generic;
 
-namespace Work_with_orders.Repositories;
+namespace Work_with_orders.Repositories.Interfaces;
 
 public interface IProductRepository : IGenericRepository<Product>
 {

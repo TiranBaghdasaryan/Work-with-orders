@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Work_with_orders.Commands.Interfaces;
 using Work_with_orders.Services.Interfaces;
-using Work_with_orders.Validations.Manual_Validations;
+using Work_with_orders.Validations;
 
 namespace Work_with_orders.Commands.Implementations;
 

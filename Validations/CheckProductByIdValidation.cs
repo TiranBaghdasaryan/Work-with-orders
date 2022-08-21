@@ -1,7 +1,8 @@
 ﻿using FluentValidation;
 using Work_with_orders.Repositories;
+using Work_with_orders.Repositories.Interfaces;
 
-namespace Work_with_orders.Validations.Manual_Validations;
+namespace Work_with_orders.Validations;
 
 public class CheckProductByIdValidation : AbstractValidator<long>
 {

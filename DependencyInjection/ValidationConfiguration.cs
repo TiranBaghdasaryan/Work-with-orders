@@ -1,9 +1,7 @@
 ﻿using System.Reflection;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using Work_with_orders.Validations.Authentication;
-using Work_with_orders.Validations.Manual_Validations;
-using Work_with_orders.Validations.Product;
+using Work_with_orders.Validations;
 
 namespace Work_with_orders.DependencyInjection;
 

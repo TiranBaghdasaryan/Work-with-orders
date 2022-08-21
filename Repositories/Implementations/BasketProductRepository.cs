@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Work_with_orders.Context;
-using Work_with_orders.Repositories.BasketProduct;
+using Work_with_orders.Entities;
+using Work_with_orders.Repositories.Interfaces;
 
-namespace Work_with_orders.Repositories.BasketProductRepo;
+namespace Work_with_orders.Repositories.Implementations;
 
 public class BasketProductRepository : IBasketProductRepository
 {
@@ -28,30 +29,35 @@ public class BasketProductRepository : IBasketProductRepository
     {
         var basketProduct =
             await _context.BasketProduct.FirstOrDefaultAsync(x => x.BasketId == basketId && x.ProductId == productId);
+
         if (Equals(basketProduct, null))
         {
             return false;
         }
 
         _context.BasketProduct.Remove(basketProduct);
+
         return true;
     }
 
     public bool RemoveAllProductsFromBasket(long basketId)
     {
         var basketProduct = _context.BasketProduct.Where(x => x.BasketId == basketId);
+
         if (Equals(basketProduct, null))
         {
             return false;
         }
 
         _context.BasketProduct.RemoveRange(basketProduct);
+
         return true;
     }
 
-    public async Task<List<Entities.BasketProduct>> GetAllProductsInBasketByBasketId(long basketId)
+    public async Task<List<BasketProduct>> GetAllProductsInBasketByBasketId(long basketId)
     {
         var basketProduct = await _context.BasketProduct.Where(x => x.BasketId == basketId).ToListAsync();
+
         return basketProduct;
     }
 

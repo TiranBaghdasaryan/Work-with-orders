@@ -1,6 +1,6 @@
 ﻿using Work_with_orders.Repositories;
-using Work_with_orders.Repositories.BasketProductRepo;
-using Work_with_orders.Repositories.OrderProductRepo;
+using Work_with_orders.Repositories.Implementations;
+using Work_with_orders.Repositories.Interfaces;
 
 namespace Work_with_orders.DependencyInjection;
 
@@ -11,9 +11,9 @@ public static class RepositoryConfiguration
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IProductRepository, ProductRepository>();
 
-        services.AddScoped<OrderRepository>();
-        services.AddScoped<BasketRepository>();
-        services.AddScoped<BasketProductRepository>();
-        services.AddScoped<OrderProductRepository>();
+        services.AddScoped<IOrderRepository,OrderRepository>();
+        services.AddScoped<IBasketRepository,BasketRepository>();
+        services.AddScoped<IBasketProductRepository,BasketProductRepository>();
+        services.AddScoped<IOrderProductRepository,OrderProductRepository>();
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Work_with_orders.Repositories.Generic;
+﻿namespace Work_with_orders.Repositories.Interfaces;
 
 public interface IGenericRepository<TEntity> where TEntity : class
 {

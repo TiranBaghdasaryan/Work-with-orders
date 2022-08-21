@@ -2,7 +2,8 @@
 using Work_with_orders.Models.RequestModels;
 using Work_with_orders.Models.ResponseModels;
 using Work_with_orders.Repositories;
-using Work_with_orders.Repositories.BasketProductRepo;
+using Work_with_orders.Repositories.Implementations;
+using Work_with_orders.Repositories.Interfaces;
 using Work_with_orders.Services.Interfaces;
 
 namespace Work_with_orders.Services.Implementations;
@@ -10,12 +11,12 @@ namespace Work_with_orders.Services.Implementations;
 public class BasketService : IBasketService
 {
     private readonly IUserRepository _userRepository;
-    private readonly BasketRepository _basketRepository;
-    private readonly BasketProductRepository _basketProductRepository;
+    private readonly IBasketRepository _basketRepository;
+    private readonly IBasketProductRepository _basketProductRepository;
     private readonly IProductRepository _productRepository;
 
-    public BasketService(IUserRepository userRepository, BasketRepository basketRepository,
-        BasketProductRepository basketProductRepository, IProductRepository productRepository)
+    public BasketService(IUserRepository userRepository, IBasketRepository basketRepository,
+        IBasketProductRepository basketProductRepository, IProductRepository productRepository)
     {
         _userRepository = userRepository;
         _basketRepository = basketRepository;

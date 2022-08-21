@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Work_with_orders.Services.Implementations;
+﻿using Work_with_orders.Services.Implementations;
 using Work_with_orders.Services.Interfaces;
+using AuthenticationService = Work_with_orders.Services.Implementations.AuthenticationService;
+using IAuthenticationService = Work_with_orders.Services.Interfaces.IAuthenticationService;
 
 namespace Work_with_orders.DependencyInjection;
 
@@ -14,6 +15,5 @@ public static class ServiceConfiguration
         services.AddScoped<IOrderService, OrderService>();
         services.AddScoped<IAdminService, AdminService>();
         services.AddScoped<ITokenService, TokenService>();
-
     }
 }

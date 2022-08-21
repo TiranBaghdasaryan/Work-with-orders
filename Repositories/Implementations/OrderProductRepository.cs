@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Work_with_orders.Context;
 using Work_with_orders.Entities;
+using Work_with_orders.Repositories.Interfaces;
 
-namespace Work_with_orders.Repositories.OrderProductRepo;
+namespace Work_with_orders.Repositories.Implementations;
 
 public class OrderProductRepository : IOrderProductRepository
 {

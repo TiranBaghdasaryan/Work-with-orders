@@ -6,8 +6,8 @@ using Work_with_orders.Context;
 using Work_with_orders.Enums;
 using Work_with_orders.Models.ResponseModels;
 using Work_with_orders.Repositories;
-using Work_with_orders.Repositories.BasketProductRepo;
-using Work_with_orders.Repositories.OrderProductRepo;
+using Work_with_orders.Repositories.Implementations;
+using Work_with_orders.Repositories.Interfaces;
 using Work_with_orders.Services.Interfaces;
 
 namespace Work_with_orders.Services.Implementations;
@@ -15,10 +15,10 @@ namespace Work_with_orders.Services.Implementations;
 public class OrderService : IOrderService
 {
     private readonly IUserRepository _userRepository;
-    private readonly BasketRepository _basketRepository;
-    private readonly BasketProductRepository _basketProductRepository;
-    private readonly OrderRepository _orderRepository;
-    private readonly OrderProductRepository _orderProductRepository;
+    private readonly IBasketRepository _basketRepository;
+    private readonly IBasketProductRepository _basketProductRepository;
+    private readonly IOrderRepository _orderRepository;
+    private readonly IOrderProductRepository _orderProductRepository;
     private readonly IProductRepository _productRepository;
     private readonly IMapper _mapper;
     private readonly ApplicationContext _context;
@@ -27,10 +27,10 @@ public class OrderService : IOrderService
     public OrderService
     (
         IUserRepository userRepository,
-        BasketRepository basketRepository,
-        BasketProductRepository basketProductRepository,
-        OrderRepository orderRepository,
-        OrderProductRepository orderProductRepository,
+        IBasketRepository basketRepository,
+        IBasketProductRepository basketProductRepository,
+        IOrderRepository orderRepository,
+        IOrderProductRepository orderProductRepository,
         IProductRepository productRepository, IMapper mapper)
     {
         _userRepository = userRepository;

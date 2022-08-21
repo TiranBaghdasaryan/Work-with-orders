@@ -2,8 +2,9 @@
 using Work_with_orders.Common;
 using Work_with_orders.Models.RequestModels;
 using Work_with_orders.Repositories;
+using Work_with_orders.Repositories.Interfaces;
 
-namespace Work_with_orders.Validations.Authentication;
+namespace Work_with_orders.Validations;
 
 public class SignInModelValidation : AbstractValidator<SignInRequestModel>
 {

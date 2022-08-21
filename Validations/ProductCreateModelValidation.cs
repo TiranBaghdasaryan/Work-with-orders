@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Work_with_orders.Models.RequestModels;
 
-namespace Work_with_orders.Validations.Product;
+namespace Work_with_orders.Validations;
 
 public class ProductCreateModelValidation : AbstractValidator<CreateProductRequestModel>
 {

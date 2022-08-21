@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Work_with_orders.Context;
 using Work_with_orders.Entities;
-using Work_with_orders.Repositories.Generic;
+using Work_with_orders.Repositories.Interfaces;
 
-namespace Work_with_orders.Repositories;
+namespace Work_with_orders.Repositories.Implementations;
 
-public class OrderRepository : GenericRepository<Order>
+public class OrderRepository : GenericRepository<Order> , IOrderRepository
 {
     public OrderRepository(ApplicationContext applicationContext) : base(applicationContext)
     {
