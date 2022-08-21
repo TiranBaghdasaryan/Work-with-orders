@@ -9,16 +9,7 @@ using Work_with_orders.Context;
 using Work_with_orders.Context.Seeds;
 using Work_with_orders.DependencyInjection;
 using Work_with_orders.Filters;
-using Work_with_orders.Repositories;
-using Work_with_orders.Repositories.BasketProductRepo;
-using Work_with_orders.Repositories.OrderProductRepo;
-using Work_with_orders.Services.Admin;
-using Work_with_orders.Services.Basket;
-using Work_with_orders.Services.Order;
-using Work_with_orders.Services.Product;
 using Work_with_orders.Services.Token;
-using AuthenticationService = Work_with_orders.Services.Authentication.AuthenticationService;
-using IAuthenticationService = Work_with_orders.Services.Authentication.IAuthenticationService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,20 +30,9 @@ builder.Services.AddDbContext<ApplicationContext>(
     ServiceLifetime.Transient);
 
 builder.Services.AddRepositories();
+builder.Services.AddServices();
 
-// builder.Services.AddScoped<IUserRepository, UserRepository>();
-// builder.Services.AddScoped<IProductRepository, ProductRepository>();
-//
-// builder.Services.AddScoped<OrderRepository>();
-// builder.Services.AddScoped<BasketRepository>();
-// builder.Services.AddScoped<BasketProductRepository>();
-// builder.Services.AddScoped<OrderProductRepository>();
 
-builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
-builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<IBasketService, BasketService>();
-builder.Services.AddScoped<IOrderService, OrderService>();
-builder.Services.AddScoped<IAdminService, AdminService>();
 
 builder.Services.AddScoped<IGetProductExecutor, GetProductExecutor>();
 builder.Services.AddScoped<ICreateProductExecutor, CreateProductExecutor>();
