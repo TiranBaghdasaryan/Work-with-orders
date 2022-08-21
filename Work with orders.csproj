@@ -34,10 +34,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Models\AuthenticationModels" />
-    </ItemGroup>
-
-    <ItemGroup>
       <_ContentIncludedByDefault Remove="Work with orders.Tests\obj\project.assets.json" />
       <_ContentIncludedByDefault Remove="Work with orders.Tests\obj\project.packagespec.json" />
       <_ContentIncludedByDefault Remove="Work with orders.Tests\obj\Work with orders.Tests.csproj.nuget.dgspec.json" />

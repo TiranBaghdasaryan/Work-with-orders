@@ -1,7 +1,8 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Work_with_orders.Models.AuthenticationModels.RefreshToken;
+using Work_with_orders.Models.RequestModels;
+using Work_with_orders.Models.ResponseModels;
 using Work_with_orders.Repositories;
 using Work_with_orders.Services.Interfaces;
 

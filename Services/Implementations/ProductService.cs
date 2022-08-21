@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Work_with_orders.Models.ProductModels.CreateProduct;
-using Work_with_orders.Models.ProductModels.ProductQuantity.AddProductQuantity;
-using Work_with_orders.Models.ProductModels.ProductQuantity.RemoveProductQuantity;
-using Work_with_orders.Models.ProductModels.UpdateProduct;
-using Work_with_orders.Models.ProductModels.ViewModels;
+using Work_with_orders.Models.RequestModels;
+using Work_with_orders.Models.ResponseModels;
 using Work_with_orders.Repositories;
 using Work_with_orders.Services.Interfaces;
 

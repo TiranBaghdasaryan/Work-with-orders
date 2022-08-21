@@ -1,11 +1,7 @@
 ﻿using AutoMapper;
 using Work_with_orders.Entities;
-using Work_with_orders.Models.AuthenticationModels.SignIn;
-using Work_with_orders.Models.AuthenticationModels.SignUp;
-using Work_with_orders.Models.Order;
-using Work_with_orders.Models.ProductModels.CreateProduct;
-using Work_with_orders.Models.ProductModels.UpdateProduct;
-using Work_with_orders.Models.ProductModels.ViewModels;
+using Work_with_orders.Models.RequestModels;
+using Work_with_orders.Models.ResponseModels;
 
 namespace Work_with_orders.AutoMapper;
 

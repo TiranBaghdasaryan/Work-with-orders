@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Work_with_orders.Commands.Executors.AdminExecutor;
 using Work_with_orders.Commands.Interfaces;
-using Work_with_orders.Models.AdminModels;
+using Work_with_orders.Models.RequestModels;
 
 namespace Work_with_orders.Controllers.V1;
 

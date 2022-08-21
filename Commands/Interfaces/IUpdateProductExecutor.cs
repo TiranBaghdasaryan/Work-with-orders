@@ -1,4 +1,4 @@
-﻿using Work_with_orders.Models.ProductModels.UpdateProduct;
+﻿using Work_with_orders.Models.RequestModels;
 
 namespace Work_with_orders.Commands.Interfaces;
 

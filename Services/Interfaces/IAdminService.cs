@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Work_with_orders.Models.AdminModels;
+using Work_with_orders.Models.RequestModels;
 
 namespace Work_with_orders.Services.Interfaces;
 

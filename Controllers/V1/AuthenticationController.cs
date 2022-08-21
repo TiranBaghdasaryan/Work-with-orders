@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Work_with_orders.Models.AuthenticationModels.SignIn;
-using Work_with_orders.Models.AuthenticationModels.SignUp;
+using Work_with_orders.Models.RequestModels;
+using Work_with_orders.Models.ResponseModels;
 using Work_with_orders.Services.Interfaces;
 
 namespace Work_with_orders.Controllers.V1;

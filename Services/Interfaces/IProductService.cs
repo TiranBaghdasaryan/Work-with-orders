@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Work_with_orders.Models.ProductModels.CreateProduct;
-using Work_with_orders.Models.ProductModels.ProductQuantity.AddProductQuantity;
-using Work_with_orders.Models.ProductModels.ProductQuantity.RemoveProductQuantity;
-using Work_with_orders.Models.ProductModels.UpdateProduct;
+using Work_with_orders.Models.RequestModels;
 
 namespace Work_with_orders.Services.Interfaces;
 

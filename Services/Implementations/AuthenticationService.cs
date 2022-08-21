@@ -4,8 +4,8 @@ using Work_with_orders.Common;
 using Work_with_orders.Context;
 using Work_with_orders.Entities;
 using Work_with_orders.Enums;
-using Work_with_orders.Models.AuthenticationModels.SignIn;
-using Work_with_orders.Models.AuthenticationModels.SignUp;
+using Work_with_orders.Models.RequestModels;
+using Work_with_orders.Models.ResponseModels;
 using Work_with_orders.Repositories;
 using Work_with_orders.Services.Interfaces;
 

@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Work_with_orders.Models.ProductModels.CreateProduct;
+using Work_with_orders.Models.RequestModels;
 
 namespace Work_with_orders.Validations.Product;
 

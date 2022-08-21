@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Work_with_orders.Models.AuthenticationModels.SignUp;
+using Work_with_orders.Models.RequestModels;
 using Work_with_orders.Repositories;
 
 namespace Work_with_orders.Validations.Authentication;
