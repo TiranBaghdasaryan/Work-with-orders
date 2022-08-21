@@ -31,13 +31,22 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddCors();
 
 
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddDbContext<ApplicationContext>(
+    options =>
+    {
+        options.UseNpgsql(builder.Configuration.GetConnectionString("postgresConnection")!);
+    },
+    ServiceLifetime.Transient);
 
-builder.Services.AddScoped<OrderRepository>();
-builder.Services.AddScoped<BasketRepository>();
-builder.Services.AddScoped<BasketProductRepository>();
-builder.Services.AddScoped<OrderProductRepository>();
+builder.Services.AddRepositories();
+
+// builder.Services.AddScoped<IUserRepository, UserRepository>();
+// builder.Services.AddScoped<IProductRepository, ProductRepository>();
+//
+// builder.Services.AddScoped<OrderRepository>();
+// builder.Services.AddScoped<BasketRepository>();
+// builder.Services.AddScoped<BasketProductRepository>();
+// builder.Services.AddScoped<OrderProductRepository>();
 
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IProductService, ProductService>();
@@ -54,10 +63,7 @@ builder.Services.AddScoped<IBlockUserExecutor, BlockUserExecutor>();
 builder.Services.AddScoped<IUnblockUserExecutor, UnblockUserExecutor>();
 
 
-builder.Services.AddDbContext<ApplicationContext>(options =>
-{
-    options.UseNpgsql(builder.Configuration.GetConnectionString("postgresConnection")!);
-});
+
 
 builder.Services.AddScoped<ITokenService, TokenService>();
 

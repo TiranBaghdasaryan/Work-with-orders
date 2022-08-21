@@ -19,6 +19,7 @@ public class CheckProductByIdValidation : AbstractValidator<long>
         });
     }
 
+
     private bool ProductExists(long id)
     {
         var product = _productRepository.GetById(id).Result;
