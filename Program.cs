@@ -1,37 +1,19 @@
-using Microsoft.EntityFrameworkCore;
-using Work_with_orders.Context;
 using Work_with_orders.Context.Seeds;
 using Work_with_orders.DependencyInjection;
 using Work_with_orders.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-builder.Services.AddValidations();
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerConfiguration();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddCors();
 
-
-builder.Services.AddDbContext<ApplicationContext>(
-    options =>
-    {
-        options.UseNpgsql(builder.Configuration.GetConnectionString("postgresConnection")!);
-    },
-    ServiceLifetime.Transient);
-
+builder.Services.AddDatabase();
 builder.Services.AddRepositories();
+builder.Services.AddValidations();
 builder.Services.AddServices();
 builder.Services.AddExecutors();
-
-
-
-
-
-
-
 
 builder.Services.AddAuthenticationConfiguration();
 
