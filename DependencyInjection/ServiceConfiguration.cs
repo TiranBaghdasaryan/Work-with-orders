@@ -3,6 +3,7 @@ using Work_with_orders.Services.Admin;
 using Work_with_orders.Services.Basket;
 using Work_with_orders.Services.Order;
 using Work_with_orders.Services.Product;
+using Work_with_orders.Services.Token;
 
 namespace Work_with_orders.DependencyInjection;
 
@@ -15,5 +16,7 @@ public static class ServiceConfiguration
         services.AddScoped<IBasketService, BasketService>();
         services.AddScoped<IOrderService, OrderService>();
         services.AddScoped<IAdminService, AdminService>();
+        services.AddScoped<ITokenService, TokenService>();
+
     }
 }
