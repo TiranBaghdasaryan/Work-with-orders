@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Work_with_orders.Commands.Interfaces;
 using Work_with_orders.Services.Product;
 
-namespace Work_with_orders.Commands.Executors.ProductExecutors.DeleteProduct;
+namespace Work_with_orders.Commands.Implementations;
 
 public class DeleteProductExecutor : IDeleteProductExecutor
 {

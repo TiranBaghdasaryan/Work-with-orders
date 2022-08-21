@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Work_with_orders.Commands.Executors.ProductExecutors.GetProduct;
+using Work_with_orders.Commands.Interfaces;
 using Work_with_orders.Controllers.V1;
 using Work_with_orders.Services.Product;
 using Xunit;

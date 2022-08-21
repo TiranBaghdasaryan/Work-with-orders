@@ -1,6 +1,6 @@
 ﻿using Work_with_orders.Models.AdminModels;
 
-namespace Work_with_orders.Commands.Executors.AdminExecutor;
+namespace Work_with_orders.Commands.Interfaces;
 
 public interface IFillUpUserBalanceExecutor : ICommand
 {

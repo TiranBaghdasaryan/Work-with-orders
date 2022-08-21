@@ -1,4 +1,4 @@
-﻿namespace Work_with_orders.Commands.Executors.AdminExecutor.BlockUser;
+﻿namespace Work_with_orders.Commands.Interfaces;
 
 public interface IBlockUserExecutor : ICommand
 {

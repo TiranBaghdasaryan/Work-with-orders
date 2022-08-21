@@ -1,4 +1,4 @@
-﻿namespace Work_with_orders.Commands.Executors.ProductExecutors.GetProduct;
+﻿namespace Work_with_orders.Commands.Interfaces;
 
 public interface IGetProductExecutor : ICommand
 {

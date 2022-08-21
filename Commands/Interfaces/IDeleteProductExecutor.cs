@@ -1,4 +1,4 @@
-﻿namespace Work_with_orders.Commands.Executors.ProductExecutors.DeleteProduct;
+﻿namespace Work_with_orders.Commands.Interfaces;
 
 public interface IDeleteProductExecutor : ICommand
 {

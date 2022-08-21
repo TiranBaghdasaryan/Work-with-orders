@@ -1,9 +1,10 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using Work_with_orders.Commands.Interfaces;
 using Work_with_orders.Services.Product;
 using Work_with_orders.Validations.Manual_Validations;
 
-namespace Work_with_orders.Commands.Executors.ProductExecutors.GetProduct;
+namespace Work_with_orders.Commands.Implementations;
 
 public class GetProductExecutor : IGetProductExecutor
 {

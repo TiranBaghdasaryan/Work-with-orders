@@ -1,6 +1,6 @@
 ﻿using Work_with_orders.Models.ProductModels.CreateProduct;
 
-namespace Work_with_orders.Commands.Executors.ProductExecutors.CreateProduct;
+namespace Work_with_orders.Commands.Interfaces;
 
 public interface ICreateProductExecutor : ICommand
 {

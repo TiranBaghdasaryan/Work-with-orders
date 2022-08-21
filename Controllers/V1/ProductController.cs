@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Work_with_orders.Commands.Executors.ProductExecutors.CreateProduct;
-using Work_with_orders.Commands.Executors.ProductExecutors.GetProduct;
-using Work_with_orders.Commands.Executors.ProductExecutors.UpdateProduct;
+using Work_with_orders.Commands.Interfaces;
 using Work_with_orders.Models.ProductModels.CreateProduct;
 using Work_with_orders.Models.ProductModels.ProductQuantity.AddProductQuantity;
 using Work_with_orders.Models.ProductModels.ProductQuantity.RemoveProductQuantity;

@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Work_with_orders.Commands.Interfaces;
 using Work_with_orders.Services.Admin;
 
-namespace Work_with_orders.Commands.Executors.AdminExecutor.BlockUser;
+namespace Work_with_orders.Commands.Implementations;
 
 public class BlockUserExecutor : IBlockUserExecutor
 {

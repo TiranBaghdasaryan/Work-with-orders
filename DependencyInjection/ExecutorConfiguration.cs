@@ -1,9 +1,6 @@
 ﻿using Work_with_orders.Commands.Executors.AdminExecutor;
-using Work_with_orders.Commands.Executors.AdminExecutor.BlockUser;
-using Work_with_orders.Commands.Executors.AdminExecutor.UnblockUser;
-using Work_with_orders.Commands.Executors.ProductExecutors.CreateProduct;
-using Work_with_orders.Commands.Executors.ProductExecutors.GetProduct;
-using Work_with_orders.Commands.Executors.ProductExecutors.UpdateProduct;
+using Work_with_orders.Commands.Implementations;
+using Work_with_orders.Commands.Interfaces;
 
 namespace Work_with_orders.DependencyInjection;
 
