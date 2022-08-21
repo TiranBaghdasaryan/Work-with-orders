@@ -4,7 +4,7 @@ using Work_with_orders.Models.ProductModels.ProductQuantity.AddProductQuantity;
 using Work_with_orders.Models.ProductModels.ProductQuantity.RemoveProductQuantity;
 using Work_with_orders.Models.ProductModels.UpdateProduct;
 
-namespace Work_with_orders.Services.Product;
+namespace Work_with_orders.Services.Interfaces;
 
 public interface IProductService
 {

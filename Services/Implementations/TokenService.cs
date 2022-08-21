@@ -5,8 +5,9 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Work_with_orders.Enums;
 using Work_with_orders.Options;
+using Work_with_orders.Services.Interfaces;
 
-namespace Work_with_orders.Services.Token;
+namespace Work_with_orders.Services.Implementations;
 
 public class TokenService : ITokenService
 {

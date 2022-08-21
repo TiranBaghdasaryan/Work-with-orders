@@ -2,7 +2,7 @@
 using Work_with_orders.Models.BasketModels.AddProductInBasket;
 using Work_with_orders.Models.ProductModels.ViewModels;
 
-namespace Work_with_orders.Services.Basket;
+namespace Work_with_orders.Services.Interfaces;
 
 public interface IBasketService
 {

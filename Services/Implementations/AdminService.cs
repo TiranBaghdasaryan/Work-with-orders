@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Work_with_orders.Models.AdminModels;
 using Work_with_orders.Repositories;
+using Work_with_orders.Services.Interfaces;
 
-namespace Work_with_orders.Services.Admin;
+namespace Work_with_orders.Services.Implementations;
 
 public class AdminService : IAdminService
 {

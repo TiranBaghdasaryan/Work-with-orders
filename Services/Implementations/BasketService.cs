@@ -3,8 +3,9 @@ using Work_with_orders.Models.BasketModels.AddProductInBasket;
 using Work_with_orders.Models.ProductModels.ViewModels;
 using Work_with_orders.Repositories;
 using Work_with_orders.Repositories.BasketProductRepo;
+using Work_with_orders.Services.Interfaces;
 
-namespace Work_with_orders.Services.Basket;
+namespace Work_with_orders.Services.Implementations;
 
 public class BasketService : IBasketService
 {

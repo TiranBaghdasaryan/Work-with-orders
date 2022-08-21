@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Work_with_orders.Commands.Interfaces;
 using Work_with_orders.Models.ProductModels.CreateProduct;
-using Work_with_orders.Services.Product;
+using Work_with_orders.Services.Interfaces;
 
 namespace Work_with_orders.Commands.Implementations;
 

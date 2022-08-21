@@ -2,7 +2,7 @@
 using Work_with_orders.Commands.Executors.AdminExecutor;
 using Work_with_orders.Commands.Interfaces;
 using Work_with_orders.Models.AdminModels;
-using Work_with_orders.Services.Admin;
+using Work_with_orders.Services.Interfaces;
 
 namespace Work_with_orders.Commands.Implementations;
 

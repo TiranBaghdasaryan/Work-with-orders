@@ -6,8 +6,9 @@ using Work_with_orders.Models.ProductModels.ProductQuantity.RemoveProductQuantit
 using Work_with_orders.Models.ProductModels.UpdateProduct;
 using Work_with_orders.Models.ProductModels.ViewModels;
 using Work_with_orders.Repositories;
+using Work_with_orders.Services.Interfaces;
 
-namespace Work_with_orders.Services.Product;
+namespace Work_with_orders.Services.Implementations;
 
 public class ProductService : IProductService
 {

@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
-using Work_with_orders.Services.Admin;
-using Work_with_orders.Services.Basket;
-using Work_with_orders.Services.Order;
-using Work_with_orders.Services.Product;
-using Work_with_orders.Services.Token;
+using Work_with_orders.Services.Implementations;
+using Work_with_orders.Services.Interfaces;
 
 namespace Work_with_orders.DependencyInjection;
 

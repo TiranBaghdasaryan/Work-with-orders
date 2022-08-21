@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using Work_with_orders.Enums;
 
-namespace Work_with_orders.Services.Token;
+namespace Work_with_orders.Services.Interfaces;
 
 public interface ITokenService
 {

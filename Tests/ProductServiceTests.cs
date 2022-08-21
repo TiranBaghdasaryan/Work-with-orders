@@ -7,7 +7,8 @@ using Work_with_orders.Models.ProductModels.ProductQuantity.AddProductQuantity;
 using Work_with_orders.Models.ProductModels.ProductQuantity.RemoveProductQuantity;
 using Work_with_orders.Models.ProductModels.UpdateProduct;
 using Work_with_orders.Repositories;
-using Work_with_orders.Services.Product;
+using Work_with_orders.Services.Implementations;
+using Work_with_orders.Services.Interfaces;
 using Xunit;
 
 namespace Tests;

@@ -2,7 +2,7 @@
 using Moq;
 using Work_with_orders.Commands.Interfaces;
 using Work_with_orders.Controllers.V1;
-using Work_with_orders.Services.Product;
+using Work_with_orders.Services.Interfaces;
 using Xunit;
 
 namespace Tests;

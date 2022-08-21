@@ -7,9 +7,9 @@ using Work_with_orders.Enums;
 using Work_with_orders.Models.AuthenticationModels.SignIn;
 using Work_with_orders.Models.AuthenticationModels.SignUp;
 using Work_with_orders.Repositories;
-using Work_with_orders.Services.Token;
+using Work_with_orders.Services.Interfaces;
 
-namespace Work_with_orders.Services.Authentication;
+namespace Work_with_orders.Services.Implementations;
 
 public class AuthenticationService : IAuthenticationService
 {

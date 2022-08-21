@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Work_with_orders.Models.AdminModels;
 
-namespace Work_with_orders.Services.Admin;
+namespace Work_with_orders.Services.Interfaces;
 
 public interface IAdminService
 {
