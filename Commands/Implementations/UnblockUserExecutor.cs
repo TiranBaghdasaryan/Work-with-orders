@@ -21,7 +21,7 @@ public class UnblockUserExecutor : IUnblockUserExecutor
         return this;
     }
 
-    public async Task<IActionResult> ProcessExecution()
+    public async Task<IActionResult> Execute()
     {
         // to do validation
         return await _adminService.UnblockUserById(_id);

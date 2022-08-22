@@ -15,7 +15,7 @@ public class CreateProductExecutor : ICreateProductExecutor
         _productService = productService;
     }
 
-    public async Task<IActionResult> ProcessExecution()
+    public async Task<IActionResult> Execute()
     {
         //to do [validation]
         

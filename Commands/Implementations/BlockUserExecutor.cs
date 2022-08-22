@@ -20,7 +20,7 @@ public class BlockUserExecutor : IBlockUserExecutor
         return this;
     }
 
-    public async Task<IActionResult> ProcessExecution()
+    public async Task<IActionResult> Execute()
     {
         return await _adminService.BlockUserById(_id);
     }

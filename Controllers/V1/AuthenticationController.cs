@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Work_with_orders.Commands.Interfaces;
 using Work_with_orders.Models.RequestModels;
 using Work_with_orders.Models.ResponseModels;
 using Work_with_orders.Services.Interfaces;
@@ -15,12 +16,11 @@ public class AuthenticationController : ControllerBase
     {
         _authenticationService = authenticationService;
     }
-    
+
     [HttpPost("sign-up")]
-    public async Task<ActionResult<SignUpResponseModel>> SignUpAsync(SignUpRequestModel model) 
-    {
-        var response = await _authenticationService.SignUp(model);
-        return response;
+    public async Task<IActionResult> SignUpAsync([FromServices] ISignUpExecutor executor, SignUpRequestModel model)
+    {   
+        return await executor.WithParameter(model).Execute();
     }
 
     [HttpPost("sign-in")]

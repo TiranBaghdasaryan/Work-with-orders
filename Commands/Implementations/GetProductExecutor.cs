@@ -26,7 +26,7 @@ public class GetProductExecutor : IGetProductExecutor
     }
 
 
-    public async Task<IActionResult> ProcessExecution()
+    public async Task<IActionResult> Execute()
     {
         var result = _validator.Validate(_parameter, options => options.IncludeRuleSets("Manually"));
        

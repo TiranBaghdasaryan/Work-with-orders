@@ -4,6 +4,5 @@ namespace Work_with_orders.Commands;
 
 public interface ICommand
 {
-    Task<IActionResult> ProcessExecution();
-    async Task<IActionResult> Execute() => await ProcessExecution();
+    Task<IActionResult> Execute();
 }
