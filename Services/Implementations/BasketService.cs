@@ -46,6 +46,7 @@ public class BasketService : IBasketService
             {
                 Id = item.ProductId,
                 Name = product.Name,
+                Amount = product.Price * item.Quantity,
                 Quantity = item.Quantity,
             });
         }

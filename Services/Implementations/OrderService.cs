@@ -1,12 +1,7 @@
-﻿using System.Data;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Work_with_orders.Context;
 using Work_with_orders.Enums;
 using Work_with_orders.Models.ResponseModels;
-using Work_with_orders.Repositories;
-using Work_with_orders.Repositories.Implementations;
 using Work_with_orders.Repositories.Interfaces;
 using Work_with_orders.Services.Interfaces;
 
@@ -21,7 +16,6 @@ public class OrderService : IOrderService
     private readonly IOrderProductRepository _orderProductRepository;
     private readonly IProductRepository _productRepository;
     private readonly IMapper _mapper;
-    private readonly ApplicationContext _context;
 
 
     public OrderService
@@ -126,14 +120,14 @@ public class OrderService : IOrderService
 
             foreach (var item in productsInBasket)
             {
-                bool isTaken = _productRepository.TakeProduct(item.ProductId, item.Quantity);
+                bool isProductTaken = _productRepository.TakeProduct(item.ProductId, item.Quantity);
                 var product = await _productRepository.GetById(item.ProductId);
 
                 var productId = item.ProductId;
                 var productName = product.Name;
                 var productQuantity = item.Quantity;
 
-                if (isTaken)
+                if (isProductTaken)
                 {
                     await _orderProductRepository.AddProductInOrder(order.Id, item.ProductId, item.Quantity);
 
@@ -158,39 +152,15 @@ public class OrderService : IOrderService
             }
 
 
-          
+            var isBalanceTaken = _userRepository.TakeBalanceById(user.Id, order.Amount);
 
-
-            using (var transaction = _context.Database.BeginTransaction(IsolationLevel.Serializable))
+            if (isBalanceTaken)
             {
-                try
-                {
-                    user = await _userRepository.GetByEmailAsync(email);
-                    _context.Entry(user).State = EntityState.Modified;
-                    
-                    if (user.Balance >= order.Amount)
-                    {
-                        user.Balance -= order.Amount;
-                        _basketProductRepository.RemoveAllProductsFromBasket(basket.Id);
-                        await _userRepository.Save();
-                        await transaction.CommitAsync();
-
-                        return new OkObjectResult(responseModel);
-                    }
-
-                    order.Status = OrderStatus.Reject;
-                    await _userRepository.Save();
-                    await transaction.CommitAsync();
-                    
-                    return new BadRequestObjectResult("Your balance not enough to do this transaction");
-                }
-                catch (Exception e)
-                {
-                    await transaction.RollbackAsync();
-                    Console.WriteLine(e);
-                    throw;
-                }
+                return new OkObjectResult(responseModel);
             }
+
+            return new BadRequestObjectResult("Your balance not enough to do this transaction");
+
         }
 
         return new BadRequestObjectResult("The basket is empty.");

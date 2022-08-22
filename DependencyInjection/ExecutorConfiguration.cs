@@ -14,5 +14,7 @@ public static class ExecutorConfiguration
         services.AddScoped<IFillUpUserBalanceExecutor, FillUpUserBalanceExecutor>();
         services.AddScoped<IBlockUserExecutor, BlockUserExecutor>();
         services.AddScoped<IUnblockUserExecutor, UnblockUserExecutor>();
+
+        services.AddScoped<ISignUpExecutor, SignUpExecutor>();
     }
 }
